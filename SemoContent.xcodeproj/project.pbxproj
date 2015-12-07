@@ -1,0 +1,525 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		070616BB1C15A615003485FD /* SemoContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 070616BA1C15A615003485FD /* SemoContent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		070616C21C15A615003485FD /* SemoContent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 070616B71C15A615003485FD /* SemoContent.framework */; };
+		070616C71C15A615003485FD /* SemoContentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 070616C61C15A615003485FD /* SemoContentTests.m */; };
+		0768D5C51C15AB70003FA390 /* IFDB.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5C31C15AB70003FA390 /* IFDB.h */; };
+		0768D5C61C15AB70003FA390 /* IFDB.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5C41C15AB70003FA390 /* IFDB.m */; };
+		0768D5C91C15AC3D003FA390 /* IFDBHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5C71C15AC3D003FA390 /* IFDBHelper.h */; };
+		0768D5CA1C15AC3D003FA390 /* IFDBHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5C81C15AC3D003FA390 /* IFDBHelper.m */; };
+		0768D5E41C15C125003FA390 /* PlausibleDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5CF1C15C125003FA390 /* PlausibleDatabase.h */; };
+		0768D5E51C15C125003FA390 /* PlausibleDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5D01C15C125003FA390 /* PlausibleDatabase.m */; };
+		0768D5E61C15C125003FA390 /* PLDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5D11C15C125003FA390 /* PLDatabase.h */; };
+		0768D5E71C15C125003FA390 /* PLDatabaseConnectionProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5D21C15C125003FA390 /* PLDatabaseConnectionProvider.h */; };
+		0768D5E81C15C125003FA390 /* PLDatabaseMigrationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5D31C15C125003FA390 /* PLDatabaseMigrationDelegate.h */; };
+		0768D5E91C15C125003FA390 /* PLDatabaseMigrationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5D41C15C125003FA390 /* PLDatabaseMigrationManager.h */; };
+		0768D5EA1C15C125003FA390 /* PLDatabaseMigrationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5D51C15C125003FA390 /* PLDatabaseMigrationManager.m */; };
+		0768D5EB1C15C125003FA390 /* PLDatabaseMigrationTransactionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5D61C15C125003FA390 /* PLDatabaseMigrationTransactionManager.h */; };
+		0768D5EC1C15C125003FA390 /* PLDatabaseMigrationVersionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5D71C15C125003FA390 /* PLDatabaseMigrationVersionManager.h */; };
+		0768D5ED1C15C125003FA390 /* PLPreparedStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5D81C15C125003FA390 /* PLPreparedStatement.h */; };
+		0768D5EE1C15C125003FA390 /* PLResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5D91C15C125003FA390 /* PLResultSet.h */; };
+		0768D5EF1C15C125003FA390 /* PLSqliteConnectionProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5DA1C15C125003FA390 /* PLSqliteConnectionProvider.h */; };
+		0768D5F01C15C125003FA390 /* PLSqliteConnectionProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5DB1C15C125003FA390 /* PLSqliteConnectionProvider.m */; };
+		0768D5F11C15C125003FA390 /* PLSqliteDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5DC1C15C125003FA390 /* PLSqliteDatabase.h */; };
+		0768D5F21C15C125003FA390 /* PLSqliteDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5DD1C15C125003FA390 /* PLSqliteDatabase.m */; };
+		0768D5F31C15C125003FA390 /* PLSqliteMigrationVersionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5DE1C15C125003FA390 /* PLSqliteMigrationVersionManager.h */; };
+		0768D5F41C15C125003FA390 /* PLSqliteMigrationVersionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5DF1C15C125003FA390 /* PLSqliteMigrationVersionManager.m */; };
+		0768D5F51C15C125003FA390 /* PLSqlitePreparedStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5E01C15C125003FA390 /* PLSqlitePreparedStatement.h */; };
+		0768D5F61C15C125003FA390 /* PLSqlitePreparedStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5E11C15C125003FA390 /* PLSqlitePreparedStatement.m */; };
+		0768D5F71C15C125003FA390 /* PLSqliteResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5E21C15C125003FA390 /* PLSqliteResultSet.h */; };
+		0768D5F81C15C125003FA390 /* PLSqliteResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5E31C15C125003FA390 /* PLSqliteResultSet.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		070616C31C15A615003485FD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 070616AE1C15A615003485FD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 070616B61C15A615003485FD;
+			remoteInfo = SemoContent;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		070616B71C15A615003485FD /* SemoContent.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SemoContent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		070616BA1C15A615003485FD /* SemoContent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SemoContent.h; sourceTree = "<group>"; };
+		070616BC1C15A615003485FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		070616C11C15A615003485FD /* SemoContentTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SemoContentTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		070616C61C15A615003485FD /* SemoContentTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SemoContentTests.m; sourceTree = "<group>"; };
+		070616C81C15A615003485FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0768D5C31C15AB70003FA390 /* IFDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFDB.h; sourceTree = "<group>"; };
+		0768D5C41C15AB70003FA390 /* IFDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFDB.m; sourceTree = "<group>"; };
+		0768D5C71C15AC3D003FA390 /* IFDBHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFDBHelper.h; sourceTree = "<group>"; };
+		0768D5C81C15AC3D003FA390 /* IFDBHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFDBHelper.m; sourceTree = "<group>"; };
+		0768D5CC1C15AD0A003FA390 /* IFSemoContent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFSemoContent.h; sourceTree = "<group>"; };
+		0768D5CF1C15C125003FA390 /* PlausibleDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlausibleDatabase.h; path = Externals/PlausibleDatabase/PlausibleDatabase.h; sourceTree = SOURCE_ROOT; };
+		0768D5D01C15C125003FA390 /* PlausibleDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlausibleDatabase.m; path = Externals/PlausibleDatabase/PlausibleDatabase.m; sourceTree = SOURCE_ROOT; };
+		0768D5D11C15C125003FA390 /* PLDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PLDatabase.h; path = Externals/PlausibleDatabase/PLDatabase.h; sourceTree = SOURCE_ROOT; };
+		0768D5D21C15C125003FA390 /* PLDatabaseConnectionProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PLDatabaseConnectionProvider.h; path = Externals/PlausibleDatabase/PLDatabaseConnectionProvider.h; sourceTree = SOURCE_ROOT; };
+		0768D5D31C15C125003FA390 /* PLDatabaseMigrationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PLDatabaseMigrationDelegate.h; path = Externals/PlausibleDatabase/PLDatabaseMigrationDelegate.h; sourceTree = SOURCE_ROOT; };
+		0768D5D41C15C125003FA390 /* PLDatabaseMigrationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PLDatabaseMigrationManager.h; path = Externals/PlausibleDatabase/PLDatabaseMigrationManager.h; sourceTree = SOURCE_ROOT; };
+		0768D5D51C15C125003FA390 /* PLDatabaseMigrationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PLDatabaseMigrationManager.m; path = Externals/PlausibleDatabase/PLDatabaseMigrationManager.m; sourceTree = SOURCE_ROOT; };
+		0768D5D61C15C125003FA390 /* PLDatabaseMigrationTransactionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PLDatabaseMigrationTransactionManager.h; path = Externals/PlausibleDatabase/PLDatabaseMigrationTransactionManager.h; sourceTree = SOURCE_ROOT; };
+		0768D5D71C15C125003FA390 /* PLDatabaseMigrationVersionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PLDatabaseMigrationVersionManager.h; path = Externals/PlausibleDatabase/PLDatabaseMigrationVersionManager.h; sourceTree = SOURCE_ROOT; };
+		0768D5D81C15C125003FA390 /* PLPreparedStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PLPreparedStatement.h; path = Externals/PlausibleDatabase/PLPreparedStatement.h; sourceTree = SOURCE_ROOT; };
+		0768D5D91C15C125003FA390 /* PLResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PLResultSet.h; path = Externals/PlausibleDatabase/PLResultSet.h; sourceTree = SOURCE_ROOT; };
+		0768D5DA1C15C125003FA390 /* PLSqliteConnectionProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PLSqliteConnectionProvider.h; path = Externals/PlausibleDatabase/PLSqliteConnectionProvider.h; sourceTree = SOURCE_ROOT; };
+		0768D5DB1C15C125003FA390 /* PLSqliteConnectionProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PLSqliteConnectionProvider.m; path = Externals/PlausibleDatabase/PLSqliteConnectionProvider.m; sourceTree = SOURCE_ROOT; };
+		0768D5DC1C15C125003FA390 /* PLSqliteDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PLSqliteDatabase.h; path = Externals/PlausibleDatabase/PLSqliteDatabase.h; sourceTree = SOURCE_ROOT; };
+		0768D5DD1C15C125003FA390 /* PLSqliteDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PLSqliteDatabase.m; path = Externals/PlausibleDatabase/PLSqliteDatabase.m; sourceTree = SOURCE_ROOT; };
+		0768D5DE1C15C125003FA390 /* PLSqliteMigrationVersionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PLSqliteMigrationVersionManager.h; path = Externals/PlausibleDatabase/PLSqliteMigrationVersionManager.h; sourceTree = SOURCE_ROOT; };
+		0768D5DF1C15C125003FA390 /* PLSqliteMigrationVersionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PLSqliteMigrationVersionManager.m; path = Externals/PlausibleDatabase/PLSqliteMigrationVersionManager.m; sourceTree = SOURCE_ROOT; };
+		0768D5E01C15C125003FA390 /* PLSqlitePreparedStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PLSqlitePreparedStatement.h; path = Externals/PlausibleDatabase/PLSqlitePreparedStatement.h; sourceTree = SOURCE_ROOT; };
+		0768D5E11C15C125003FA390 /* PLSqlitePreparedStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PLSqlitePreparedStatement.m; path = Externals/PlausibleDatabase/PLSqlitePreparedStatement.m; sourceTree = SOURCE_ROOT; };
+		0768D5E21C15C125003FA390 /* PLSqliteResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PLSqliteResultSet.h; path = Externals/PlausibleDatabase/PLSqliteResultSet.h; sourceTree = SOURCE_ROOT; };
+		0768D5E31C15C125003FA390 /* PLSqliteResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PLSqliteResultSet.m; path = Externals/PlausibleDatabase/PLSqliteResultSet.m; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		070616B31C15A615003485FD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		070616BE1C15A615003485FD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				070616C21C15A615003485FD /* SemoContent.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		070616AD1C15A615003485FD = {
+			isa = PBXGroup;
+			children = (
+				070616B91C15A615003485FD /* SemoContent */,
+				070616C51C15A615003485FD /* SemoContentTests */,
+				070616B81C15A615003485FD /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		070616B81C15A615003485FD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				070616B71C15A615003485FD /* SemoContent.framework */,
+				070616C11C15A615003485FD /* SemoContentTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		070616B91C15A615003485FD /* SemoContent */ = {
+			isa = PBXGroup;
+			children = (
+				0768D5CB1C15ACF4003FA390 /* com.innerfunction.semo.content */,
+				0768D5C21C15AB31003FA390 /* com.innerfunction.semo.content.db */,
+				0768D5CD1C15C104003FA390 /* Externals */,
+				070616BA1C15A615003485FD /* SemoContent.h */,
+				070616BC1C15A615003485FD /* Info.plist */,
+			);
+			path = SemoContent;
+			sourceTree = "<group>";
+		};
+		070616C51C15A615003485FD /* SemoContentTests */ = {
+			isa = PBXGroup;
+			children = (
+				070616C61C15A615003485FD /* SemoContentTests.m */,
+				070616C81C15A615003485FD /* Info.plist */,
+			);
+			path = SemoContentTests;
+			sourceTree = "<group>";
+		};
+		0768D5C21C15AB31003FA390 /* com.innerfunction.semo.content.db */ = {
+			isa = PBXGroup;
+			children = (
+				0768D5C31C15AB70003FA390 /* IFDB.h */,
+				0768D5C41C15AB70003FA390 /* IFDB.m */,
+				0768D5C71C15AC3D003FA390 /* IFDBHelper.h */,
+				0768D5C81C15AC3D003FA390 /* IFDBHelper.m */,
+			);
+			name = com.innerfunction.semo.content.db;
+			sourceTree = "<group>";
+		};
+		0768D5CB1C15ACF4003FA390 /* com.innerfunction.semo.content */ = {
+			isa = PBXGroup;
+			children = (
+				0768D5CC1C15AD0A003FA390 /* IFSemoContent.h */,
+			);
+			name = com.innerfunction.semo.content;
+			sourceTree = "<group>";
+		};
+		0768D5CD1C15C104003FA390 /* Externals */ = {
+			isa = PBXGroup;
+			children = (
+				0768D5CE1C15C110003FA390 /* PlausibleDatabase */,
+			);
+			name = Externals;
+			sourceTree = "<group>";
+		};
+		0768D5CE1C15C110003FA390 /* PlausibleDatabase */ = {
+			isa = PBXGroup;
+			children = (
+				0768D5CF1C15C125003FA390 /* PlausibleDatabase.h */,
+				0768D5D01C15C125003FA390 /* PlausibleDatabase.m */,
+				0768D5D11C15C125003FA390 /* PLDatabase.h */,
+				0768D5D21C15C125003FA390 /* PLDatabaseConnectionProvider.h */,
+				0768D5D31C15C125003FA390 /* PLDatabaseMigrationDelegate.h */,
+				0768D5D41C15C125003FA390 /* PLDatabaseMigrationManager.h */,
+				0768D5D51C15C125003FA390 /* PLDatabaseMigrationManager.m */,
+				0768D5D61C15C125003FA390 /* PLDatabaseMigrationTransactionManager.h */,
+				0768D5D71C15C125003FA390 /* PLDatabaseMigrationVersionManager.h */,
+				0768D5D81C15C125003FA390 /* PLPreparedStatement.h */,
+				0768D5D91C15C125003FA390 /* PLResultSet.h */,
+				0768D5DA1C15C125003FA390 /* PLSqliteConnectionProvider.h */,
+				0768D5DB1C15C125003FA390 /* PLSqliteConnectionProvider.m */,
+				0768D5DC1C15C125003FA390 /* PLSqliteDatabase.h */,
+				0768D5DD1C15C125003FA390 /* PLSqliteDatabase.m */,
+				0768D5DE1C15C125003FA390 /* PLSqliteMigrationVersionManager.h */,
+				0768D5DF1C15C125003FA390 /* PLSqliteMigrationVersionManager.m */,
+				0768D5E01C15C125003FA390 /* PLSqlitePreparedStatement.h */,
+				0768D5E11C15C125003FA390 /* PLSqlitePreparedStatement.m */,
+				0768D5E21C15C125003FA390 /* PLSqliteResultSet.h */,
+				0768D5E31C15C125003FA390 /* PLSqliteResultSet.m */,
+			);
+			name = PlausibleDatabase;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		070616B41C15A615003485FD /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0768D5E91C15C125003FA390 /* PLDatabaseMigrationManager.h in Headers */,
+				0768D5F11C15C125003FA390 /* PLSqliteDatabase.h in Headers */,
+				0768D5E81C15C125003FA390 /* PLDatabaseMigrationDelegate.h in Headers */,
+				0768D5C91C15AC3D003FA390 /* IFDBHelper.h in Headers */,
+				070616BB1C15A615003485FD /* SemoContent.h in Headers */,
+				0768D5C51C15AB70003FA390 /* IFDB.h in Headers */,
+				0768D5EB1C15C125003FA390 /* PLDatabaseMigrationTransactionManager.h in Headers */,
+				0768D5F51C15C125003FA390 /* PLSqlitePreparedStatement.h in Headers */,
+				0768D5EE1C15C125003FA390 /* PLResultSet.h in Headers */,
+				0768D5E61C15C125003FA390 /* PLDatabase.h in Headers */,
+				0768D5F71C15C125003FA390 /* PLSqliteResultSet.h in Headers */,
+				0768D5EC1C15C125003FA390 /* PLDatabaseMigrationVersionManager.h in Headers */,
+				0768D5F31C15C125003FA390 /* PLSqliteMigrationVersionManager.h in Headers */,
+				0768D5EF1C15C125003FA390 /* PLSqliteConnectionProvider.h in Headers */,
+				0768D5E71C15C125003FA390 /* PLDatabaseConnectionProvider.h in Headers */,
+				0768D5ED1C15C125003FA390 /* PLPreparedStatement.h in Headers */,
+				0768D5E41C15C125003FA390 /* PlausibleDatabase.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		070616B61C15A615003485FD /* SemoContent */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 070616CB1C15A615003485FD /* Build configuration list for PBXNativeTarget "SemoContent" */;
+			buildPhases = (
+				070616B21C15A615003485FD /* Sources */,
+				070616B31C15A615003485FD /* Frameworks */,
+				070616B41C15A615003485FD /* Headers */,
+				070616B51C15A615003485FD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SemoContent;
+			productName = SemoContent;
+			productReference = 070616B71C15A615003485FD /* SemoContent.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		070616C01C15A615003485FD /* SemoContentTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 070616CE1C15A615003485FD /* Build configuration list for PBXNativeTarget "SemoContentTests" */;
+			buildPhases = (
+				070616BD1C15A615003485FD /* Sources */,
+				070616BE1C15A615003485FD /* Frameworks */,
+				070616BF1C15A615003485FD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				070616C41C15A615003485FD /* PBXTargetDependency */,
+			);
+			name = SemoContentTests;
+			productName = SemoContentTests;
+			productReference = 070616C11C15A615003485FD /* SemoContentTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		070616AE1C15A615003485FD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = InnerFunction;
+				TargetAttributes = {
+					070616B61C15A615003485FD = {
+						CreatedOnToolsVersion = 7.1;
+					};
+					070616C01C15A615003485FD = {
+						CreatedOnToolsVersion = 7.1;
+					};
+				};
+			};
+			buildConfigurationList = 070616B11C15A615003485FD /* Build configuration list for PBXProject "SemoContent" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 070616AD1C15A615003485FD;
+			productRefGroup = 070616B81C15A615003485FD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				070616B61C15A615003485FD /* SemoContent */,
+				070616C01C15A615003485FD /* SemoContentTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		070616B51C15A615003485FD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		070616BF1C15A615003485FD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		070616B21C15A615003485FD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0768D5F41C15C125003FA390 /* PLSqliteMigrationVersionManager.m in Sources */,
+				0768D5CA1C15AC3D003FA390 /* IFDBHelper.m in Sources */,
+				0768D5EA1C15C125003FA390 /* PLDatabaseMigrationManager.m in Sources */,
+				0768D5F21C15C125003FA390 /* PLSqliteDatabase.m in Sources */,
+				0768D5F61C15C125003FA390 /* PLSqlitePreparedStatement.m in Sources */,
+				0768D5C61C15AB70003FA390 /* IFDB.m in Sources */,
+				0768D5F81C15C125003FA390 /* PLSqliteResultSet.m in Sources */,
+				0768D5E51C15C125003FA390 /* PlausibleDatabase.m in Sources */,
+				0768D5F01C15C125003FA390 /* PLSqliteConnectionProvider.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		070616BD1C15A615003485FD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				070616C71C15A615003485FD /* SemoContentTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		070616C41C15A615003485FD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 070616B61C15A615003485FD /* SemoContent */;
+			targetProxy = 070616C31C15A615003485FD /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		070616C91C15A615003485FD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		070616CA1C15A615003485FD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		070616CC1C15A615003485FD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = SemoContent/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.innerfunction.SemoContent;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		070616CD1C15A615003485FD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = SemoContent/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.innerfunction.SemoContent;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		070616CF1C15A615003485FD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = SemoContentTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.innerfunction.SemoContentTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		070616D01C15A615003485FD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = SemoContentTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.innerfunction.SemoContentTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		070616B11C15A615003485FD /* Build configuration list for PBXProject "SemoContent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				070616C91C15A615003485FD /* Debug */,
+				070616CA1C15A615003485FD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		070616CB1C15A615003485FD /* Build configuration list for PBXNativeTarget "SemoContent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				070616CC1C15A615003485FD /* Debug */,
+				070616CD1C15A615003485FD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		070616CE1C15A615003485FD /* Build configuration list for PBXNativeTarget "SemoContentTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				070616CF1C15A615003485FD /* Debug */,
+				070616D01C15A615003485FD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 070616AE1C15A615003485FD /* Project object */;
+}
