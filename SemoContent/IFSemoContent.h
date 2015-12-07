@@ -8,12 +8,15 @@
 
 #ifndef IFSemoContent_h
 #define IFSemoContent_h
-
+/*
 #import "DDLog.h"
 #import "DDASLLogger.h"
 #import "DDTTYLogger.h"
 
 #define IFContentLogLevel   LOG_LEVEL_VERBOSE
+*/
+#import "IFLogger.h"
+
 #define MainBundlePath      ([[NSBundle mainBundle] resourcePath])
 
 

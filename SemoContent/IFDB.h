@@ -18,6 +18,7 @@
     IFDBHelper *_dbHelper;
     NSDictionary *_taggedTableColumns;
     NSDictionary *_tableColumnNames;
+    NSMutableDictionary *_initialData;
 }
 
 /** The database name. */

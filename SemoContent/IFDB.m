@@ -9,21 +9,26 @@
 #import "IFDB.h"
 #import "IFSemoContent.h"
 #import "NSDictionary+IFValues.h"
+#import "NSDictionary+IF.h"
+#import "NSArray+IF.h"
 
-#define LogTag @"IFDB:"
+static IFLogger *Logger;
 
 @interface IFDB ()
 
+/** Read a record from the specified table. */
 - (NSDictionary *)readRecordWithID:(NSString *)identifier fromTable:(NSString *)table db:(id<PLDatabase>)db;
+/** Read a record from the specified table. */
 - (NSDictionary *)readRecordWithID:(NSString *)identifier idColumn:(NSString *)idColumn fromTable:(NSString *)table db:(id<PLDatabase>)db;
+/** Read a single row from a query result set. */
 - (NSDictionary *)readRowFromResultSet:(id<PLResultSet>)rs;
+/** Update multiple record with the specified values in a table. */
 - (BOOL)updateValues:(NSDictionary *)values inTable:(NSString *)table db:(id<PLDatabase>)db;
+/** Update multiple record with the specified values in a table. */
 - (BOOL)updateValues:(NSDictionary *)values idColumn:(NSString *)idColumn inTable:(NSString *)table db:(id<PLDatabase>)db;
+/** Delete records with the specified IDs from the a table. */
 - (BOOL)deleteIDs:(NSArray *)identifiers idColumn:(NSString *)idColumn fromTable:(NSString *)table;
-/**
- * Filter a set of named/value pairs so that it only contains values with a corresponding column name in the
- * target db table.
- */
+/** Filter a set of named/value pairs to only contains names corresponding to a column name in the target db table. */
 - (NSDictionary *)filterValues:(NSDictionary *)values forTable:(NSString *)table;
 
 @end
@@ -39,12 +44,18 @@
 
 @implementation IFDB
 
++ (void)initialize {
+    Logger = [[IFLogger alloc] initWithTag:@"IFDB"];
+}
+
 - (id)init {
     self = [super init];
     if (self) {
         self.name = @"semo";
         self.version = @0;
         self.tables = @{};
+        self.resetDatabase = NO;
+        _initialData = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -55,7 +66,7 @@
     _dbHelper = [[IFDBHelper alloc] initWithName:_name version:[_version intValue]];
     _dbHelper.delegate = self;
     if (_resetDatabase) {
-        DDLogWarn(@"%@ Resetting %@ database...", LogTag, _name);
+        [Logger warn:@"Resetting database %@", _name];
         [_dbHelper deleteDatabase];
     }
     [_dbHelper getDatabase];
@@ -96,7 +107,7 @@
     id<PLDatabase> db = [_dbHelper getDatabase];
     BOOL ok = [db beginTransactionAndReturnError:&error];
     if (error) {
-        DDLogError(@"%@ Failed to begin transaction: %@", LogTag, error );
+        [Logger error:@"beginTranslation failed %@", error];
     }
     return ok;
 }
@@ -106,7 +117,7 @@
     id<PLDatabase> db = [_dbHelper getDatabase];
     BOOL ok = [db commitTransactionAndReturnError:&error];
     if (error) {
-        DDLogError(@"%@ Failed to commit transaction: %@", LogTag, error );
+        [Logger error:@"commitTransaction failed %@", error];
     }
     return ok;
 }
@@ -116,7 +127,7 @@
     id<PLDatabase> db = [_dbHelper getDatabase];
     BOOL ok = [db rollbackTransactionAndReturnError:&error];
     if (error) {
-        DDLogError(@"%@ Failed to rollback transaction: %@", LogTag, error );
+        [Logger error:@"rollbackTransaction failed %@", error];
     }
     return ok;
 }
@@ -138,7 +149,7 @@
         result = [self readRecordWithID:identifier idColumn:idColumn fromTable:table db:db];
     }
     else {
-        DDLogWarn(@"%@ No ID column found for table %@", LogTag, table );
+        [Logger warn:@"No ID column found for table %@", table];
     }
     return result;
 }
@@ -158,7 +169,7 @@
         [statement close];
     }
     else {
-        DDLogWarn(@"%@ No identifier passed to readRecordWithID:", LogTag);
+        [Logger warn:@"No identifier passed to readRecordWithID:"];
     }
     return result;
 }
@@ -234,7 +245,7 @@
     else {
         NSString *idColumn = [self getColumnWithTag:@"id" fromTable:table];
         id identifier = [values valueForKey:idColumn];
-        DDLogWarn(@"%@ Update failed %@ %@", LogTag, table, identifier );
+        [Logger warn:@"Update failed %@ %@", table, identifier];
     }
     return result;
 }
@@ -246,7 +257,7 @@
         result = [self updateValues:values idColumn:idColumn inTable:table db:db];
     }
     else {
-        DDLogWarn(@"%@ No ID column found for table %@", LogTag, table );
+        [Logger warn:@"No ID column found for table %@", table];
     }
     return result;
 }
@@ -290,7 +301,7 @@
         [self didChangeValueForKey:table];
     }
     else {
-        DDLogWarn(@"%@ No ID column found for table %@", LogTag, table );
+        [Logger warn:@"No ID column found for table", table];
     }
     return result;
 }
@@ -302,7 +313,7 @@
         result = [self deleteIDs:identifiers idColumn:idColumn fromTable:table];
     }
     else {
-        DDLogWarn(@"%@ No ID column found for table %@", LogTag, table );
+        [Logger warn:@"No ID column found for table %@", table];
     }
     return result;
 }
@@ -331,7 +342,7 @@
 
 - (NSDictionary *)filterValues:(NSDictionary *)values forTable:(NSString *)table {
     NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
-    NSSet *columnNames = [tableColumnNames objectForKey:table];
+    NSSet *columnNames = [_tableColumnNames objectForKey:table];
     if (columnNames) {
         for (id name in [values keyEnumerator]) {
             if ([columnNames containsObject:name]) {
@@ -355,7 +366,7 @@
 }
 
 - (void)onUpgrade:(id<PLDatabase>)db from:(int)oldVersion to:(int)newVersion {
-    DDLogInfo(@"%@ Migrating DB from version %d to version %d", LogTag, oldVersion, newVersion);
+    [Logger info:@"Migrating DB from version %d to version %d", oldVersion, newVersion];
     NSNumber *_newVersion = [NSNumber numberWithInt:newVersion];
     for (NSString *tableName in [_tables allKeys]) {
         NSDictionary *tableSchema = [_tables objectForKey:tableName];
@@ -389,7 +400,7 @@
         }
         for (NSString *sql in sqls) {
             if (![db executeUpdate:sql]) {
-                DDLogWarn(@"%@ Failed to execute update %@", LogTag, sql);
+                [Logger warn:@"%@ Failed to execute update %@", sql];
             }
         }
     }
@@ -399,9 +410,9 @@
 #pragma mark - IFDB (IFDBHelperDelegate)
 
 - (void)dbInitialize:(id<PLDatabase>)db {
-    DDLogInfo(@"%@ Initializing database...", LogTag );
-    for (NSString *tableName in [initialData allKeys]) {
-        NSArray *data = [initialData objectForKey:tableName];
+    [Logger info:@"%@ Initializing database..."];
+    for (NSString *tableName in [_initialData allKeys]) {
+        NSArray *data = [_initialData objectForKey:tableName];
         for (NSDictionary *values in data) {
             [self insertValues:values intoTable:tableName db:db];
         }
@@ -411,13 +422,15 @@
             count = [rs intForColumnIndex:0];
         }
         [rs close];
-        DDLogInfo(@"%@ Initializing %@, inserted %d rows", LogTag, tableName, count);
+        [Logger info:@"%@ Initializing %@, inserted %d rows", tableName, count];
     }
+    // Remove initial data from memory.
+    _initialData = nil;
 }
 
 - (void)addInitialDataForTable:(NSString *)tableName schema:(NSDictionary *)tableSchema {
     if ([tableSchema getValueType:@"data"] == IFValueTypeList) {
-        [initialData setObject:[tableSchema objectForKey:@"data"] forKey:tableName];
+        [_initialData setObject:[tableSchema objectForKey:@"data"] forKey:tableName];
     }
 }
 

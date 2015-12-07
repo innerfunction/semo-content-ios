@@ -9,9 +9,7 @@
 #import "IFDBHelper.h"
 #import "IFSemoContent.h"
 
-#define LogTag @"IFDBHelper:"
-
-static const int ddLogLevel = IFContentLogLevel;
+static IFLogger *Logger;
 
 NSString *getDatabasePath(NSString *databaseName) {
     // See http://stackoverflow.com/questions/11252173/ios-open-sqlite-database
@@ -22,6 +20,10 @@ NSString *getDatabasePath(NSString *databaseName) {
 }
 
 @implementation IFDBHelper
+
++ (void)initialize {
+    Logger = [[IFLogger alloc] initWithTag:@"IFDBHelper"];
+}
 
 - (id)initWithName:(NSString *)name version:(int)version {
     self = [super init];
@@ -40,7 +42,7 @@ NSString *getDatabasePath(NSString *databaseName) {
     NSError *error = nil;
     [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
     if (error) {
-        DDLogWarn(@"%@ Error deleting database at %@: %@", LogTag, path, error );
+        [Logger warn:@"Error deleting database at %@: %@", path, error];
         ok = NO;
     }
     return ok;
@@ -65,13 +67,13 @@ NSString *getDatabasePath(NSString *databaseName) {
             // TODO: Will previous method close its db connection on exit?
             result = [connectionProvider getConnectionAndReturnError:&error];
             if (error) {
-                DDLogError(@"%@ Failed to open connection: %@", LogTag, [error localizedDescription]);
+                [Logger error:@"getDatabase failed to open connection %@", [error localizedDescription]];
             }
         }
         else {
             if (error) {
                 // TODO
-                DDLogError(@"%@ Failed to migrate database: %@", LogTag, [error localizedDescription]);
+                [Logger error:@"getDatabase failed to migrate connection %@", [error localizedDescription]];
             }
         }
     }
