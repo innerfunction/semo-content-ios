@@ -14,6 +14,10 @@
 
 @property (nonatomic, weak) IFCommandScheduler *scheduler;
 
-- (void)executeWithArgs:(NSString *)args;
+/**
+ * Execute the command with the specified arguments.
+ * May return an array of new commands to be queued for execution.
+ */
+- (NSArray *)executeWithArgs:(NSArray *)args;
 
 @end

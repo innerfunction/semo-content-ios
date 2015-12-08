@@ -11,7 +11,12 @@
 #import "IFService.h"
 
 @interface IFCommandScheduler : NSObject <IFService> {
+    // The queue database.
     IFDB *_db;
+    // A list of commands currently being executed.
+    NSArray *_execQueue;
+    // Current batch number.
+    NSInteger _currentBatch;
 }
 
 /** A map of command instances, keyed by name. */
@@ -19,9 +24,11 @@
 
 /** Execute all commands currently on the queue. */
 - (void)executeQueue;
-/** Execute a command. */
-- (void)executeCommand:(NSString *)name withArgs:(NSString *)args;
 /** Append a new command to the queue. */
-- (void)appendCommand:(NSString *)name withArgs:(NSString *)args;
+- (void)appendCommand:(NSString *)name withArgs:(NSArray *)args;
+/** Purge the current execution queue. */
+- (void)purgeQueue;
+/** Purge the current command batch. */
+- (void)purgeCurrentBatch;
 
 @end
