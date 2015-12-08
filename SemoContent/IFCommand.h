@@ -7,17 +7,21 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Q.h"
 
 @class IFCommandScheduler;
 
 @protocol IFCommand <NSObject>
 
-@property (nonatomic, weak) IFCommandScheduler *scheduler;
-
 /**
  * Execute the command with the specified arguments.
- * May return an array of new commands to be queued for execution.
+ * Returns a deferred promise which may resolve to an array of new commands to
+ * be queued for execution after the current, and any other commands, complete.
  */
-- (NSArray *)executeWithArgs:(NSArray *)args;
+- (QPromise *)executeWithArgs:(NSArray *)args;
+
+@optional
+
+@property (nonatomic, weak) IFCommandScheduler *scheduler;
 
 @end

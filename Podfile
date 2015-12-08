@@ -3,5 +3,6 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 workspace 'SemoContent/project.xcworkspace'
 
-pod 'semo-core-ios', :head
+pod 'semo-core-ios',    :head
+pod 'Q-ios',            :head
 

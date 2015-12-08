@@ -13,6 +13,8 @@
 		072774B81C163AB700A34294 /* IFCommandScheduler.h in Headers */ = {isa = PBXBuildFile; fileRef = 072774B61C163AB700A34294 /* IFCommandScheduler.h */; };
 		072774B91C163AB700A34294 /* IFCommandScheduler.m in Sources */ = {isa = PBXBuildFile; fileRef = 072774B71C163AB700A34294 /* IFCommandScheduler.m */; };
 		072774BB1C163AE200A34294 /* IFCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 072774BA1C163AE200A34294 /* IFCommand.h */; };
+		07372E9D1C171E1A00B36945 /* IFGetURLCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 07372E9B1C171E1A00B36945 /* IFGetURLCommand.h */; };
+		07372E9E1C171E1A00B36945 /* IFGetURLCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 07372E9C1C171E1A00B36945 /* IFGetURLCommand.m */; };
 		0768D5C51C15AB70003FA390 /* IFDB.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5C31C15AB70003FA390 /* IFDB.h */; };
 		0768D5C61C15AB70003FA390 /* IFDB.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5C41C15AB70003FA390 /* IFDB.m */; };
 		0768D5C91C15AC3D003FA390 /* IFDBHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5C71C15AC3D003FA390 /* IFDBHelper.h */; };
@@ -61,6 +63,8 @@
 		072774B61C163AB700A34294 /* IFCommandScheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFCommandScheduler.h; sourceTree = "<group>"; };
 		072774B71C163AB700A34294 /* IFCommandScheduler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFCommandScheduler.m; sourceTree = "<group>"; };
 		072774BA1C163AE200A34294 /* IFCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFCommand.h; sourceTree = "<group>"; };
+		07372E9B1C171E1A00B36945 /* IFGetURLCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFGetURLCommand.h; sourceTree = "<group>"; };
+		07372E9C1C171E1A00B36945 /* IFGetURLCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFGetURLCommand.m; sourceTree = "<group>"; };
 		0768D5C31C15AB70003FA390 /* IFDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFDB.h; sourceTree = "<group>"; };
 		0768D5C41C15AB70003FA390 /* IFDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFDB.m; sourceTree = "<group>"; };
 		0768D5C71C15AC3D003FA390 /* IFDBHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFDBHelper.h; sourceTree = "<group>"; };
@@ -171,6 +175,8 @@
 				072774B61C163AB700A34294 /* IFCommandScheduler.h */,
 				072774B71C163AB700A34294 /* IFCommandScheduler.m */,
 				072774BA1C163AE200A34294 /* IFCommand.h */,
+				07372E9B1C171E1A00B36945 /* IFGetURLCommand.h */,
+				07372E9C1C171E1A00B36945 /* IFGetURLCommand.m */,
 			);
 			name = com.innerfunction.semo.content;
 			sourceTree = "<group>";
@@ -239,6 +245,7 @@
 				0768D5F11C15C125003FA390 /* PLSqliteDatabase.h in Headers */,
 				0768D5E81C15C125003FA390 /* PLDatabaseMigrationDelegate.h in Headers */,
 				0768D5C91C15AC3D003FA390 /* IFDBHelper.h in Headers */,
+				07372E9D1C171E1A00B36945 /* IFGetURLCommand.h in Headers */,
 				070616BB1C15A615003485FD /* SemoContent.h in Headers */,
 				0768D5C51C15AB70003FA390 /* IFDB.h in Headers */,
 				0768D5EB1C15C125003FA390 /* PLDatabaseMigrationTransactionManager.h in Headers */,
@@ -388,6 +395,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07372E9E1C171E1A00B36945 /* IFGetURLCommand.m in Sources */,
 				0768D5F41C15C125003FA390 /* PLSqliteMigrationVersionManager.m in Sources */,
 				0768D5CA1C15AC3D003FA390 /* IFDBHelper.m in Sources */,
 				0768D5EA1C15C125003FA390 /* PLDatabaseMigrationManager.m in Sources */,

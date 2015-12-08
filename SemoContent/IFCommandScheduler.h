@@ -15,6 +15,8 @@
     IFDB *_db;
     // A list of commands currently being executed.
     NSArray *_execQueue;
+    // Pointer into the exec queue to the command currently being executed.
+    NSInteger _execIdx;
     // Current batch number.
     NSInteger _currentBatch;
 }
