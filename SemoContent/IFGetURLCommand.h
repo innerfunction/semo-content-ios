@@ -11,7 +11,7 @@
 
 /**
  * A command to get the contents of a URL and write it to a file.
- * Takes the arguments: <url> <filename> <retries>
+ * Arguments: <url> <filename> <retries>
  * - url:       The URL to fetch.
  * - filename:  The name of the file to write the result to.
  * - retries:   The number of retries left. If the command fails (e.g. due to a connection timeout)

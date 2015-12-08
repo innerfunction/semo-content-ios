@@ -1,0 +1,6 @@
+1. Schedule feed refresh -> GET <feed URL>
+2. Parse feed JSON
+    -> GET base content -> UNZIP base content (? -> MV files to content location)
+    -> GET media content (? -> MV files to content location)
+    -> MAP post data into post database
+    ->

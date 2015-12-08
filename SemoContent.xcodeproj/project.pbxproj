@@ -40,6 +40,12 @@
 		0768D5F61C15C125003FA390 /* PLSqlitePreparedStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5E11C15C125003FA390 /* PLSqlitePreparedStatement.m */; };
 		0768D5F71C15C125003FA390 /* PLSqliteResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5E21C15C125003FA390 /* PLSqliteResultSet.h */; };
 		0768D5F81C15C125003FA390 /* PLSqliteResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5E31C15C125003FA390 /* PLSqliteResultSet.m */; };
+		07DBB23E1C172EE0005351AE /* IFRmFileCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 07DBB23C1C172EE0005351AE /* IFRmFileCommand.h */; };
+		07DBB23F1C172EE0005351AE /* IFRmFileCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 07DBB23D1C172EE0005351AE /* IFRmFileCommand.m */; };
+		07DBB2421C173066005351AE /* IFMvFileCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 07DBB2401C173066005351AE /* IFMvFileCommand.h */; };
+		07DBB2431C173066005351AE /* IFMvFileCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 07DBB2411C173066005351AE /* IFMvFileCommand.m */; };
+		07DBB2461C173F87005351AE /* IFUnzipCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 07DBB2441C173F87005351AE /* IFUnzipCommand.h */; };
+		07DBB2471C173F87005351AE /* IFUnzipCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 07DBB2451C173F87005351AE /* IFUnzipCommand.m */; };
 		1169D7B35B300409A4879485 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E29DC47354A1CBBBBC2B04FD /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -91,6 +97,12 @@
 		0768D5E11C15C125003FA390 /* PLSqlitePreparedStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PLSqlitePreparedStatement.m; path = Externals/PlausibleDatabase/PLSqlitePreparedStatement.m; sourceTree = SOURCE_ROOT; };
 		0768D5E21C15C125003FA390 /* PLSqliteResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PLSqliteResultSet.h; path = Externals/PlausibleDatabase/PLSqliteResultSet.h; sourceTree = SOURCE_ROOT; };
 		0768D5E31C15C125003FA390 /* PLSqliteResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PLSqliteResultSet.m; path = Externals/PlausibleDatabase/PLSqliteResultSet.m; sourceTree = SOURCE_ROOT; };
+		07DBB23C1C172EE0005351AE /* IFRmFileCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFRmFileCommand.h; sourceTree = "<group>"; };
+		07DBB23D1C172EE0005351AE /* IFRmFileCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFRmFileCommand.m; sourceTree = "<group>"; };
+		07DBB2401C173066005351AE /* IFMvFileCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFMvFileCommand.h; sourceTree = "<group>"; };
+		07DBB2411C173066005351AE /* IFMvFileCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFMvFileCommand.m; sourceTree = "<group>"; };
+		07DBB2441C173F87005351AE /* IFUnzipCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFUnzipCommand.h; sourceTree = "<group>"; };
+		07DBB2451C173F87005351AE /* IFUnzipCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFUnzipCommand.m; sourceTree = "<group>"; };
 		760D2B97AB7E707BA3AC699A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		AA08C4C0DABCFA64D8A09F21 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E29DC47354A1CBBBBC2B04FD /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -177,6 +189,12 @@
 				072774BA1C163AE200A34294 /* IFCommand.h */,
 				07372E9B1C171E1A00B36945 /* IFGetURLCommand.h */,
 				07372E9C1C171E1A00B36945 /* IFGetURLCommand.m */,
+				07DBB23C1C172EE0005351AE /* IFRmFileCommand.h */,
+				07DBB23D1C172EE0005351AE /* IFRmFileCommand.m */,
+				07DBB2401C173066005351AE /* IFMvFileCommand.h */,
+				07DBB2411C173066005351AE /* IFMvFileCommand.m */,
+				07DBB2441C173F87005351AE /* IFUnzipCommand.h */,
+				07DBB2451C173F87005351AE /* IFUnzipCommand.m */,
 			);
 			name = com.innerfunction.semo.content;
 			sourceTree = "<group>";
@@ -244,6 +262,7 @@
 				0768D5E91C15C125003FA390 /* PLDatabaseMigrationManager.h in Headers */,
 				0768D5F11C15C125003FA390 /* PLSqliteDatabase.h in Headers */,
 				0768D5E81C15C125003FA390 /* PLDatabaseMigrationDelegate.h in Headers */,
+				07DBB2461C173F87005351AE /* IFUnzipCommand.h in Headers */,
 				0768D5C91C15AC3D003FA390 /* IFDBHelper.h in Headers */,
 				07372E9D1C171E1A00B36945 /* IFGetURLCommand.h in Headers */,
 				070616BB1C15A615003485FD /* SemoContent.h in Headers */,
@@ -258,8 +277,10 @@
 				0768D5EC1C15C125003FA390 /* PLDatabaseMigrationVersionManager.h in Headers */,
 				0768D5F31C15C125003FA390 /* PLSqliteMigrationVersionManager.h in Headers */,
 				0768D5EF1C15C125003FA390 /* PLSqliteConnectionProvider.h in Headers */,
+				07DBB23E1C172EE0005351AE /* IFRmFileCommand.h in Headers */,
 				0768D5E71C15C125003FA390 /* PLDatabaseConnectionProvider.h in Headers */,
 				0768D5ED1C15C125003FA390 /* PLPreparedStatement.h in Headers */,
+				07DBB2421C173066005351AE /* IFMvFileCommand.h in Headers */,
 				0768D5E41C15C125003FA390 /* PlausibleDatabase.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -399,9 +420,12 @@
 				0768D5F41C15C125003FA390 /* PLSqliteMigrationVersionManager.m in Sources */,
 				0768D5CA1C15AC3D003FA390 /* IFDBHelper.m in Sources */,
 				0768D5EA1C15C125003FA390 /* PLDatabaseMigrationManager.m in Sources */,
+				07DBB2431C173066005351AE /* IFMvFileCommand.m in Sources */,
 				0768D5F21C15C125003FA390 /* PLSqliteDatabase.m in Sources */,
+				07DBB23F1C172EE0005351AE /* IFRmFileCommand.m in Sources */,
 				072774B91C163AB700A34294 /* IFCommandScheduler.m in Sources */,
 				0768D5F61C15C125003FA390 /* PLSqlitePreparedStatement.m in Sources */,
+				07DBB2471C173F87005351AE /* IFUnzipCommand.m in Sources */,
 				0768D5C61C15AB70003FA390 /* IFDB.m in Sources */,
 				0768D5F81C15C125003FA390 /* PLSqliteResultSet.m in Sources */,
 				0768D5E51C15C125003FA390 /* PlausibleDatabase.m in Sources */,
