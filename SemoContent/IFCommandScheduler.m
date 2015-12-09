@@ -8,15 +8,23 @@
 
 #import "IFCommandScheduler.h"
 #import "IFCommand.h"
+#import "IFProtocol.h"
 #import "IFSemoContent.h"
 #import "NSString+IF.h"
 #import "NSArray+IF.h"
+#import "NSDictionary+IF.h"
+#import "IFGetURLCommand.h"
+#import "IFRmFileCommand.h"
+#import "IFMvFileCommand.h"
+#import "IFUnzipCommand.h"
 
 static IFLogger *Logger;
 static dispatch_queue_t execQueue;
 
 @interface IFCommandScheduler ()
 
+/** Merge a map of command names into the current map. */
+- (void)mergeCommands:(NSDictionary *)commands;
 /** Execute the next command on the exec queue. */
 - (void)executeNextCommand;
 
@@ -32,6 +40,7 @@ static dispatch_queue_t execQueue;
 - (id)init {
     self = [super init];
     if (self) {
+        // Command database setup.
         _db = [[IFDB alloc] init];
         _db.name = @"semo-command-scheduler";
         _db.version = @0;
@@ -46,20 +55,43 @@ static dispatch_queue_t execQueue;
             }
         };
         _currentBatch = 0;
+        // Standard built-in command mappings.
+        self.commands = @{
+            @"get":   [[IFGetURLCommand alloc] init],
+            @"rm":    [[IFRmFileCommand alloc] init],
+            @"mv":    [[IFMvFileCommand alloc] init],
+            @"unzip": [[IFUnzipCommand alloc] init]
+        };
     }
     return self;
 }
 
 - (void)setCommands:(NSDictionary *)commands {
-    _commands = commands;
-    // Connect the commands to the scheduler; this allows commands to append new
-    // commands to the queue.
-    SEL scheduler = @selector(setScheduler:);
-    for (NSString *name in [commands allKeys]) {
-        id<IFCommand> command = [commands objectForKey:name];
-        if ([command respondsToSelector:scheduler]) {
-            command.scheduler = self;
+    [self mergeCommands:commands];
+}
+
+- (void)setProtocols:(NSDictionary *)protocols {
+    _protocols = protocols;
+    // Extract map of protocol commands from list of protocols.
+    NSMutableDictionary *protocolCommands = [[NSMutableDictionary alloc] init];
+    for (NSString *protocolName in [protocols allKeys]) {
+        id<IFProtocol> protocol = [protocols objectForKey:protocolName];
+        for (NSString *commandName in [protocol supportedCommands]) {
+            // Map the protocol instance to each command name it supports.
+            NSString *qualifiedName = [NSString stringWithFormat:@"%@.%@", protocolName, commandName];
+            [protocolCommands setObject:protocol forKey:qualifiedName];
         }
+    }
+    // Merge protocol commands into command map.
+    [self mergeCommands:protocolCommands];
+}
+
+- (void)mergeCommands:(NSDictionary *)commands {
+    if (_commands == nil) {
+        _commands = commands;
+    }
+    else {
+        _commands = [_commands extendWith:commands];
     }
 }
 
@@ -86,6 +118,8 @@ static dispatch_queue_t execQueue;
         return;
     }
     NSDictionary *commandItem = [_execQueue objectAtIndex:_execIdx];
+    // Iterate command pointer.
+    _execIdx++;
     // Read command fields from record.
     NSString *rowid = [commandItem valueForKey:@"id"];
     NSString *name = [commandItem valueForKey:@"command"];
@@ -99,17 +133,12 @@ static dispatch_queue_t execQueue;
         [self purgeQueue];
         return;
     }
-    [command executeWithArgs:args]
+    [command execute:name withArgs:args]
     .then((id)^(NSArray *newCommands) {
         // Queue any new commands, delete current command from db.
         [_db beginTransaction];
         for (NSDictionary *newCommand in newCommands) {
             NSString *newName = [newCommand valueForKey:@"name"];
-            if (!newName) {
-                // If new command doesn't specify a command name then use the name of
-                // the command that generated the new command.
-                newName = name;
-            }
             // Check for system commands.
             if ([@"control.purge-queue" isEqualToString:newName]) {
                 [self purgeQueue];
@@ -140,9 +169,8 @@ static dispatch_queue_t execQueue;
         }
         [_db deleteIDs:@[ rowid ] fromTable:@"queue"];
         [_db commitTransaction];
+        // Continue to next queued command.
         dispatch_async(execQueue, ^{
-            // Iterate command pointer and execute next command.
-            _execIdx++;
             [self executeNextCommand];
         });
     })

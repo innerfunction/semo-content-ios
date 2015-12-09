@@ -20,7 +20,8 @@
     return self;
 }
 
-- (QPromise *)executeWithArgs:(NSArray *)args {
+- (QPromise *)execute:(NSString *)name withArgs:(NSArray *)args {
+    _commandName = name;
     _promise = [[QPromise alloc] init];
     if ([args count] > 1) {
         _url = [args objectAtIndex:0];
@@ -72,7 +73,7 @@
     if (_remainingRetries > 0) {
         NSString *args = [NSString stringWithFormat:@"%@ %ld", _url, _remainingRetries - 1 ];
         NSDictionary *retryCommand = @{
-            // Command name will be provided by the scheduler.
+            @"name": _commandName,
             @"args": args
         };
         [_promise resolve:@[ retryCommand ]];

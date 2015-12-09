@@ -23,6 +23,12 @@
 
 /** A map of command instances, keyed by name. */
 @property (nonatomic, strong) NSDictionary *commands;
+/**
+ * A map of command protocol instances, keyed by command prefix.
+ * Each protocol provides a list of one or more supported commands. These commands are entered
+ * into the command map with the protocol name as its prefix, so e.g. protocol.command.
+ */
+@property (nonatomic, strong) NSDictionary *protocols;
 
 /** Execute all commands currently on the queue. */
 - (void)executeQueue;

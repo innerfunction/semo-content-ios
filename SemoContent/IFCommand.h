@@ -14,14 +14,10 @@
 @protocol IFCommand <NSObject>
 
 /**
- * Execute the command with the specified arguments.
+ * Execute the command with the specified name and arguments.
  * Returns a deferred promise which may resolve to an array of new commands to
  * be queued for execution after the current, and any other commands, complete.
  */
-- (QPromise *)executeWithArgs:(NSArray *)args;
-
-@optional
-
-@property (nonatomic, weak) IFCommandScheduler *scheduler;
+- (QPromise *)execute:(NSString *)name withArgs:(NSArray *)args;
 
 @end

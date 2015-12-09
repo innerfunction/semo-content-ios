@@ -19,6 +19,7 @@
  */
 @interface IFGetURLCommand : NSObject <IFCommand, NSURLConnectionDataDelegate>  {
     QPromise *_promise;
+    NSString *_commandName;
     NSString *_url;
     NSString *_filename;
     NSInteger _remainingRetries;

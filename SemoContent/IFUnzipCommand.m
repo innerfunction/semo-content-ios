@@ -11,7 +11,7 @@
 
 @implementation IFUnzipCommand
 
-- (QPromise *)executeWithArgs:(NSArray *)args {
+- (QPromise *)execute:(NSString *)name withArgs:(NSArray *)args {
     if ([args count] < 2) {
         return [Q reject:@"Wrong number of arguments"];
     }
