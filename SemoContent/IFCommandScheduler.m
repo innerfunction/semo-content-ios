@@ -23,8 +23,6 @@ static dispatch_queue_t execQueue;
 
 @interface IFCommandScheduler ()
 
-/** Merge a map of command names into the current map. */
-- (void)mergeCommands:(NSDictionary *)commands;
 /** Execute the next command on the exec queue. */
 - (void)executeNextCommand;
 
@@ -34,7 +32,7 @@ static dispatch_queue_t execQueue;
 
 + (void)initialize {
     Logger = [[IFLogger alloc] initWithTag:@"IFCommandScheduler"];
-    execQueue = dispatch_queue_create("com.innerfunction.semo.content.CommandScheduler", 0);
+    execQueue = dispatch_queue_create("com.innerfunction.semo.commands.CommandScheduler", 0);
 }
 
 - (id)init {
@@ -50,11 +48,13 @@ static dispatch_queue_t execQueue;
                     @"id":      @{ @"type": @"INTEGER PRIMARY KEY" },
                     @"batch":   @{ @"type": @"INTEGER" },
                     @"command": @{ @"type": @"TEXT" },
-                    @"args":    @{ @"type": @"TEXT" }
+                    @"args":    @{ @"type": @"TEXT" },
+                    @"status":  @{ @"type": @"TEXT" } // States: P - pending X - executed
                 }
             }
         };
         _currentBatch = 0;
+        
         // Standard built-in command mappings.
         self.commands = @{
             @"get":   [[IFGetURLCommand alloc] init],
@@ -62,36 +62,36 @@ static dispatch_queue_t execQueue;
             @"mv":    [[IFMvFileCommand alloc] init],
             @"unzip": [[IFUnzipCommand alloc] init]
         };
+        
+        _deleteExecutedQueueRecords = YES;
     }
     return self;
 }
 
 - (void)setCommands:(NSDictionary *)commands {
-    [self mergeCommands:commands];
-}
-
-- (void)setProtocols:(NSDictionary *)protocols {
-    _protocols = protocols;
-    // Extract map of protocol commands from list of protocols.
-    NSMutableDictionary *protocolCommands = [[NSMutableDictionary alloc] init];
-    for (NSString *protocolName in [protocols allKeys]) {
-        id<IFProtocol> protocol = [protocols objectForKey:protocolName];
-        for (NSString *commandName in [protocol supportedCommands]) {
-            // Map the protocol instance to each command name it supports.
-            NSString *qualifiedName = [NSString stringWithFormat:@"%@.%@", protocolName, commandName];
-            [protocolCommands setObject:protocol forKey:qualifiedName];
+    NSMutableDictionary *commandsToAdd = [[NSMutableDictionary alloc] init];
+    // Iterate over the set of commands being added, to check for any command protocols.
+    for (NSString *name in [commands allKeys]) {
+        id<IFCommand> command = [commands objectForKey:name];
+        if ([command isKindOfClass:[IFProtocol class]]) {
+            IFProtocol *protocol = (IFProtocol *)command;
+            // Iterate over the protocol's supported commands and add to the command
+            // namespace under a fully qualified name.
+            for (NSString *subname in [protocol supportedCommands]) {
+                NSString *qualifiedName = [NSString stringWithFormat:@"%@.%@", name, subname];
+                [commandsToAdd setObject:protocol forKey:qualifiedName];
+            }
+        }
+        else {
+            [commandsToAdd setObject:command forKey:name];
         }
     }
-    // Merge protocol commands into command map.
-    [self mergeCommands:protocolCommands];
-}
-
-- (void)mergeCommands:(NSDictionary *)commands {
+    // (Possibly) merge additional commands into the current set of commands.
     if (_commands == nil) {
-        _commands = commands;
+        _commands = commandsToAdd;
     }
     else {
-        _commands = [_commands extendWith:commands];
+        _commands = [_commands extendWith:commandsToAdd];
     }
 }
 
@@ -100,7 +100,7 @@ static dispatch_queue_t execQueue;
         // Commands currently being executed from queue, leave these to be completed.
         return;
     }
-    _execQueue = [_db performQuery:@"SELECT * FROM queue ORDER BY batch, id ASC" withParams:@[]];
+    _execQueue = [_db performQuery:@"SELECT * FROM queue WHERE status='P' ORDER BY batch, id ASC" withParams:@[]];
     _execIdx = 0;
     dispatch_async(execQueue, ^{
         [self executeNextCommand];
@@ -161,13 +161,24 @@ static dispatch_queue_t execQueue;
             NSString *newArgs = [(NSArray *)[newCommand valueForKey:@"args"] joinWithSeparator:@" "];
             [Logger debug:@"Appending %@ %@", newName, newArgs];
             NSDictionary *values = @{
-                @"batch":  [NSNumber numberWithInteger:batch],
-                @"name":   newName,
-                @"args":   newArgs
+                @"batch":   [NSNumber numberWithInteger:batch],
+                @"name":    newName,
+                @"args":    newArgs,
+                @"status":  @"P"
             };
             [_db insertValues:values intoTable:@"queue"];
         }
-        [_db deleteIDs:@[ rowid ] fromTable:@"queue"];
+        // Delete the command record from the queue.
+        if (_deleteExecutedQueueRecords) {
+            [_db deleteIDs:@[ rowid ] fromTable:@"queue"];
+        }
+        else {
+            NSDictionary *values = @{
+                @"id":      rowid,
+                @"status":  @"X"
+            };
+            [_db updateValues:values inTable:@"queue"];
+        }
         [_db commitTransaction];
         // Continue to next queued command.
         dispatch_async(execQueue, ^{
@@ -186,7 +197,8 @@ static dispatch_queue_t execQueue;
     NSDictionary *values = @{
         @"batch":   batch,
         @"name":    name,
-        @"args":    [args joinWithSeparator:@" "]
+        @"args":    [args joinWithSeparator:@" "],
+        @"status":  @"P"
     };
     [_db insertValues:values intoTable:@"queue"];
 }
@@ -196,13 +208,24 @@ static dispatch_queue_t execQueue;
     _execQueue = @[];
     _execIdx = 0;
     _currentBatch = 0;
-    [_db deleteFromTable:@"queue" where:@"1 = 1"];
+    if (_deleteExecutedQueueRecords) {
+        [_db deleteFromTable:@"queue" where:@"1 = 1"];
+    }
+    else {
+        [_db performUpdate:@"UPDATE queue SET status='X' WHERE status='P'" withParams:@[]];
+    }
 }
 
 - (void)purgeCurrentBatch {
     _execQueue = @[];
     _execIdx = 0;
-    [_db deleteFromTable:@"queue" where:[NSString stringWithFormat:@"batch=%ld", _currentBatch]];
+    if (_deleteExecutedQueueRecords) {
+        [_db deleteFromTable:@"queue" where:[NSString stringWithFormat:@"batch=%ld", _currentBatch]];
+    }
+    else {
+        NSNumber *batch = [NSNumber numberWithInteger:_currentBatch];
+        [_db performUpdate:@"UPDATE queue SET status='X' WHERE status='P' AND batch=?" withParams:@[ batch ]];
+    }
 }
 
 #pragma mark - IFService

@@ -188,6 +188,15 @@ static IFLogger *Logger;
     return result;
 }
 
+- (BOOL)performUpdate:(NSString *)sql withParams:(NSArray *)params {
+    id<PLDatabase> db = [_dbHelper getDatabase];
+    id<PLPreparedStatement> statement = [db prepareStatement:sql];
+    [statement bindParameters:params];
+    BOOL result = [statement executeUpdate];
+    [statement close];
+    return result;
+}
+
 - (NSDictionary *)readRowFromResultSet:(id<PLResultSet>)rs {
     NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
     int colCount = [rs getColumnCount];

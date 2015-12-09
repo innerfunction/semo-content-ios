@@ -21,14 +21,19 @@
     NSInteger _currentBatch;
 }
 
-/** A map of command instances, keyed by name. */
+/**
+ * A map of command instances, keyed by name.
+ * Commands which are protocol instances (i.e. IFProtocol subclasses) have each of their
+ * protocol commands mapped into the command namespace with the protocol command name as
+ * a prefix, so e.g. { name => protocol } --> name.command1, name.command2 etc.
+ */
 @property (nonatomic, strong) NSDictionary *commands;
 /**
- * A map of command protocol instances, keyed by command prefix.
- * Each protocol provides a list of one or more supported commands. These commands are entered
- * into the command map with the protocol name as its prefix, so e.g. protocol.command.
+ * Whether to delete queue database records after processing.
+ * Defaults to YES. When NO, the 'status' field is used to track pending vs. executed records;
+ * this mode is primarily useful for debugging.
  */
-@property (nonatomic, strong) NSDictionary *protocols;
+@property (nonatomic, assign) BOOL deleteExecutedQueueRecords;
 
 /** Execute all commands currently on the queue. */
 - (void)executeQueue;

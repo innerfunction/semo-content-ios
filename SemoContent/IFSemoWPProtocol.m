@@ -24,24 +24,17 @@
     self = [super init];
     if (self) {
         _feedFile = @""; // TODO
+        
+        // Register command handlers.
+        __block id this = self;
+        [self addCommand:@"refresh" withBlock:^QPromise *(NSArray *args) {
+            return [this refresh:args];
+        }];
+        [self addCommand:@"process" withBlock:^QPromise *(NSArray *args) {
+            return [this process:args];
+        }];
     }
     return self;
-}
-
-- (NSArray *)supportedCommands {
-    return @[ @"refresh", @"process" ];
-}
-
-- (QPromise *)execute:(NSString *)name withArgs:(NSArray *)args {
-    // Split the protocol prefix from the name to get the actual command name.
-    NSString *commandName = [[name split:@"."] objectAtIndex:1];
-    if ([@"refresh" isEqualToString:commandName]) {
-        return [self refresh:args];
-    }
-    if ([@"process" isEqualToString:commandName]) {
-        return [self process:args];
-    }
-    return [Q reject:[NSString stringWithFormat:@"Unrecognized command name: %@", commandName]];
 }
 
 - (QPromise *)refresh:(NSArray *)args {
@@ -66,7 +59,7 @@
 
 - (QPromise *)process:(NSArray *)args {
     // Read result of previous get.
-    [IFFileIO readJSONFromFileAtPath:_feedFile encoding:NSUTF8StringEncoding];
+    NSDictionary *feedData = [IFFileIO readJSONFromFileAtPath:_feedFile encoding:NSUTF8StringEncoding];
     // If base content update then get base content, unzip result to content location
     // If media content updates then get each update, write to content location
     // Map post data into db (as part of this command? or as separate follow up command?)
