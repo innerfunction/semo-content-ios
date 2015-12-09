@@ -28,11 +28,17 @@
     _commands = [_commands dictionaryWithAddedObject:block forKey:name];
 }
 
+- (NSString *)qualifyCommandName:(NSString *)name {
+    return [NSString stringWithFormat:@"%@.%@", _commandPrefix, name ];
+}
+
 #pragma mark - IFCommand protocol
 
 - (QPromise *)execute:(NSString *)name withArgs:(NSArray *)args {
     // Split the protocol prefix from the name to get the actual command name.
-    NSString *commandName = [[name split:@"."] objectAtIndex:1];
+    NSArray *nameParts = [name split:@"."];
+    _commandPrefix = [nameParts objectAtIndex:0];
+    NSString *commandName = [nameParts objectAtIndex:1];
     // Find a handler block for the named command.
     IFProtocolCommandBlock block = [_commands objectForKey:commandName];
     if (block) {

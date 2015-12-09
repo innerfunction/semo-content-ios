@@ -10,9 +10,9 @@
 #import "IFCommand.h"
 
 /**
- * Command to remove a file or directory from the local filesystem.
- * Arguments: <path>
- * - path:  Path to the file or directory to remove.
+ * Command to remove files or directories from the local filesystem.
+ * Arguments: <path> [path...]
+ * - path:  One or more paths to a file or directory to remove.
  */
 @interface IFRmFileCommand : NSObject <IFCommand>
 

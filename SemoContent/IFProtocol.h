@@ -18,11 +18,14 @@ typedef QPromise *(^IFProtocolCommandBlock) (NSArray *args);
  */
 @interface IFProtocol : NSObject <IFCommand> {
     NSDictionary *_commands;
+    NSString *_commandPrefix;
 }
 
 /** Return a list of command names supported by this protocol. */
 - (NSArray *)supportedCommands;
 /** Register a protocol command. */
 - (void)addCommand:(NSString *)name withBlock:(IFProtocolCommandBlock)block;
+/** Qualify a protocol command name with the current command prefix. */
+- (NSString *)qualifyCommandName:(NSString *)name;
 
 @end
