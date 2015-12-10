@@ -40,6 +40,8 @@
 		0768D5F61C15C125003FA390 /* PLSqlitePreparedStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5E11C15C125003FA390 /* PLSqlitePreparedStatement.m */; };
 		0768D5F71C15C125003FA390 /* PLSqliteResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5E21C15C125003FA390 /* PLSqliteResultSet.h */; };
 		0768D5F81C15C125003FA390 /* PLSqliteResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5E31C15C125003FA390 /* PLSqliteResultSet.m */; };
+		078F95E81C19D79C00D96C63 /* IFWPSchemeHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 078F95E61C19D79C00D96C63 /* IFWPSchemeHandler.h */; };
+		078F95E91C19D79C00D96C63 /* IFWPSchemeHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 078F95E71C19D79C00D96C63 /* IFWPSchemeHandler.m */; };
 		07C7076A1C186DBF00A6BA6D /* IFSemoWPProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 07C707681C186DBF00A6BA6D /* IFSemoWPProtocol.h */; };
 		07C7076B1C186DBF00A6BA6D /* IFSemoWPProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 07C707691C186DBF00A6BA6D /* IFSemoWPProtocol.m */; };
 		07C7076E1C18AA5800A6BA6D /* IFProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 07C7076C1C18AA5800A6BA6D /* IFProtocol.h */; };
@@ -101,6 +103,8 @@
 		0768D5E11C15C125003FA390 /* PLSqlitePreparedStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PLSqlitePreparedStatement.m; path = Externals/PlausibleDatabase/PLSqlitePreparedStatement.m; sourceTree = SOURCE_ROOT; };
 		0768D5E21C15C125003FA390 /* PLSqliteResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PLSqliteResultSet.h; path = Externals/PlausibleDatabase/PLSqliteResultSet.h; sourceTree = SOURCE_ROOT; };
 		0768D5E31C15C125003FA390 /* PLSqliteResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PLSqliteResultSet.m; path = Externals/PlausibleDatabase/PLSqliteResultSet.m; sourceTree = SOURCE_ROOT; };
+		078F95E61C19D79C00D96C63 /* IFWPSchemeHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFWPSchemeHandler.h; sourceTree = "<group>"; };
+		078F95E71C19D79C00D96C63 /* IFWPSchemeHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFWPSchemeHandler.m; sourceTree = "<group>"; };
 		07C707681C186DBF00A6BA6D /* IFSemoWPProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFSemoWPProtocol.h; sourceTree = "<group>"; };
 		07C707691C186DBF00A6BA6D /* IFSemoWPProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFSemoWPProtocol.m; sourceTree = "<group>"; };
 		07C7076C1C18AA5800A6BA6D /* IFProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFProtocol.h; sourceTree = "<group>"; };
@@ -195,6 +199,8 @@
 				0768D5CC1C15AD0A003FA390 /* IFSemoContent.h */,
 				07C707681C186DBF00A6BA6D /* IFSemoWPProtocol.h */,
 				07C707691C186DBF00A6BA6D /* IFSemoWPProtocol.m */,
+				078F95E61C19D79C00D96C63 /* IFWPSchemeHandler.h */,
+				078F95E71C19D79C00D96C63 /* IFWPSchemeHandler.m */,
 			);
 			name = com.innerfunction.semo.content;
 			sourceTree = "<group>";
@@ -285,6 +291,7 @@
 				07DBB2461C173F87005351AE /* IFUnzipCommand.h in Headers */,
 				0768D5C91C15AC3D003FA390 /* IFDBHelper.h in Headers */,
 				07372E9D1C171E1A00B36945 /* IFGetURLCommand.h in Headers */,
+				078F95E81C19D79C00D96C63 /* IFWPSchemeHandler.h in Headers */,
 				070616BB1C15A615003485FD /* SemoContent.h in Headers */,
 				07C7076E1C18AA5800A6BA6D /* IFProtocol.h in Headers */,
 				0768D5C51C15AB70003FA390 /* IFDB.h in Headers */,
@@ -454,6 +461,7 @@
 				0768D5F81C15C125003FA390 /* PLSqliteResultSet.m in Sources */,
 				0768D5E51C15C125003FA390 /* PlausibleDatabase.m in Sources */,
 				0768D5F01C15C125003FA390 /* PLSqliteConnectionProvider.m in Sources */,
+				078F95E91C19D79C00D96C63 /* IFWPSchemeHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

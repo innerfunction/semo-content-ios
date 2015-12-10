@@ -4,3 +4,27 @@
     -> GET media content (? -> MV files to content location)
     -> MAP post data into post database
     ->
+
+
+
+wp: scheme
+
+wp:posts                                Return a list of all posts *1
+wp:posts+type=page                      Return a list of pages
+wp:posts+modifiedTime={time}            Return a list of posts modified at the specified time
+wp:posts+modifiedTime.min={time}        Return a list of posts modified since the specified time
+wp:posts+where={where clause}           ? General query form
+wp:posts+filter={filter id}             ? Apply pre-defined filter
+wp:posts/{id}                           Return post data *2
+wp:posts/{id}+format={format}           ? Return post data in a specified format data/html
+
+*1 Standard post list data return format suitable for configuring a list data source
+   Note that the post's featured image is needed for list icons, auto-scaling of the image
+   must be applied
+
+*2 Standard post data return format suitable for configuring a webview, e.g.
+{
+    title:          {post title}
+    content:        {post content}
+    contentURL:     {file url to content directory path}
+}
