@@ -42,8 +42,10 @@
 		0768D5F81C15C125003FA390 /* PLSqliteResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5E31C15C125003FA390 /* PLSqliteResultSet.m */; };
 		078F95E81C19D79C00D96C63 /* IFWPSchemeHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 078F95E61C19D79C00D96C63 /* IFWPSchemeHandler.h */; };
 		078F95E91C19D79C00D96C63 /* IFWPSchemeHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 078F95E71C19D79C00D96C63 /* IFWPSchemeHandler.m */; };
-		07C7076A1C186DBF00A6BA6D /* IFSemoWPProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 07C707681C186DBF00A6BA6D /* IFSemoWPProtocol.h */; };
-		07C7076B1C186DBF00A6BA6D /* IFSemoWPProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 07C707691C186DBF00A6BA6D /* IFSemoWPProtocol.m */; };
+		07B8DB751C1B17DF002A1D61 /* IFDBFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 07B8DB731C1B17DF002A1D61 /* IFDBFilter.h */; };
+		07B8DB761C1B17DF002A1D61 /* IFDBFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 07B8DB741C1B17DF002A1D61 /* IFDBFilter.m */; };
+		07C7076A1C186DBF00A6BA6D /* IFWPContentProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 07C707681C186DBF00A6BA6D /* IFWPContentProtocol.h */; };
+		07C7076B1C186DBF00A6BA6D /* IFWPContentProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 07C707691C186DBF00A6BA6D /* IFWPContentProtocol.m */; };
 		07C7076E1C18AA5800A6BA6D /* IFProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 07C7076C1C18AA5800A6BA6D /* IFProtocol.h */; };
 		07C7076F1C18AA5800A6BA6D /* IFProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 07C7076D1C18AA5800A6BA6D /* IFProtocol.m */; };
 		07DBB23E1C172EE0005351AE /* IFRmFileCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 07DBB23C1C172EE0005351AE /* IFRmFileCommand.h */; };
@@ -52,6 +54,8 @@
 		07DBB2431C173066005351AE /* IFMvFileCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 07DBB2411C173066005351AE /* IFMvFileCommand.m */; };
 		07DBB2461C173F87005351AE /* IFUnzipCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 07DBB2441C173F87005351AE /* IFUnzipCommand.h */; };
 		07DBB2471C173F87005351AE /* IFUnzipCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 07DBB2451C173F87005351AE /* IFUnzipCommand.m */; };
+		07F1E9CF1C1B3258002B6C64 /* IFWPContentContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 07F1E9CD1C1B3258002B6C64 /* IFWPContentContainer.h */; };
+		07F1E9D01C1B3258002B6C64 /* IFWPContentContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F1E9CE1C1B3258002B6C64 /* IFWPContentContainer.m */; };
 		1169D7B35B300409A4879485 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E29DC47354A1CBBBBC2B04FD /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -105,8 +109,10 @@
 		0768D5E31C15C125003FA390 /* PLSqliteResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PLSqliteResultSet.m; path = Externals/PlausibleDatabase/PLSqliteResultSet.m; sourceTree = SOURCE_ROOT; };
 		078F95E61C19D79C00D96C63 /* IFWPSchemeHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFWPSchemeHandler.h; sourceTree = "<group>"; };
 		078F95E71C19D79C00D96C63 /* IFWPSchemeHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFWPSchemeHandler.m; sourceTree = "<group>"; };
-		07C707681C186DBF00A6BA6D /* IFSemoWPProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFSemoWPProtocol.h; sourceTree = "<group>"; };
-		07C707691C186DBF00A6BA6D /* IFSemoWPProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFSemoWPProtocol.m; sourceTree = "<group>"; };
+		07B8DB731C1B17DF002A1D61 /* IFDBFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFDBFilter.h; sourceTree = "<group>"; };
+		07B8DB741C1B17DF002A1D61 /* IFDBFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFDBFilter.m; sourceTree = "<group>"; };
+		07C707681C186DBF00A6BA6D /* IFWPContentProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFWPContentProtocol.h; sourceTree = "<group>"; };
+		07C707691C186DBF00A6BA6D /* IFWPContentProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFWPContentProtocol.m; sourceTree = "<group>"; };
 		07C7076C1C18AA5800A6BA6D /* IFProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFProtocol.h; sourceTree = "<group>"; };
 		07C7076D1C18AA5800A6BA6D /* IFProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFProtocol.m; sourceTree = "<group>"; };
 		07DBB23C1C172EE0005351AE /* IFRmFileCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFRmFileCommand.h; sourceTree = "<group>"; };
@@ -115,6 +121,8 @@
 		07DBB2411C173066005351AE /* IFMvFileCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFMvFileCommand.m; sourceTree = "<group>"; };
 		07DBB2441C173F87005351AE /* IFUnzipCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFUnzipCommand.h; sourceTree = "<group>"; };
 		07DBB2451C173F87005351AE /* IFUnzipCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFUnzipCommand.m; sourceTree = "<group>"; };
+		07F1E9CD1C1B3258002B6C64 /* IFWPContentContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFWPContentContainer.h; sourceTree = "<group>"; };
+		07F1E9CE1C1B3258002B6C64 /* IFWPContentContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFWPContentContainer.m; sourceTree = "<group>"; };
 		760D2B97AB7E707BA3AC699A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		AA08C4C0DABCFA64D8A09F21 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E29DC47354A1CBBBBC2B04FD /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -189,6 +197,8 @@
 				0768D5C41C15AB70003FA390 /* IFDB.m */,
 				0768D5C71C15AC3D003FA390 /* IFDBHelper.h */,
 				0768D5C81C15AC3D003FA390 /* IFDBHelper.m */,
+				07B8DB731C1B17DF002A1D61 /* IFDBFilter.h */,
+				07B8DB741C1B17DF002A1D61 /* IFDBFilter.m */,
 			);
 			name = com.innerfunction.semo.db;
 			sourceTree = "<group>";
@@ -197,10 +207,12 @@
 			isa = PBXGroup;
 			children = (
 				0768D5CC1C15AD0A003FA390 /* IFSemoContent.h */,
-				07C707681C186DBF00A6BA6D /* IFSemoWPProtocol.h */,
-				07C707691C186DBF00A6BA6D /* IFSemoWPProtocol.m */,
+				07C707681C186DBF00A6BA6D /* IFWPContentProtocol.h */,
+				07C707691C186DBF00A6BA6D /* IFWPContentProtocol.m */,
 				078F95E61C19D79C00D96C63 /* IFWPSchemeHandler.h */,
 				078F95E71C19D79C00D96C63 /* IFWPSchemeHandler.m */,
+				07F1E9CD1C1B3258002B6C64 /* IFWPContentContainer.h */,
+				07F1E9CE1C1B3258002B6C64 /* IFWPContentContainer.m */,
 			);
 			name = com.innerfunction.semo.content;
 			sourceTree = "<group>";
@@ -298,16 +310,18 @@
 				0768D5EB1C15C125003FA390 /* PLDatabaseMigrationTransactionManager.h in Headers */,
 				0768D5F51C15C125003FA390 /* PLSqlitePreparedStatement.h in Headers */,
 				0768D5EE1C15C125003FA390 /* PLResultSet.h in Headers */,
-				07C7076A1C186DBF00A6BA6D /* IFSemoWPProtocol.h in Headers */,
+				07C7076A1C186DBF00A6BA6D /* IFWPContentProtocol.h in Headers */,
 				0768D5E61C15C125003FA390 /* PLDatabase.h in Headers */,
 				072774BB1C163AE200A34294 /* IFCommand.h in Headers */,
 				0768D5F71C15C125003FA390 /* PLSqliteResultSet.h in Headers */,
 				072774B81C163AB700A34294 /* IFCommandScheduler.h in Headers */,
+				07B8DB751C1B17DF002A1D61 /* IFDBFilter.h in Headers */,
 				0768D5EC1C15C125003FA390 /* PLDatabaseMigrationVersionManager.h in Headers */,
 				0768D5F31C15C125003FA390 /* PLSqliteMigrationVersionManager.h in Headers */,
 				0768D5EF1C15C125003FA390 /* PLSqliteConnectionProvider.h in Headers */,
 				07DBB23E1C172EE0005351AE /* IFRmFileCommand.h in Headers */,
 				0768D5E71C15C125003FA390 /* PLDatabaseConnectionProvider.h in Headers */,
+				07F1E9CF1C1B3258002B6C64 /* IFWPContentContainer.h in Headers */,
 				0768D5ED1C15C125003FA390 /* PLPreparedStatement.h in Headers */,
 				07DBB2421C173066005351AE /* IFMvFileCommand.h in Headers */,
 				0768D5E41C15C125003FA390 /* PlausibleDatabase.h in Headers */,
@@ -446,7 +460,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				07372E9E1C171E1A00B36945 /* IFGetURLCommand.m in Sources */,
-				07C7076B1C186DBF00A6BA6D /* IFSemoWPProtocol.m in Sources */,
+				07C7076B1C186DBF00A6BA6D /* IFWPContentProtocol.m in Sources */,
 				0768D5F41C15C125003FA390 /* PLSqliteMigrationVersionManager.m in Sources */,
 				0768D5CA1C15AC3D003FA390 /* IFDBHelper.m in Sources */,
 				0768D5EA1C15C125003FA390 /* PLDatabaseMigrationManager.m in Sources */,
@@ -455,6 +469,8 @@
 				07DBB23F1C172EE0005351AE /* IFRmFileCommand.m in Sources */,
 				07C7076F1C18AA5800A6BA6D /* IFProtocol.m in Sources */,
 				072774B91C163AB700A34294 /* IFCommandScheduler.m in Sources */,
+				07B8DB761C1B17DF002A1D61 /* IFDBFilter.m in Sources */,
+				07F1E9D01C1B3258002B6C64 /* IFWPContentContainer.m in Sources */,
 				0768D5F61C15C125003FA390 /* PLSqlitePreparedStatement.m in Sources */,
 				07DBB2471C173F87005351AE /* IFUnzipCommand.m in Sources */,
 				0768D5C61C15AB70003FA390 /* IFDB.m in Sources */,

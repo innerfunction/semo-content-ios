@@ -28,8 +28,6 @@ static IFLogger *Logger;
 - (BOOL)updateValues:(NSDictionary *)values idColumn:(NSString *)idColumn inTable:(NSString *)table db:(id<PLDatabase>)db;
 /** Delete records with the specified IDs from the a table. */
 - (BOOL)deleteIDs:(NSArray *)identifiers idColumn:(NSString *)idColumn fromTable:(NSString *)table;
-/** Filter a set of named/value pairs to only contains names corresponding to a column name in the target db table. */
-- (NSDictionary *)filterValues:(NSDictionary *)values forTable:(NSString *)table;
 
 @end
 

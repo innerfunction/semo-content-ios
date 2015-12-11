@@ -25,7 +25,9 @@
  * wp:posts/{id}    Return data for a specific post. The following URI parameters are available:
  *                  - format: Apply a named formatter to the result. Defaults to 'webview'.
  */
-@interface IFWPSchemeHandler : NSObject <IFSchemeHandler>
+@interface IFWPSchemeHandler : NSObject <IFSchemeHandler> {
+    NSFileManager *_fileManager;
+}
 
 /** The WP post database. */
 @property (nonatomic, strong) IFDB *postDB;

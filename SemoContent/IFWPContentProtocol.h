@@ -10,7 +10,7 @@
 #import "IFProtocol.h"
 #import "IFDB.h"
 
-@interface IFSemoWPProtocol : IFProtocol {
+@interface IFWPContentProtocol : IFProtocol {
     // Path to file used to store downloaded feed result.
     NSString *_feedFile;
     

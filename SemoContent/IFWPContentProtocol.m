@@ -6,12 +6,12 @@
 //  Copyright © 2015 InnerFunction. All rights reserved.
 //
 
-#import "IFSemoWPProtocol.h"
+#import "IFWPContentProtocol.h"
 #import "IFCommand.h"
 #import "IFFileIO.h"
 #import "NSString+IF.h"
 
-@interface IFSemoWPProtocol ()
+@interface IFWPContentProtocol ()
 
 - (QPromise *)refresh:(NSArray *)args;
 - (QPromise *)stage:(NSArray *)args;
@@ -19,7 +19,7 @@
 
 @end
 
-@implementation IFSemoWPProtocol
+@implementation IFWPContentProtocol
 
 - (id)init {
     self = [super init];
