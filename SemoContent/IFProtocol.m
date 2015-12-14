@@ -28,7 +28,7 @@
     _commands = [_commands dictionaryWithAddedObject:block forKey:name];
 }
 
-- (NSString *)qualifyCommandName:(NSString *)name {
+- (NSString *)qualifiedCommandName:(NSString *)name {
     return [NSString stringWithFormat:@"%@.%@", _commandPrefix, name ];
 }
 

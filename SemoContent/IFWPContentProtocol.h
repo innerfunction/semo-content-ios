@@ -15,6 +15,8 @@
     NSString *_feedFile;
     // Path to file used to store downloaded base content zip.
     NSString *_baseContentFile;
+    // Path to store downloaded content prior to deployment.
+    NSString *_stagedContentPath;
 }
 
 /** The WP feed URL. Note that query parameters will be appened to the URL. */

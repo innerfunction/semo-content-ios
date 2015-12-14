@@ -10,6 +10,9 @@
 #import "IFCommand.h"
 #import "IFFileIO.h"
 #import "NSString+IF.h"
+#import "NSDictionary+IFValues.h"
+
+#define BaseContentType (@"semo:base-content")
 
 @interface IFWPContentProtocol ()
 
@@ -24,8 +27,6 @@
 - (id)init {
     self = [super init];
     if (self) {
-        _feedFile = @""; // TODO
-        
         // Register command handlers.
         __block id this = self;
         [self addCommand:@"refresh" withBlock:^QPromise *(NSArray *args) {
@@ -41,16 +42,36 @@
     return self;
 }
 
+- (void)setStagingPath:(NSString *)stagingPath {
+    _stagingPath = stagingPath;
+    _feedFile = [stagingPath stringByAppendingPathComponent:@"feed.json"];
+    _baseContentFile = [stagingPath stringByAppendingPathComponent:@"base-content.zip"];
+    _stagedContentPath = [stagingPath stringByAppendingPathComponent:@"content"];
+}
+
 - (QPromise *)refresh:(NSArray *)args {
     NSString *refreshURL = _feedURL;
-    // Query post DB for last modified time.
-    NSArray *rs = [_postDB performQuery:@"SELECT max(modifiedTime) FROM posts" withParams:@[]];
-    if ([rs count] > 0) {
-        // Previously downloaded posts exist, so read latest post modification time.
-        NSDictionary *record = [rs objectAtIndex:0];
-        NSString *modifiedTime = [record objectForKey:@"modifiedTime"];
-        // Construct feed URL with since parameter.
-        refreshURL = [NSString stringWithFormat:@"%@?since=%@", _feedURL, modifiedTime];
+    // Any arguments supplied indicate 'since' and 'page' values, which are supplied when a
+    // follow up requests are generated for multi-page feed results.
+    // NOTE: It is important that the 'since' parameter is passed here so that each page of
+    // the feed response is requested with the same starting position.
+    if ([args count] >= 2) {
+        id page = [args objectAtIndex:0];
+        id since = [args objectAtIndex:1];
+        refreshURL = [NSString stringWithFormat:@"%@?since=%@&page=%@", _feedURL, since, page];
+    }
+    else {
+        // Query post DB for the last modified time.
+        NSArray *rs = [_postDB performQuery:@"SELECT max(modifiedTime) FROM posts" withParams:@[]];
+        if ([rs count] > 0) {
+            // Previously downloaded posts exist, so read latest post modification time.
+            NSDictionary *record = [rs objectAtIndex:0];
+            NSString *modifiedTime = [record objectForKey:@"modifiedTime"];
+            // Construct feed URL with since parameter.
+            refreshURL = [NSString stringWithFormat:@"%@?since=%@", _feedURL, modifiedTime];
+        }
+        // If no posts, and no last modified time, then simply omit the 'since' parameter; the feed
+        // will return all posts, starting at the earliest.
     }
     // Construct get command with url and file name to write result to, with 3 retries.
     NSDictionary *getCommand = @{
@@ -59,7 +80,7 @@
     };
     // Construct process command to process download.
     NSDictionary *processCommand = @{
-        @"name": [self qualifyCommandName:@"stage"],
+        @"name": [self qualifiedCommandName:@"stage"],
         @"args": @[]
     };
     // Return commands.
@@ -76,31 +97,31 @@
     // Iterate over items and generate commands to download base content & media items.
     for (NSDictionary *item in feedItems) {
         NSString *type = [item objectForKey:@"type"];
-        // TODO: This needs to be reviewed.
-        if ([@"semo:base-content" isEqualToString:type]) {
+        if ([BaseContentType isEqualToString:type]) {
             [commands addObject:@{
                 @"name":  @"get",
                 @"args":  @[ [item objectForKey:@"url"], _baseContentFile, @3 ]
             }];
             [commands addObject:@{
                 @"name":  @"unzip",
-                @"args":  @[ _baseContentFile, _stagingPath ]
+                @"args":  @[ _baseContentFile, _stagedContentPath ]
+            }];
+            [commands addObject:@{
+                @"name":  @"rm",
+                @"args":  @[ _baseContentFile ]
             }];
         }
         else if ([@"attachment" isEqualToString:type]) {
             [commands addObject:@{
                 @"name":  @"get",
-                @"args":  @[ [item objectForKey:@"url"], _stagingPath, @3 ]
+                @"args":  @[ [item objectForKey:@"url"], _stagedContentPath, @3 ]
             }];
         }
     }
     [commands addObject:@{
-        @"name":  [self qualifyCommandName:@"#update"],
+        @"name":  [self qualifiedCommandName:@"deploy"],
         @"args":  @[]
     }];
-    // If base content update then get base content, unzip result to content location
-    // If media content updates then get each update, write to content location
-    // Map post data into db (as part of this command? or as separate follow up command?)
     return [Q resolve:commands];
 }
 
@@ -115,23 +136,36 @@
     [_postDB beginTransaction];
     for (NSDictionary *item in feedItems) {
         NSString *type = [item objectForKey:@"type"];
-        if ([@"page" isEqualToString:type] || [@"post" isEqualToString:type]) {
+        if (![BaseContentType isEqualToString:type]) { // Base content items aren't inserted into the db.
             [_postDB updateValues:item inTable:@"posts"];
         }
-        // TODO: Are attachments also inserted into db? Could help in managing deleted content etc.
     }
     // TODO: Option to delete trashed posts?
     [_postDB commitTransaction];
     // Commands to move staged content and delete temporary files.
     [commands addObject:@{
         @"name":  @"mv",
-        @"args":  @[ _stagingPath, _contentPath ]
+        @"args":  @[ _stagedContentPath, _contentPath ]
     }];
     [commands addObject:@{
         @"name":  @"rm",
-        @"args":  @[ _feedFile, _baseContentFile ]
+        @"args":  @[ _feedFile ]
     }];
-    // TODO if more than one page, schedule follow up refresh to download next page?
+    // Check whether this is a multi-page feed response, and whether a follow up refresh request needs to
+    // be scheduled.
+    NSInteger pageCount = [[feedData getValueAsNumber:@"page.count"] integerValue];
+    NSInteger pageNumber = [[feedData getValueAsNumber:@"page.number"] integerValue];
+    if (pageNumber < pageCount) {
+        NSArray *args = @[ [NSNumber numberWithInteger:pageCount + 1] ];
+        NSString *since = [feedData getValueAsString:@"since"];
+        if (since) {
+            args = [args arrayByAddingObject:since];
+        }
+        [commands addObject:@{
+            @"name":  [self qualifiedCommandName:@"refresh"],
+            @"args":  args
+        }];
+    }
     return [Q resolve:commands];
 }
 

@@ -17,9 +17,8 @@
 }
 
 @property (nonatomic, strong) NSString *postDBName;
-@property (nonatomic, strong) NSString *stagingPath;
-@property (nonatomic, strong) NSString *contentPath;
 @property (nonatomic, strong) NSString *feedURL;
+@property (nonatomic, strong) NSString *contentLocation;
 @property (nonatomic, strong) IFDB *postDB;
 @property (nonatomic, strong) IFWPContentProtocol *contentProtocol;
 @property (nonatomic, strong) IFWPSchemeHandler *uriScheme;

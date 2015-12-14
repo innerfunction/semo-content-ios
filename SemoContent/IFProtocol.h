@@ -26,6 +26,6 @@ typedef QPromise *(^IFProtocolCommandBlock) (NSArray *args);
 /** Register a protocol command. */
 - (void)addCommand:(NSString *)name withBlock:(IFProtocolCommandBlock)block;
 /** Qualify a protocol command name with the current command prefix. */
-- (NSString *)qualifyCommandName:(NSString *)name;
+- (NSString *)qualifiedCommandName:(NSString *)name;
 
 @end
