@@ -1,30 +1,36 @@
-1. Schedule feed refresh -> GET <feed URL>
-2. Parse feed JSON
-    -> GET base content -> UNZIP base content (? -> MV files to content location)
-    -> GET media content (? -> MV files to content location)
-    -> MAP post data into post database
-    ->
+
+wp:posts                                Return a list of all posts
+wp:posts/filter/{name}                  Apply a pre-defined filter to the list of posts.
+wp:posts/filter/{name}+{p}={v}          Pass parameters to a pre-defined filter.
+wp:posts+_format={name}                 Return the list of posts in a specified format.
+wp:posts/{id}                           Return data for a single post.
+wp:posts{id}+_format={name}             Return post data in a specified format.
+
+Formats: List and detail data by default is formatted for configuring either a table
+data source or web view respectively; but the default format can be overriden in both
+the content container configuration, and/or from within the URI.
 
 
+Pre-packaged feed content: Possible approach
+* Add an additional field to the posts table, indicating whether content is pre-packaged or not.
+* Post content returned by the server should use template placeholders for the following:
+  1. As a prefix for base content (i.e. path location prefix);
+  2. For media attachment references.
+* The client template should replace the placeholders as appropriate, assuming that the content
+  is displayed in a page whose location is set to the content path:
+  - If no new base content is downloaded, then with full path to the packaged app content; else
+    to path relative to content path;
+  - For attachments, if the pre-packaged flag is set then with full path to the packaged app
+    content;
+  - Else when attachments downloaded, with path to file relative to content path.
 
-wp: scheme
+A slightly simpler version of the approach might simply copy base content to the content path
+at installation.
 
-wp:posts                                Return a list of all posts *1
-wp:posts+type=page                      Return a list of pages
-wp:posts+modifiedTime={time}            Return a list of posts modified at the specified time
-wp:posts+modifiedTime.min={time}        Return a list of posts modified since the specified time
-wp:posts+where={where clause}           ? General query form
-wp:posts+filter={filter id}             ? Apply pre-defined filter
-wp:posts/{id}                           Return post data *2
-wp:posts/{id}+format={format}           ? Return post data in a specified format: data/html
+Need to review path references to files packaged with the app, to make sure that the approach will
+work. Then need to see how the client template can properly resolve attachment references during
+template rendering.
 
-*1 Standard post list data return format suitable for configuring a list data source
-   Note that the post's featured image is needed for list icons, auto-scaling of the image
-   must be applied
+(NOTE: Base content under the content path might be deleted in some circumstances - will it need
+a separate location anyway?)
 
-*2 Standard post data return format suitable for configuring a webview, e.g.
-{
-    title:          {post title}
-    content:        {post content}
-    contentURL:     {file url to content directory path}
-}
