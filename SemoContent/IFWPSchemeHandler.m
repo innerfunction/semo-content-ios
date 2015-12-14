@@ -7,21 +7,29 @@
 //
 
 #import "IFWPSchemeHandler.h"
+#import "IFSemoContent.h"
 #import "IFDBFilter.h"
+#import "IFDataFormatter.h"
 #import "IFRegExp.h"
 #import "IFStringTemplate.h"
 #import "NSString+IF.h"
 #import "NSDictionary+IFValues.h"
 #import "NSDictionary+IF.h"
 
+static IFLogger *Logger;
+
 @interface IFWPSchemeHandler ()
 
-- (id)queryPosts:(NSDictionary *)params;
+- (id)queryPostsUsingFilter:(NSString *)filterName params:(NSDictionary *)params;
 - (id)getPost:(NSString *)postID withParams:(NSDictionary *)params;
 
 @end
 
 @implementation IFWPSchemeHandler
+
++ (void)initialize {
+    Logger = [[IFLogger alloc] initWithTag:@"IFWPSchemeHandler"];
+}
 
 - (id)init {
     self = [super init];
@@ -32,58 +40,40 @@
 }
 
 - (id)dereference:(IFCompoundURI *)uri parameters:(NSDictionary *)params parent:(id<IFResourceContext>)parent {
+    // The following URI path forms are supported:
+    // * posts:                 Query all posts, and possibly filter by specified parameters.
+    // * posts/filter/{name}:   Query all posts and apply the named filter.
+    // * posts/{id}             Return the post with the specified ID.
     NSString *path = uri.name;
     NSArray *pathComponents = [path split:@"/"];
-    switch ([pathComponents count]) {
-        case 1:
-            return [self queryPosts:params];
-            break;
-        case 2:
-            return [self getPost:[pathComponents objectAtIndex:1] withParams:params];
-            break;
-        default:
-            break;
+    if ([pathComponents count] > 0 && [@"posts" isEqualToString:[pathComponents objectAtIndex:0]]) {
+        switch ([pathComponents count]) {
+            case 1:
+                return [self queryPostsUsingFilter:nil params:params];
+            case 2:
+                return [self getPost:[pathComponents objectAtIndex:1] withParams:params];
+            case 3:
+                if ([@"filter" isEqualToString:[pathComponents objectAtIndex:1]]) {
+                    return [self queryPostsUsingFilter:[pathComponents objectAtIndex:2] params:params];
+                }
+            default:
+                break;
+        }
     }
+    [Logger warn:@"Unhandled URI %@", uri];
     return nil;
 }
 
-- (id)queryPosts:(NSDictionary *)params {
+- (id)queryPostsUsingFilter:(NSString *)filterName params:(NSDictionary *)params {
     id postData = nil;
-    NSString *where = [params getValueAsString:@"where"];
-    if (where) {
-        NSString *sql = [NSString stringWithFormat:@"SELECT * FROM posts WHERE %@", where];
-        NSString *orderBy = [params getValueAsString:@"orderBy"];
-        if (orderBy) {
-            sql = [NSString stringWithFormat:@"%@ ORDER BY %@", sql, orderBy];
-        }
-        postData = [_postDB performQuery:sql withParams:@[]];
-    }
-    if (!postData) {
-        NSString *filterName = [params getValueAsString:@"filter"];
-        if (filterName) {
-            IFDBFilter *filter = [_filters objectForKey:filterName];
-            if (filter) {
-                // TODO:
-                // The issue here may be the way the any parameters to the filter go into the same namespace as
-                // the filter name. An alternative approach would be to allow an actual filter instance to be
-                // passed in here - in which case parameter names musy somehow become configurable properties of
-                // the filter instance.
-                // ** This is an issue for all the different query forms, e.g. the 'format' URI parameter, used
-                // to specify the result format, appears in the same namespace as the filter parameters etc.
-                // Overall, probably would be better to somehow support just a single 'filter' URI parameter
-                // which provides a IFDBFilter instance, or a string that can be promoted to a filter instance.
-                // However, it might still be useful to have filter parameter values specified on the wp: URI;
-                // so is a naming scheme - e.g. a name prefix - needed for these parameters?
-                // The problem with this approach is that it pushes knowledge of the posts db schema out of this
-                // class - where it actually belongs - and into the URI configuration. So really need a solution
-                // which allows this class to apply it's knowledge of the db schema to a partially configured
-                // filter object.
-                postData = [filter applyTo:_postDB withParameters:params];
-            }
+    if (filterName) {
+        IFDBFilter *filter = [_filters objectForKey:filterName];
+        if (filter) {
+            postData = [filter applyTo:_postDB withParameters:params];
         }
     }
-    if (!postData) {
-        // Construct the filter instance.
+    else {
+        // Construct an anonymous filter instance.
         IFDBFilter *filter = [[IFDBFilter alloc] init];
         filter.table = @"posts";
         // Construct a set of filter parameters from the URI parameters.
@@ -91,8 +81,8 @@
         NSMutableDictionary *filterParams = [[NSMutableDictionary alloc] init];
         for (NSString *paramName in [params allKeys]) {
             // The 'orderBy' parameter is a special name used to specify sort order.
-            if ([@"orderBy" isEqualToString:paramName]) {
-                filter.orderBy = [params getValueAsString:@"orderBy"];
+            if ([@"_orderBy" isEqualToString:paramName]) {
+                filter.orderBy = [params getValueAsString:@"_orderBy"];
                 continue;
             }
             NSString *fieldName = paramName;
@@ -122,10 +112,10 @@
         // Apply the filter.
         postData = [filter applyTo:_postDB withParameters:@{}];
     }
-    NSString *format = [params getValueAsString:@"format" defaultValue:@"table"];
-    id formatter = [_listFormats objectForKey:format];
+    NSString *format = [params getValueAsString:@"_format" defaultValue:@"table"];
+    id<IFDataFormatter> formatter = [_listFormats objectForKey:format];
     if (formatter) {
-        // TODO
+        postData = [formatter formatData:postData];
     }
     return postData;
 }
@@ -134,13 +124,15 @@
     // Read the post data.
     NSDictionary *postData = [_postDB readRecordWithID:postID fromTable:@"posts"];
     // Load the client template for the post type.
-    NSString *templateName = [NSString stringWithFormat:@"template-%@.html", [postData objectForKey:@"type"]];
+    NSString *postType = [postData objectForKey:@"type"];
+    NSString *templateName = [NSString stringWithFormat:@"template-%@.html", postType];
     NSString *templatePath = [_contentPath stringByAppendingPathComponent:templateName];
     if (![_fileManager fileExistsAtPath:templatePath isDirectory:nil]) {
         templatePath = [_contentPath stringByAppendingString:@"template-single.html"];
         if (![_fileManager fileExistsAtPath:templatePath isDirectory:nil]) {
-            // TODO: No template found!
+            [Logger warn:@"Client template for post type '%@' not found at %@", postType, _contentPath];
         }
+        return nil;
     }
     // Assume at this point that the template file exists.
     NSString *template = [NSString stringWithContentsOfFile:templatePath encoding:NSUTF8StringEncoding error:nil];
@@ -149,10 +141,10 @@
     // Add the post HTML to the post data.
     // TODO: Review the dictionary key.
     postData = [postData dictionaryWithAddedObject:postHTML forKey:@"postHTML"];
-    NSString *format = [params getValueAsString:@"format" defaultValue:@"webview"];
-    id formatter = [_postFormats objectForKey:format];
+    NSString *format = [params getValueAsString:@"_format" defaultValue:@"webview"];
+    id<IFDataFormatter> formatter = [_postFormats objectForKey:format];
     if (formatter) {
-        // TODO
+        postData = [formatter formatData:postData];
     }
     return postData;
 }

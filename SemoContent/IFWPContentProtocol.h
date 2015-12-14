@@ -13,19 +13,17 @@
 @interface IFWPContentProtocol : IFProtocol {
     // Path to file used to store downloaded feed result.
     NSString *_feedFile;
-    
-    // TODO: Following should probably be configurable properties
     // Path to file used to store downloaded base content zip.
     NSString *_baseContentFile;
-    // Path to directory holding staged content.
-    NSString *_stagingPath;
-    // Path to directory hosting downloaded content.
-    NSString *_contentPath;
 }
 
 /** The WP feed URL. Note that query parameters will be appened to the URL. */
 @property (nonatomic, strong) NSString *feedURL;
 /** The local database used to store post and content data. */
 @property (nonatomic, strong) IFDB *postDB;
+/** Path to directory holding staged content. */
+@property (nonatomic, strong) NSString *stagingPath;
+/** Path to directory hosting downloaded content. */
+@property (nonatomic, strong) NSString *contentPath;
 
 @end

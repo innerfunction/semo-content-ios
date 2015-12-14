@@ -16,7 +16,7 @@ wp:posts+modifiedTime.min={time}        Return a list of posts modified since th
 wp:posts+where={where clause}           ? General query form
 wp:posts+filter={filter id}             ? Apply pre-defined filter
 wp:posts/{id}                           Return post data *2
-wp:posts/{id}+format={format}           ? Return post data in a specified format data/html
+wp:posts/{id}+format={format}           ? Return post data in a specified format: data/html
 
 *1 Standard post list data return format suitable for configuring a list data source
    Note that the post's featured image is needed for list icons, auto-scaling of the image

@@ -15,6 +15,11 @@
 		072774BB1C163AE200A34294 /* IFCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 072774BA1C163AE200A34294 /* IFCommand.h */; };
 		07372E9D1C171E1A00B36945 /* IFGetURLCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 07372E9B1C171E1A00B36945 /* IFGetURLCommand.h */; };
 		07372E9E1C171E1A00B36945 /* IFGetURLCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 07372E9C1C171E1A00B36945 /* IFGetURLCommand.m */; };
+		07667AB31C1F00D200602DEE /* IFDataFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 07667AB21C1F00D200602DEE /* IFDataFormatter.h */; };
+		07667AB61C1F017200602DEE /* IFWPDataTableFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 07667AB41C1F017200602DEE /* IFWPDataTableFormatter.h */; };
+		07667AB71C1F017200602DEE /* IFWPDataTableFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 07667AB51C1F017200602DEE /* IFWPDataTableFormatter.m */; };
+		07667ABA1C1F01DA00602DEE /* IFWPDataWebviewFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 07667AB81C1F01DA00602DEE /* IFWPDataWebviewFormatter.h */; };
+		07667ABB1C1F01DA00602DEE /* IFWPDataWebviewFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 07667AB91C1F01DA00602DEE /* IFWPDataWebviewFormatter.m */; };
 		0768D5C51C15AB70003FA390 /* IFDB.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5C31C15AB70003FA390 /* IFDB.h */; };
 		0768D5C61C15AB70003FA390 /* IFDB.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5C41C15AB70003FA390 /* IFDB.m */; };
 		0768D5C91C15AC3D003FA390 /* IFDBHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5C71C15AC3D003FA390 /* IFDBHelper.h */; };
@@ -81,6 +86,11 @@
 		072774BA1C163AE200A34294 /* IFCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFCommand.h; sourceTree = "<group>"; };
 		07372E9B1C171E1A00B36945 /* IFGetURLCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFGetURLCommand.h; sourceTree = "<group>"; };
 		07372E9C1C171E1A00B36945 /* IFGetURLCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFGetURLCommand.m; sourceTree = "<group>"; };
+		07667AB21C1F00D200602DEE /* IFDataFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFDataFormatter.h; sourceTree = "<group>"; };
+		07667AB41C1F017200602DEE /* IFWPDataTableFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFWPDataTableFormatter.h; sourceTree = "<group>"; };
+		07667AB51C1F017200602DEE /* IFWPDataTableFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFWPDataTableFormatter.m; sourceTree = "<group>"; };
+		07667AB81C1F01DA00602DEE /* IFWPDataWebviewFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFWPDataWebviewFormatter.h; sourceTree = "<group>"; };
+		07667AB91C1F01DA00602DEE /* IFWPDataWebviewFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFWPDataWebviewFormatter.m; sourceTree = "<group>"; };
 		0768D5C31C15AB70003FA390 /* IFDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFDB.h; sourceTree = "<group>"; };
 		0768D5C41C15AB70003FA390 /* IFDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFDB.m; sourceTree = "<group>"; };
 		0768D5C71C15AC3D003FA390 /* IFDBHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFDBHelper.h; sourceTree = "<group>"; };
@@ -213,6 +223,11 @@
 				078F95E71C19D79C00D96C63 /* IFWPSchemeHandler.m */,
 				07F1E9CD1C1B3258002B6C64 /* IFWPContentContainer.h */,
 				07F1E9CE1C1B3258002B6C64 /* IFWPContentContainer.m */,
+				07667AB21C1F00D200602DEE /* IFDataFormatter.h */,
+				07667AB41C1F017200602DEE /* IFWPDataTableFormatter.h */,
+				07667AB51C1F017200602DEE /* IFWPDataTableFormatter.m */,
+				07667AB81C1F01DA00602DEE /* IFWPDataWebviewFormatter.h */,
+				07667AB91C1F01DA00602DEE /* IFWPDataWebviewFormatter.m */,
 			);
 			name = com.innerfunction.semo.content;
 			sourceTree = "<group>";
@@ -305,6 +320,7 @@
 				07372E9D1C171E1A00B36945 /* IFGetURLCommand.h in Headers */,
 				078F95E81C19D79C00D96C63 /* IFWPSchemeHandler.h in Headers */,
 				070616BB1C15A615003485FD /* SemoContent.h in Headers */,
+				07667AB61C1F017200602DEE /* IFWPDataTableFormatter.h in Headers */,
 				07C7076E1C18AA5800A6BA6D /* IFProtocol.h in Headers */,
 				0768D5C51C15AB70003FA390 /* IFDB.h in Headers */,
 				0768D5EB1C15C125003FA390 /* PLDatabaseMigrationTransactionManager.h in Headers */,
@@ -318,6 +334,7 @@
 				07B8DB751C1B17DF002A1D61 /* IFDBFilter.h in Headers */,
 				0768D5EC1C15C125003FA390 /* PLDatabaseMigrationVersionManager.h in Headers */,
 				0768D5F31C15C125003FA390 /* PLSqliteMigrationVersionManager.h in Headers */,
+				07667ABA1C1F01DA00602DEE /* IFWPDataWebviewFormatter.h in Headers */,
 				0768D5EF1C15C125003FA390 /* PLSqliteConnectionProvider.h in Headers */,
 				07DBB23E1C172EE0005351AE /* IFRmFileCommand.h in Headers */,
 				0768D5E71C15C125003FA390 /* PLDatabaseConnectionProvider.h in Headers */,
@@ -325,6 +342,7 @@
 				0768D5ED1C15C125003FA390 /* PLPreparedStatement.h in Headers */,
 				07DBB2421C173066005351AE /* IFMvFileCommand.h in Headers */,
 				0768D5E41C15C125003FA390 /* PlausibleDatabase.h in Headers */,
+				07667AB31C1F00D200602DEE /* IFDataFormatter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -459,9 +477,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07667ABB1C1F01DA00602DEE /* IFWPDataWebviewFormatter.m in Sources */,
 				07372E9E1C171E1A00B36945 /* IFGetURLCommand.m in Sources */,
 				07C7076B1C186DBF00A6BA6D /* IFWPContentProtocol.m in Sources */,
 				0768D5F41C15C125003FA390 /* PLSqliteMigrationVersionManager.m in Sources */,
+				07667AB71C1F017200602DEE /* IFWPDataTableFormatter.m in Sources */,
 				0768D5CA1C15AC3D003FA390 /* IFDBHelper.m in Sources */,
 				0768D5EA1C15C125003FA390 /* PLDatabaseMigrationManager.m in Sources */,
 				07DBB2431C173066005351AE /* IFMvFileCommand.m in Sources */,
