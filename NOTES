@@ -35,13 +35,22 @@ template rendering.
 a separate location anyway?)
 
 Pre-packaged content + purged content restoration:
-1. Initial base content location is within packaged content.
+1. Initial base content location is within packaged content. Also: How to decide when to unpack packaged content?
 x. Downloaded base content unpacked to application support.
 3. Post webview reference URL set to base content location. (i.e. within webview config returned by wp:posts/{id} URIs).
-4. Image attachment URLs to be replaced by WP plugin when generating client template.
+4. Image attachment URLs to be replaced by WP plugin when generating client template. Also: other post hrefs.
 x. Client template to replace image attachment references with full path to image location.
 6. Client template to check attachment status and initiate downloaded of missing attachments.
-7. Content protocol to support download of individual attachments.
+x. Content protocol to support download of individual attachments. (Use standard 'get' command, download to content path + attachment filename).
+x. Content protocol to support deployment of packaged content.
 x. New field on posts table to indicate whether attachments are located in packaged content.
-9. Container to manage auto-resizing of images for webview & lists?
+10. Container to manage auto-resizing of images for webview & lists?
+
+
+
+NOTE: Changes made yesterday to the plugin - adding the 'packaged' request parameter, to control the
+value of the 'location' field in the response - may have been the wrong approach. A command line packager
+tool is probably needed anyway, and as this will (1) download the initial feed, and then (2) download
+each attachment referenced from the feed, as part of the package preparation; then it can also rewrite
+the location field in the feed JSON. (But the current approach is still useable also at this point).
 

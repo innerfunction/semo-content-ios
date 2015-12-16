@@ -10,10 +10,12 @@
 #import "IFDB.h"
 #import "IFWPContentProtocol.h"
 #import "IFWPSchemeHandler.h"
+#import "IFCommandScheduler.h"
 #import "IFIOCConfigurable.h"
 
 @interface IFWPContentContainer : IFContainer <IFIOCConfigurable> {
     IFConfiguration *_configTemplate;
+    IFCommandScheduler *_commandScheduler;
     
 }
 

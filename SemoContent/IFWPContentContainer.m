@@ -71,6 +71,7 @@
             }
         };
         _configTemplate = [[IFConfiguration alloc] initWithData:template];
+        _commandScheduler = [[IFCommandScheduler alloc] init];
     }
     return self;
 }
@@ -123,9 +124,13 @@
         @"listFormats":         _listFormats,
         @"postFormats":         _postFormats
     };
+    
     // Generate the full container configuration.
     IFConfiguration *componentConfig = [_configTemplate extendWithParameters:parameters];
     [self configureWith:componentConfig];
+    
+    // Configure the command scheduler.
+    _commandScheduler.commands = @{ @"content": _contentProtocol };
 }
 
 @end

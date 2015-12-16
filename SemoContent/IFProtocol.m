@@ -32,6 +32,28 @@
     return [NSString stringWithFormat:@"%@.%@", _commandPrefix, name ];
 }
 
+- (NSDictionary *)parseArgArray:(NSArray *)args defaults:(NSDictionary *)defaults {
+    NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
+    NSString *name = nil;
+    id value = nil;
+    for (NSString *arg in args) {
+        if ([arg hasPrefix:@"-"]) {
+            name = [arg substringFromIndex:1];
+            value = [defaults objectForKey:name];
+            if (value == nil) {
+                value = @1;
+            }
+        }
+        else {
+            value = arg;
+        }
+        if (name && value) {
+            [result setObject:value forKey:name];
+        }
+    }
+    return result;
+}
+
 #pragma mark - IFCommand protocol
 
 - (QPromise *)execute:(NSString *)name withArgs:(NSArray *)args {

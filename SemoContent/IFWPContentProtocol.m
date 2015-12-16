@@ -19,6 +19,7 @@
 - (QPromise *)refresh:(NSArray *)args;
 - (QPromise *)stage:(NSArray *)args;
 - (QPromise *)deploy:(NSArray *)args;
+- (QPromise *)unpack:(NSArray *)args;
 
 @end
 
@@ -38,6 +39,9 @@
         [self addCommand:@"deploy" withBlock:^QPromise *(NSArray *args) {
             return [this deploy:args];
         }];
+        [self addCommand:@"unpack" withBlock:^QPromise *(NSArray *args) {
+            return [this unpack:args];
+        }];
     }
     return self;
 }
@@ -50,15 +54,15 @@
 }
 
 - (QPromise *)refresh:(NSArray *)args {
-    NSString *refreshURL = _feedURL;
-    // Any arguments supplied indicate 'since' and 'page' values, which are supplied when a
-    // follow up requests are generated for multi-page feed results.
+    NSDictionary *_args = [self parseArgArray:args defaults:@{ @"refreshURL": _feedURL }];
+    NSString *refreshURL = [_args objectForKey:@"refreshURL"];
+    // A follow-up refresh with 'since' and 'page' args is generated for multi-page feed results.
     // NOTE: It is important that the 'since' parameter is passed here so that each page of
     // the feed response is requested with the same starting position.
-    if ([args count] >= 2) {
-        id page = [args objectAtIndex:0];
-        id since = [args objectAtIndex:1];
-        refreshURL = [NSString stringWithFormat:@"%@?since=%@&page=%@", _feedURL, since, page];
+    id page = [_args objectForKey:@"page"];
+    id since = [_args objectForKey:@"since"];
+    if (page && since) {
+        refreshURL = [NSString stringWithFormat:@"%@?since=%@&page=%@", refreshURL, since, page];
     }
     else {
         // Query post DB for the last modified time.
@@ -68,7 +72,7 @@
             NSDictionary *record = [rs objectAtIndex:0];
             NSString *modifiedTime = [record objectForKey:@"modifiedTime"];
             // Construct feed URL with since parameter.
-            refreshURL = [NSString stringWithFormat:@"%@?since=%@", _feedURL, modifiedTime];
+            refreshURL = [NSString stringWithFormat:@"%@?since=%@", refreshURL, modifiedTime];
         }
         // If no posts, and no last modified time, then simply omit the 'since' parameter; the feed
         // will return all posts, starting at the earliest.
@@ -88,11 +92,15 @@
 }
 
 - (QPromise *)stage:(NSArray *)args {
+    // Parse arguments. Allow the feed file path to be optionally specified as a command argument.
+    NSDictionary *_args = [self parseArgArray:args defaults:@{ @"feedFile": _feedFile }];
+    NSString *feedFile = [_args objectForKey:@"feedFile"];
+    // List of generated commands.
     NSMutableArray *commands = [[NSMutableArray alloc] init];
     // Read result of previous get.
     // Data format:
     // { since:,  page: { size:, number:, count: }, items }
-    NSDictionary *feedData = [IFFileIO readJSONFromFileAtPath:_feedFile encoding:NSUTF8StringEncoding];
+    NSDictionary *feedData = [IFFileIO readJSONFromFileAtPath:feedFile encoding:NSUTF8StringEncoding];
     NSArray *feedItems = [feedData objectForKey:@"items"];
     // Iterate over items and generate commands to download base content & media items.
     for (NSDictionary *item in feedItems) {
@@ -112,9 +120,10 @@
             }];
         }
         else if ([@"attachment" isEqualToString:type]) {
+            NSString *path = [_stagedContentPath stringByAppendingPathComponent:[item objectForKey:@"filename"]];
             [commands addObject:@{
                 @"name":  @"get",
-                @"args":  @[ [item objectForKey:@"url"], _stagedContentPath, @3 ]
+                @"args":  @[ [item objectForKey:@"url"], path, @3 ]
             }];
         }
     }
@@ -126,11 +135,15 @@
 }
 
 - (QPromise *)deploy:(NSArray *)args {
+    // Parse arguments. Allow the feed file path to be optionally specified as a command argument.
+    NSDictionary *_args = [self parseArgArray:args defaults:@{ @"feedFile": _feedFile }];
+    NSString *feedFile = [_args objectForKey:@"feedFile"];
+    // List of generated commands.
     NSMutableArray *commands = [[NSMutableArray alloc] init];
     // Read result of previous get.
     // Data format:
     // { since:,  page: { size:, number:, count: }, items }
-    NSDictionary *feedData = [IFFileIO readJSONFromFileAtPath:_feedFile encoding:NSUTF8StringEncoding];
+    NSDictionary *feedData = [IFFileIO readJSONFromFileAtPath:feedFile encoding:NSUTF8StringEncoding];
     NSArray *feedItems = [feedData objectForKey:@"items"];
     // Iterate over items and update post database.
     [_postDB beginTransaction];
@@ -146,22 +159,49 @@
     }];
     [commands addObject:@{
         @"name":  @"rm",
-        @"args":  @[ _feedFile ]
+        @"args":  @[ feedFile ]
     }];
     // Check whether this is a multi-page feed response, and whether a follow up refresh request needs to
     // be scheduled.
     NSInteger pageCount = [[feedData getValueAsNumber:@"page.count"] integerValue];
     NSInteger pageNumber = [[feedData getValueAsNumber:@"page.number"] integerValue];
     if (pageNumber < pageCount) {
-        NSArray *args = @[ [NSNumber numberWithInteger:pageCount + 1] ];
+        NSArray *args = @[ @"page", [NSNumber numberWithInteger:pageCount + 1] ];
         NSString *since = [feedData getValueAsString:@"since"];
         if (since) {
-            args = [args arrayByAddingObject:since];
+            args = [args arrayByAddingObjectsFromArray:@[ @"since", since ]];
         }
         [commands addObject:@{
             @"name":  [self qualifiedCommandName:@"refresh"],
             @"args":  args
         }];
+    }
+    return [Q resolve:commands];
+}
+
+- (QPromise *)unpack:(NSArray *)args {
+    NSMutableArray *commands = [[NSMutableArray alloc] init];
+    // Parse arguments.
+    NSDictionary *_args = [self parseArgArray:args defaults:nil];
+    NSString *packagedContentPath = [_args objectForKey:@"packagedContentPath"];
+    if (packagedContentPath) {
+        NSString *feedFile = [packagedContentPath stringByAppendingPathComponent:@"feed.json"];
+        NSString *baseContentFile = [packagedContentPath stringByAppendingPathComponent:@"base-content.zip"];
+        // Read initial posts data from packaged feed file.
+        NSDictionary *feedData = [IFFileIO readJSONFromFileAtPath:feedFile encoding:NSUTF8StringEncoding];
+        NSArray *feedItems = [feedData objectForKey:@"items"];
+        // Iterate over items and update post database.
+        [_postDB beginTransaction];
+        for (NSDictionary *item in feedItems) {
+            [_postDB updateValues:item inTable:@"posts"];
+        }
+        [_postDB commitTransaction];
+        // Schedule command to unzip base content.
+        NSDictionary *unzipCommand = @{
+            @"name":  @"unzip",
+            @"args":  @[ baseContentFile, _baseContentPath ]
+        };
+        [commands addObject:unzipCommand];
     }
     return [Q resolve:commands];
 }
