@@ -104,7 +104,7 @@
             }];
             [commands addObject:@{
                 @"name":  @"unzip",
-                @"args":  @[ _baseContentFile, _stagedContentPath ]
+                @"args":  @[ _baseContentFile, _baseContentPath ]
             }];
             [commands addObject:@{
                 @"name":  @"rm",
@@ -135,12 +135,9 @@
     // Iterate over items and update post database.
     [_postDB beginTransaction];
     for (NSDictionary *item in feedItems) {
-        NSString *type = [item objectForKey:@"type"];
-        if (![BaseContentType isEqualToString:type]) { // Base content items aren't inserted into the db.
-            [_postDB updateValues:item inTable:@"posts"];
-        }
+        [_postDB updateValues:item inTable:@"posts"];
     }
-    // TODO: Option to delete trashed posts?
+    // TODO: Option to delete trashed posts? e.g. delete all trashed posts over a certain age.
     [_postDB commitTransaction];
     // Commands to move staged content and delete temporary files.
     [commands addObject:@{

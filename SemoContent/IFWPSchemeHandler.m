@@ -8,6 +8,7 @@
 
 #import "IFWPSchemeHandler.h"
 #import "IFSemoContent.h"
+#import "IFWPClientTemplateContext.h"
 #import "IFDBFilter.h"
 #import "IFDataFormatter.h"
 #import "IFRegExp.h"
@@ -35,6 +36,7 @@ static IFLogger *Logger;
     self = [super init];
     if (self) {
         _fileManager = [NSFileManager defaultManager];
+        _templateContext = [[IFWPClientTemplateContext alloc] initWithParent:self];
     }
     return self;
 }
@@ -44,6 +46,9 @@ static IFLogger *Logger;
     // * posts:                 Query all posts, and possibly filter by specified parameters.
     // * posts/filter/{name}:   Query all posts and apply the named filter.
     // * posts/{id}             Return the post with the specified ID.
+    // TODO: Would it make more sense to use the first name component - i.e. 'posts' in all of the above
+    // examples - as the data format name? Or posts/{filter}, post/{filter}/{id} ? Note also that the list
+    // filter will need to generate URIs referencing the post detail.
     NSString *path = uri.name;
     NSArray *pathComponents = [path split:@"/"];
     if ([pathComponents count] > 0 && [@"posts" isEqualToString:[pathComponents objectAtIndex:0]]) {
@@ -137,7 +142,8 @@ static IFLogger *Logger;
     // Assume at this point that the template file exists.
     NSString *template = [NSString stringWithContentsOfFile:templatePath encoding:NSUTF8StringEncoding error:nil];
     // Generate the full post HTML using the post data and the client template.
-    NSString *postHTML = [IFStringTemplate render:template context:postData];
+    _templateContext.postData = postData;
+    NSString *postHTML = [IFStringTemplate render:template context:_templateContext];
     // Add the post HTML to the post data.
     // TODO: Review the dictionary key.
     postData = [postData dictionaryWithAddedObject:postHTML forKey:@"postHTML"];

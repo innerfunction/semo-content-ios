@@ -7,6 +7,7 @@
 //
 
 #import "IFWPContentContainer.h"
+#import "IFSemoContent.h"
 #import "NSDictionary+IF.h"
 
 @implementation IFWPContentContainer
@@ -15,8 +16,9 @@
     self = [super init];
     if (self) {
         self.postDBName = @"com.innerfunction.semo.content";
-        self.contentLocation = @"caches";
         self.feedURL = @"";
+        self.packagedContentPath = @"semo/content";
+        self.uriSchemeName = @"wp";
         self.listFormats = @{
             @"table": @{
                 @"ios:class": @"IFWPDataTableFormatter"
@@ -43,7 +45,7 @@
                             @"modified":    @{ @"type": @"TEXT" },      // Modification date/time; ISO 8601 format string.
                             @"content":     @{ @"type": @"TEXT" },
                             @"imageid":     @{ @"type": @"INTEGER" },   // ID of the post's featured image.
-                            @"policy":      @{ @"type": @"STRING" },    // The post's download policy.
+                            @"location":    @{ @"type": @"STRING" },    // The post's location; packaged, downloaded or server.
                             @"url":         @{ @"type": @"STRING" },    // The post's WP URL.
                             @"filename":    @{ @"type": @"TEXT" }       // Name of associated media file (i.e. for attachments)
                         }
@@ -51,18 +53,21 @@
                 }
             },
             @"contentProtocol": @{
-                @"ios:class":   @"IFWPContentProtocol",
-                @"feedURL":     @"$feedURL",
-                @"postDB":      @"@named:postDB",
-                @"stagingPath": @"$stagingPath",
-                @"contentPath": @"$contentPath"
+                @"ios:class":           @"IFWPContentProtocol",
+                @"feedURL":             @"$feedURL",
+                @"postDB":              @"@named:postDB",
+                @"stagingPath":         @"$stagingPath",
+                @"packagedContentPath": @"$packagedContentPath",
+                @"baseContentPath":     @"$baseContentPath",
+                @"contentPath":         @"$contentPath"
             },
             @"uriScheme": @{
-                @"ios:class":   @"IFWPSchemeHandler",
-                @"postDB":      @"@named:postDB",
-                @"listFormats": @"$listFormats",
-                @"postFormats": @"$postFormats",
-                @"contentPath": @"$contentPath"
+                @"ios:class":           @"IFWPSchemeHandler",
+                @"postDB":              @"@named:postDB",
+                @"listFormats":         @"$listFormats",
+                @"postFormats":         @"$postFormats",
+                @"baseContentPath":     @"$baseContentPath",
+                @"contentPath":         @"$contentPath"
             }
         };
         _configTemplate = [[IFConfiguration alloc] initWithData:template];
@@ -88,29 +93,35 @@
     //   it is deployed to the content path and deleted from the staging location. The staging path is placed
     //   under NSApplicationSupportDirectory to avoid it being deleted by the system mid-download, if the system
     //   needs to free up disk space.
-    // * Deployed content is stored under the content path, which is placed under NSCachesDirectory. This means
-    //   that the system may remove this content if disk space is required. It is possible to change this location
-    //   by changing the value of the contentLocation property from 'caches' to 'applicationsupport'.
+    // * Base content is deployed under NSApplicationSupportDirectory to avoid it being cleared by the system.
+    // * All other content is deployed under NSCachesDirectory, where the system may remove it if it needs to
+    //   recover disk space. If this happens then Semo will attempt to re-downloaded the content again, if needed.
     // See:
     // http://developer.apple.com/library/ios/#documentation/FileManagement/Conceptual/FileSystemProgrammingGUide/FileSystemOverview/FileSystemOverview.html
     // https://developer.apple.com/library/ios/#documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/PerformanceTuning/PerformanceTuning.html#//apple_ref/doc/uid/TP40007072-CH8-SW8
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
     NSString *cachePath = [paths objectAtIndex:0];
     NSString *stagingPath = [cachePath stringByAppendingPathComponent:@"com.innerfunction.semo.staging"];
+    NSString *baseContentPath = [cachePath stringByAppendingPathComponent:@"com.innerfunction.semo.base"];
+    
     // Switch cache path for content location.
-    if ([_contentLocation isEqualToString:@"caches"]) {
-        paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-        cachePath = [paths objectAtIndex:0];
-    }
+    paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    cachePath = [paths objectAtIndex:0];
     NSString *contentPath = [cachePath stringByAppendingPathComponent:@"com.innerfunction.semo.content"];
+    
+    // Packaged content is packaged with the app executable.
+    NSString *packagedContentPath = [MainBundlePath stringByAppendingPathComponent:_packagedContentPath];
+    
     // Setup configuration parameters.
     id parameters = @{
-        @"postDBName":  _postDBName,
-        @"feedURL":     _feedURL,
-        @"stagingPath": stagingPath,
-        @"contentPath": contentPath,
-        @"listFormats": _listFormats,
-        @"postFormats": _postFormats
+        @"postDBName":          _postDBName,
+        @"feedURL":             _feedURL,
+        @"stagingPath":         stagingPath,
+        @"packagedContentPath": packagedContentPath,
+        @"baseContentPath":     baseContentPath,
+        @"contentPath":         contentPath,
+        @"listFormats":         _listFormats,
+        @"postFormats":         _postFormats
     };
     // Generate the full container configuration.
     IFConfiguration *componentConfig = [_configTemplate extendWithParameters:parameters];

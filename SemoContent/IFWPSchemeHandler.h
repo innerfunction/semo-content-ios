@@ -10,6 +10,8 @@
 #import "IFURIHandling.h"
 #import "IFDB.h"
 
+@class IFWPClientTemplateContext;
+
 /**
  * Handler for URIs in the wp: scheme.
  * The wp: scheme provides access to Wordpress posts downloaded to the local content database.
@@ -27,6 +29,7 @@
  */
 @interface IFWPSchemeHandler : NSObject <IFSchemeHandler> {
     NSFileManager *_fileManager;
+    IFWPClientTemplateContext *_templateContext;
 }
 
 /** The WP post database. */
@@ -37,6 +40,10 @@
 @property (nonatomic, strong) NSDictionary *listFormats;
 /** Map of pre-defined post item formats, keyed by name. */
 @property (nonatomic, strong) NSDictionary *postFormats;
+/** Path to directory holding pre-packaged content. */
+@property (nonatomic, strong) NSString *packagedContentPath;
+/** Path to directory holding base content. */
+@property (nonatomic, strong) NSString *baseContentPath;
 /** Path to the content directory (i.e. location of downloaded images and other media resources). */
 @property (nonatomic, strong) NSString *contentPath;
 

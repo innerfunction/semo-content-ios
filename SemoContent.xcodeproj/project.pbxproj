@@ -47,6 +47,8 @@
 		0768D5F81C15C125003FA390 /* PLSqliteResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5E31C15C125003FA390 /* PLSqliteResultSet.m */; };
 		078F95E81C19D79C00D96C63 /* IFWPSchemeHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 078F95E61C19D79C00D96C63 /* IFWPSchemeHandler.h */; };
 		078F95E91C19D79C00D96C63 /* IFWPSchemeHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 078F95E71C19D79C00D96C63 /* IFWPSchemeHandler.m */; };
+		07B8748D1C20D992008B741E /* IFWPClientTemplateContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 07B8748B1C20D992008B741E /* IFWPClientTemplateContext.h */; };
+		07B8748E1C20D992008B741E /* IFWPClientTemplateContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 07B8748C1C20D992008B741E /* IFWPClientTemplateContext.m */; };
 		07B8DB751C1B17DF002A1D61 /* IFDBFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 07B8DB731C1B17DF002A1D61 /* IFDBFilter.h */; };
 		07B8DB761C1B17DF002A1D61 /* IFDBFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 07B8DB741C1B17DF002A1D61 /* IFDBFilter.m */; };
 		07C7076A1C186DBF00A6BA6D /* IFWPContentProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 07C707681C186DBF00A6BA6D /* IFWPContentProtocol.h */; };
@@ -119,6 +121,8 @@
 		0768D5E31C15C125003FA390 /* PLSqliteResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PLSqliteResultSet.m; path = Externals/PlausibleDatabase/PLSqliteResultSet.m; sourceTree = SOURCE_ROOT; };
 		078F95E61C19D79C00D96C63 /* IFWPSchemeHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFWPSchemeHandler.h; sourceTree = "<group>"; };
 		078F95E71C19D79C00D96C63 /* IFWPSchemeHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFWPSchemeHandler.m; sourceTree = "<group>"; };
+		07B8748B1C20D992008B741E /* IFWPClientTemplateContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFWPClientTemplateContext.h; sourceTree = "<group>"; };
+		07B8748C1C20D992008B741E /* IFWPClientTemplateContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFWPClientTemplateContext.m; sourceTree = "<group>"; };
 		07B8DB731C1B17DF002A1D61 /* IFDBFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFDBFilter.h; sourceTree = "<group>"; };
 		07B8DB741C1B17DF002A1D61 /* IFDBFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFDBFilter.m; sourceTree = "<group>"; };
 		07C707681C186DBF00A6BA6D /* IFWPContentProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFWPContentProtocol.h; sourceTree = "<group>"; };
@@ -228,6 +232,8 @@
 				07667AB51C1F017200602DEE /* IFWPDataTableFormatter.m */,
 				07667AB81C1F01DA00602DEE /* IFWPDataWebviewFormatter.h */,
 				07667AB91C1F01DA00602DEE /* IFWPDataWebviewFormatter.m */,
+				07B8748B1C20D992008B741E /* IFWPClientTemplateContext.h */,
+				07B8748C1C20D992008B741E /* IFWPClientTemplateContext.m */,
 			);
 			name = com.innerfunction.semo.content;
 			sourceTree = "<group>";
@@ -319,6 +325,7 @@
 				0768D5C91C15AC3D003FA390 /* IFDBHelper.h in Headers */,
 				07372E9D1C171E1A00B36945 /* IFGetURLCommand.h in Headers */,
 				078F95E81C19D79C00D96C63 /* IFWPSchemeHandler.h in Headers */,
+				07B8748D1C20D992008B741E /* IFWPClientTemplateContext.h in Headers */,
 				070616BB1C15A615003485FD /* SemoContent.h in Headers */,
 				07667AB61C1F017200602DEE /* IFWPDataTableFormatter.h in Headers */,
 				07C7076E1C18AA5800A6BA6D /* IFProtocol.h in Headers */,
@@ -491,6 +498,7 @@
 				072774B91C163AB700A34294 /* IFCommandScheduler.m in Sources */,
 				07B8DB761C1B17DF002A1D61 /* IFDBFilter.m in Sources */,
 				07F1E9D01C1B3258002B6C64 /* IFWPContentContainer.m in Sources */,
+				07B8748E1C20D992008B741E /* IFWPClientTemplateContext.m in Sources */,
 				0768D5F61C15C125003FA390 /* PLSqlitePreparedStatement.m in Sources */,
 				07DBB2471C173F87005351AE /* IFUnzipCommand.m in Sources */,
 				0768D5C61C15AB70003FA390 /* IFDB.m in Sources */,

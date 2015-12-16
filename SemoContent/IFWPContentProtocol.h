@@ -25,6 +25,10 @@
 @property (nonatomic, strong) IFDB *postDB;
 /** Path to directory holding staged content. */
 @property (nonatomic, strong) NSString *stagingPath;
+/** Path to directory holding base content. */
+@property (nonatomic, strong) NSString *baseContentPath;
+/** Path to directory containing pre-packaged content. */
+@property (nonatomic, strong) NSString *packagedContentPath;
 /** Path to directory hosting downloaded content. */
 @property (nonatomic, strong) NSString *contentPath;
 
