@@ -145,7 +145,7 @@ static dispatch_queue_t execQueue;
         // Queue any new commands, delete current command from db.
         [_db beginTransaction];
         for (id item in newCommands) {
-            NSDictionary *newCommand = [self parseCommand:item];
+            NSDictionary *newCommand = [self parseCommandItem:item];
             if (!newCommand) {
                 // Indicates an unparseable command line string; just continue to the next command.
                 continue;
@@ -203,7 +203,7 @@ static dispatch_queue_t execQueue;
     });
 }
 
-- (NSDictionary *)parseCommand:(id)item {
+- (NSDictionary *)parseCommandItem:(id)item {
     if ([item isKindOfClass:[NSDictionary class]]) {
         return (NSDictionary *)item;
     }
@@ -241,7 +241,7 @@ static dispatch_queue_t execQueue;
         NSString *commandline = [[NSString alloc] initWithFormat:command arguments:_args];
         va_end(_args);
         // Append the new command.
-        NSDictionary *commandDesc = [self parseCommand:commandline];
+        NSDictionary *commandDesc = [self parseCommandItem:commandline];
         if (commandDesc) {
             NSString *name = [commandDesc valueForKey:@"name"];
             NSArray *args = [commandDesc valueForKey:@"args"];

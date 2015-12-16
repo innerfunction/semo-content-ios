@@ -29,7 +29,6 @@
  */
 @interface IFWPSchemeHandler : NSObject <IFSchemeHandler> {
     NSFileManager *_fileManager;
-    IFWPClientTemplateContext *_templateContext;
 }
 
 /** The WP post database. */
@@ -46,5 +45,7 @@
 @property (nonatomic, strong) NSString *baseContentPath;
 /** Path to the content directory (i.e. location of downloaded images and other media resources). */
 @property (nonatomic, strong) NSString *contentPath;
+/** An object to use as the template context when rendering the client template for a post. */
+@property (nonatomic, strong) IFWPClientTemplateContext *clientTemplateContext;
 
 @end

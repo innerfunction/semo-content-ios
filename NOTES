@@ -35,15 +35,18 @@ template rendering.
 a separate location anyway?)
 
 Pre-packaged content + purged content restoration:
-1. Initial base content location is within packaged content. Also: How to decide when to unpack packaged content?
+x. Initial base content location is within packaged content. Also: How to decide when to unpack packaged content?
 x. Downloaded base content unpacked to application support.
+
 3. Post webview reference URL set to base content location. (i.e. within webview config returned by wp:posts/{id} URIs).
-4. Image attachment URLs to be replaced by WP plugin when generating client template. Also: other post hrefs.
+
+x. Image attachment URLs to be replaced by WP plugin when generating client template. Also: other post hrefs.
 x. Client template to replace image attachment references with full path to image location.
-6. Client template to check attachment status and initiate downloaded of missing attachments.
+x. Client template to check attachment status and initiate downloaded of missing attachments.
 x. Content protocol to support download of individual attachments. (Use standard 'get' command, download to content path + attachment filename).
 x. Content protocol to support deployment of packaged content.
 x. New field on posts table to indicate whether attachments are located in packaged content.
+
 10. Container to manage auto-resizing of images for webview & lists?
 
 

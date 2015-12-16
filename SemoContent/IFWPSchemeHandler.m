@@ -36,7 +36,6 @@ static IFLogger *Logger;
     self = [super init];
     if (self) {
         _fileManager = [NSFileManager defaultManager];
-        _templateContext = [[IFWPClientTemplateContext alloc] initWithParent:self];
     }
     return self;
 }
@@ -142,8 +141,8 @@ static IFLogger *Logger;
     // Assume at this point that the template file exists.
     NSString *template = [NSString stringWithContentsOfFile:templatePath encoding:NSUTF8StringEncoding error:nil];
     // Generate the full post HTML using the post data and the client template.
-    _templateContext.postData = postData;
-    NSString *postHTML = [IFStringTemplate render:template context:_templateContext];
+    _clientTemplateContext.postData = postData;
+    NSString *postHTML = [IFStringTemplate render:template context:_clientTemplateContext];
     // Add the post HTML to the post data.
     // TODO: Review the dictionary key.
     postData = [postData dictionaryWithAddedObject:postHTML forKey:@"postHTML"];

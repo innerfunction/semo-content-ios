@@ -14,10 +14,15 @@
 #import "IFIOCConfigurable.h"
 
 @interface IFWPContentContainer : IFContainer <IFIOCConfigurable> {
+    // Container configuration template.
     IFConfiguration *_configTemplate;
+    // Command scheduler for unpack and refresh operations.
     IFCommandScheduler *_commandScheduler;
+    // Location for staging downloaded content prior to deployment.
     NSString *_stagingPath;
+    // Base content location.
     NSString *_baseContentPath;
+    // The location of downloaded post content once deployed.
     NSString *_contentPath;
 }
 
@@ -39,10 +44,16 @@
 @property (nonatomic, strong) NSDictionary *listFormats;
 /** Post data formats. */
 @property (nonatomic, strong) NSDictionary *postFormats;
+/** Template for generating post URIs. See uriForPostWithID: */
+@property (nonatomic, strong) NSString *postURITemplate;
 
 /** Unpack packaged content. */
 - (void)unpackPackagedContent;
+/** Refresh content. */
+- (void)refreshContent;
 /** Download content from the specified URL and store in the content location using the specified filename. */
 - (void)getContentFromURL:(NSString *)url writeToFilename:(NSString *)filename;
+/** Generate a URI to reference the post with the specified ID. */
+- (NSString *)uriForPostWithID:(NSString *)postID;
 
 @end

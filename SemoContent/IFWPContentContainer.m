@@ -8,6 +8,7 @@
 
 #import "IFWPContentContainer.h"
 #import "IFSemoContent.h"
+#import "IFStringTemplate.h"
 #import "NSDictionary+IF.h"
 
 @implementation IFWPContentContainer
@@ -29,10 +30,12 @@
                 @"ios:class": @"IFWPDataWebviewFormatter"
             }
         };
-        // Configuration template.
+        self.postURITemplate = @"{uriSchemeName}:/post/{postID}";
+        
+        // Configuration template. Note that the top-level property types are inferred from the
+        // corresponding properties on the container object (i.e. self).
         id template = @{
             @"postDB": @{
-                @"ios:class":   @"IFDB", // NOTE: These types can potentially be inferred from the property, if named are mapped to container props.
                 @"name":        @"$postDBName",
                 @"version":     @1,
                 @"tables": @{
@@ -53,22 +56,23 @@
                 }
             },
             @"contentProtocol": @{
-                @"ios:class":           @"IFWPContentProtocol",
-                @"feedURL":             @"$feedURL",
-                @"postDB":              @"@named:postDB",
-                @"stagingPath":         @"$stagingPath",
-                @"packagedContentPath": @"$packagedContentPath",
-                @"baseContentPath":     @"$baseContentPath",
-                @"contentPath":         @"$contentPath"
+                @"feedURL":                 @"$feedURL",
+                @"postDB":                  @"@named:postDB",
+                @"stagingPath":             @"$stagingPath",
+                @"packagedContentPath":     @"$packagedContentPath",
+                @"baseContentPath":         @"$baseContentPath",
+                @"contentPath":             @"$contentPath"
             },
             @"uriScheme": @{
-                @"ios:class":           @"IFWPSchemeHandler",
-                @"postDB":              @"@named:postDB",
-                @"listFormats":         @"$listFormats",
-                @"postFormats":         @"$postFormats",
-                @"baseContentPath":     @"$baseContentPath",
-                @"contentPath":         @"$contentPath"
-            }
+                @"postDB":                  @"@named:postDB",
+                @"listFormats":             @"$listFormats",
+                @"postFormats":             @"$postFormats",
+                @"baseContentPath":         @"$baseContentPath",
+                @"contentPath":             @"$contentPath",
+                @"clientTemplateContext":   @{ @"ios:class": @"IFWPClientTemplateContext" }
+            },
+            @"packagedContentPath":         @"$packagedContentPath",
+            @"contentPath":                 @"$contentPath"
         };
         _configTemplate = [[IFConfiguration alloc] initWithData:template];
         _commandScheduler = [[IFCommandScheduler alloc] init];
@@ -112,10 +116,20 @@
     }
 }
 
+- (void)refreshContent {
+    [_commandScheduler appendCommand:@"content.refresh"];
+    [_commandScheduler executeQueue];
+}
+
 - (void)getContentFromURL:(NSString *)url writeToFilename:(NSString *)filename {
     NSString *filepath = [_contentPath stringByAppendingPathComponent:filename];
     [_commandScheduler appendCommand:@"get %@ %@", url, filepath];
     [_commandScheduler executeQueue];
+}
+
+- (NSString *)uriForPostWithID:(NSString *)postID {
+    NSDictionary *context = @{ @"uriSchemeName": _uriSchemeName, @"postID": postID };
+    return [IFStringTemplate render:_postURITemplate context:context];
 }
 
 #pragma mark - IFIOCConfigurable
