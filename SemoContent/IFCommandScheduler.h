@@ -39,6 +39,8 @@
 - (void)executeQueue;
 /** Append a new command to the queue. */
 - (void)appendCommand:(NSString *)name withArgs:(NSArray *)args;
+/** Append a new command to the queue. */
+- (void)appendCommand:(NSString *)command, ...;
 /** Purge the current execution queue. */
 - (void)purgeQueue;
 /** Purge the current command batch. */

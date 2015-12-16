@@ -25,6 +25,13 @@ static dispatch_queue_t execQueue;
 
 /** Execute the next command on the exec queue. */
 - (void)executeNextCommand;
+/**
+ * Parse a command item into a command descriptor.
+ * The command item can be either:
+ * 1. Already a descriptor, specified as an NSDictionary instance, in which case it is returned unchanged;
+ * 2. Or a command line string, in which case it is parsed and a new descriptor is returned.
+ */
+- (NSDictionary *)parseCommandItem:(id)item;
 
 @end
 
@@ -137,7 +144,12 @@ static dispatch_queue_t execQueue;
     .then((id)^(NSArray *newCommands) {
         // Queue any new commands, delete current command from db.
         [_db beginTransaction];
-        for (NSDictionary *newCommand in newCommands) {
+        for (id item in newCommands) {
+            NSDictionary *newCommand = [self parseCommand:item];
+            if (!newCommand) {
+                // Indicates an unparseable command line string; just continue to the next command.
+                continue;
+            }
             NSString *newName = [newCommand valueForKey:@"name"];
             // Check for system commands.
             if ([@"control.purge-queue" isEqualToString:newName]) {
@@ -191,6 +203,24 @@ static dispatch_queue_t execQueue;
     });
 }
 
+- (NSDictionary *)parseCommand:(id)item {
+    if ([item isKindOfClass:[NSDictionary class]]) {
+        return (NSDictionary *)item;
+    }
+    NSString *line = [item description];
+    NSArray *parts = [line split:@" "];
+    if ([parts count] > 0) {
+        NSString *name = [parts objectAtIndex:0];
+        NSArray *args = @[];
+        if ([parts count] > 1) {
+            args = [parts subarrayWithRange:NSMakeRange(1, [parts count] - 1)];
+        }
+        return @{ @"name": name, @"args": args };
+    }
+    [Logger warn:@"Invalid command line: %@", line];
+    return nil;
+}
+
 - (void)appendCommand:(NSString *)name withArgs:(NSArray *)args {
     [Logger debug:@"Appending %@ %@", name, args];
     NSNumber *batch = [NSNumber numberWithInteger:_currentBatch];
@@ -201,6 +231,23 @@ static dispatch_queue_t execQueue;
         @"status":  @"P"
     };
     [_db insertValues:values intoTable:@"queue"];
+}
+
+- (void)appendCommand:(NSString *)command, ... {
+    if (command) {
+        // Construct the command line string from the arguments.
+        va_list _args;
+        va_start(_args, command);
+        NSString *commandline = [[NSString alloc] initWithFormat:command arguments:_args];
+        va_end(_args);
+        // Append the new command.
+        NSDictionary *commandDesc = [self parseCommand:commandline];
+        if (commandDesc) {
+            NSString *name = [commandDesc valueForKey:@"name"];
+            NSArray *args = [commandDesc valueForKey:@"args"];
+            [self appendCommand:name withArgs:args];
+        }
+    }
 }
 
 - (void)purgeQueue {

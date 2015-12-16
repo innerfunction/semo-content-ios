@@ -16,7 +16,9 @@
 @interface IFWPContentContainer : IFContainer <IFIOCConfigurable> {
     IFConfiguration *_configTemplate;
     IFCommandScheduler *_commandScheduler;
-    
+    NSString *_stagingPath;
+    NSString *_baseContentPath;
+    NSString *_contentPath;
 }
 
 /** The name of the posts DB. */
@@ -37,5 +39,10 @@
 @property (nonatomic, strong) NSDictionary *listFormats;
 /** Post data formats. */
 @property (nonatomic, strong) NSDictionary *postFormats;
+
+/** Unpack packaged content. */
+- (void)unpackPackagedContent;
+/** Download content from the specified URL and store in the content location using the specified filename. */
+- (void)getContentFromURL:(NSString *)url writeToFilename:(NSString *)filename;
 
 @end

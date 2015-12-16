@@ -195,6 +195,17 @@ static IFLogger *Logger;
     return result;
 }
 
+- (NSInteger)countInTable:(NSString *)table where:(NSString *)where {
+    NSInteger count = 0;
+    NSString *sql = [NSString stringWithFormat:@"SELECT count(*) AS count FROM %@ WHERE %@", table, where];
+    NSArray *result = [self performQuery:sql withParams:@[]];
+    if ([result count] > 0) {
+        NSDictionary *record = [result objectAtIndex:0];
+        count = [(NSNumber *)[record objectForKey:@"count"] integerValue];
+    }
+    return count;
+}
+
 - (NSDictionary *)readRowFromResultSet:(id<PLResultSet>)rs {
     NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
     int colCount = [rs getColumnCount];

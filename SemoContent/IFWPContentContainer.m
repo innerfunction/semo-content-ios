@@ -72,6 +72,27 @@
         };
         _configTemplate = [[IFConfiguration alloc] initWithData:template];
         _commandScheduler = [[IFCommandScheduler alloc] init];
+        
+        // NOTES on staging and content paths:
+        // * Freshly downloaded content is stored under the staging path until the download is complete, after which
+        //   it is deployed to the content path and deleted from the staging location. The staging path is placed
+        //   under NSApplicationSupportDirectory to avoid it being deleted by the system mid-download, if the system
+        //   needs to free up disk space.
+        // * Base content is deployed under NSApplicationSupportDirectory to avoid it being cleared by the system.
+        // * All other content is deployed under NSCachesDirectory, where the system may remove it if it needs to
+        //   recover disk space. If this happens then Semo will attempt to re-downloaded the content again, if needed.
+        // See:
+        // http://developer.apple.com/library/ios/#documentation/FileManagement/Conceptual/FileSystemProgrammingGUide/FileSystemOverview/FileSystemOverview.html
+        // https://developer.apple.com/library/ios/#documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/PerformanceTuning/PerformanceTuning.html#//apple_ref/doc/uid/TP40007072-CH8-SW8
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+        NSString *cachePath = [paths objectAtIndex:0];
+        _stagingPath = [cachePath stringByAppendingPathComponent:@"com.innerfunction.semo.staging"];
+        _baseContentPath = [cachePath stringByAppendingPathComponent:@"com.innerfunction.semo.base"];
+        
+        // Switch cache path for content location.
+        paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+        cachePath = [paths objectAtIndex:0];
+        _contentPath = [cachePath stringByAppendingPathComponent:@"com.innerfunction.semo.content"];
     }
     return self;
 }
@@ -84,32 +105,24 @@
     _postFormats = [_postFormats extendWith:postFormats];
 }
 
+- (void)unpackPackagedContent {
+    NSInteger count = [_postDB countInTable:_postDBName where:@"1 = 1"];
+    if (count == 0) {
+        [_commandScheduler appendCommand:@"content.unpack -packagedContentPath %@", _packagedContentPath];
+    }
+}
+
+- (void)getContentFromURL:(NSString *)url writeToFilename:(NSString *)filename {
+    NSString *filepath = [_contentPath stringByAppendingPathComponent:filename];
+    [_commandScheduler appendCommand:@"get %@ %@", url, filepath];
+    [_commandScheduler executeQueue];
+}
+
 #pragma mark - IFIOCConfigurable
 
 - (void)beforeConfiguration:(IFConfiguration *)configuration inContainer:(IFContainer *)container {}
 
 - (void)afterConfiguration:(IFConfiguration *)configuration inContainer:(IFContainer *)container {
-    // NOTES on staging and content paths:
-    // * Freshly downloaded content is stored under the staging path until the download is complete, after which
-    //   it is deployed to the content path and deleted from the staging location. The staging path is placed
-    //   under NSApplicationSupportDirectory to avoid it being deleted by the system mid-download, if the system
-    //   needs to free up disk space.
-    // * Base content is deployed under NSApplicationSupportDirectory to avoid it being cleared by the system.
-    // * All other content is deployed under NSCachesDirectory, where the system may remove it if it needs to
-    //   recover disk space. If this happens then Semo will attempt to re-downloaded the content again, if needed.
-    // See:
-    // http://developer.apple.com/library/ios/#documentation/FileManagement/Conceptual/FileSystemProgrammingGUide/FileSystemOverview/FileSystemOverview.html
-    // https://developer.apple.com/library/ios/#documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/PerformanceTuning/PerformanceTuning.html#//apple_ref/doc/uid/TP40007072-CH8-SW8
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
-    NSString *cachePath = [paths objectAtIndex:0];
-    NSString *stagingPath = [cachePath stringByAppendingPathComponent:@"com.innerfunction.semo.staging"];
-    NSString *baseContentPath = [cachePath stringByAppendingPathComponent:@"com.innerfunction.semo.base"];
-    
-    // Switch cache path for content location.
-    paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    cachePath = [paths objectAtIndex:0];
-    NSString *contentPath = [cachePath stringByAppendingPathComponent:@"com.innerfunction.semo.content"];
-    
     // Packaged content is packaged with the app executable.
     NSString *packagedContentPath = [MainBundlePath stringByAppendingPathComponent:_packagedContentPath];
     
@@ -117,10 +130,10 @@
     id parameters = @{
         @"postDBName":          _postDBName,
         @"feedURL":             _feedURL,
-        @"stagingPath":         stagingPath,
+        @"stagingPath":         _stagingPath,
         @"packagedContentPath": packagedContentPath,
-        @"baseContentPath":     baseContentPath,
-        @"contentPath":         contentPath,
+        @"baseContentPath":     _baseContentPath,
+        @"contentPath":         _contentPath,
         @"listFormats":         _listFormats,
         @"postFormats":         _postFormats
     };
@@ -131,6 +144,14 @@
     
     // Configure the command scheduler.
     _commandScheduler.commands = @{ @"content": _contentProtocol };
+}
+
+#pragma mark - IFService
+
+- (void)startService {
+    [super startService];
+    [self unpackPackagedContent];
+    [_commandScheduler executeQueue];
 }
 
 @end

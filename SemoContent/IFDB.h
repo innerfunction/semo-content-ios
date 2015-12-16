@@ -44,6 +44,8 @@
 - (NSArray *)performQuery:(NSString *)sql withParams:(NSArray *)params;
 /** Perform an update on the database using the specified parameters. Returns YES if the update succeeded. */
 - (BOOL)performUpdate:(NSString *)sql withParams:(NSArray *)params;
+/** Return the number of records matching the specified where clause in the specified table. */
+- (NSInteger)countInTable:(NSString *)table where:(NSString *)where;
 /** Insert a list of values into the named table. Each item of the list is inserted as a new record. Returns true if all records are inserted. */
 - (BOOL)insertValueList:(NSArray *)valueList intoTable:(NSString *)table;
 /** Insert values into the named table. Returns true if the record is inserted. */
