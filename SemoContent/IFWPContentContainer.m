@@ -36,8 +36,8 @@
         // corresponding properties on the container object (i.e. self).
         id template = @{
             @"postDB": @{
-                @"name":        @"$postDBName",
-                @"version":     @1,
+                @"name":                    @"$postDBName",
+                @"version":                 @1,
                 @"tables": @{
                     @"posts": @{
                         @"columns": @{
@@ -50,7 +50,9 @@
                             @"imageid":     @{ @"type": @"INTEGER" },   // ID of the post's featured image.
                             @"location":    @{ @"type": @"STRING" },    // The post's location; packaged, downloaded or server.
                             @"url":         @{ @"type": @"STRING" },    // The post's WP URL.
-                            @"filename":    @{ @"type": @"TEXT" }       // Name of associated media file (i.e. for attachments)
+                            @"filename":    @{ @"type": @"TEXT" },      // Name of associated media file (i.e. for attachments)
+                            @"parent":      @{ @"type": @"INTEGER" },   // ID of parent page/post.
+                            @"order":       @{ @"type": @"INTEGER" }    // Sort order; mapped to post.menu_order.
                         }
                     }
                 }

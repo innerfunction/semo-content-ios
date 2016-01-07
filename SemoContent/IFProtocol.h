@@ -30,7 +30,7 @@ typedef QPromise *(^IFProtocolCommandBlock) (NSArray *args);
 /**
  * Parse a command argument list.
  * Transforms a list of switch name/values (e.g. -name value) pairs into a dictionary
- * of { name: value } pairs. Name only switches are given the value @1. An dictionary
+ * of { name: value } pairs. Name only switches are given the value @1. A dictionary
  * of default switch values can optionally be provided.
  */
 - (NSDictionary *)parseArgArray:(NSArray *)args defaults:(NSDictionary *)defaults;

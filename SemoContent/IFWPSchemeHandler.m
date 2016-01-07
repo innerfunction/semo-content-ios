@@ -22,6 +22,7 @@ static IFLogger *Logger;
 @interface IFWPSchemeHandler ()
 
 - (id)queryPostsUsingFilter:(NSString *)filterName params:(NSDictionary *)params;
+- (id)getPostChildren:(NSString *)postID withParams:(NSDictionary *)params;
 - (id)getPost:(NSString *)postID withParams:(NSDictionary *)params;
 
 @end
@@ -45,18 +46,23 @@ static IFLogger *Logger;
     // * posts:                 Query all posts, and possibly filter by specified parameters.
     // * posts/filter/{name}:   Query all posts and apply the named filter.
     // * posts/{id}             Return the post with the specified ID.
+    // * posts/{id}/children:   Return the children of a post with the specified ID.
     // TODO: Would it make more sense to use the first name component - i.e. 'posts' in all of the above
     // examples - as the data format name? Or posts/{filter}, post/{filter}/{id} ? Note also that the list
     // filter will need to generate URIs referencing the post detail.
     NSString *path = uri.name;
     NSArray *pathComponents = [path split:@"/"];
     if ([pathComponents count] > 0 && [@"posts" isEqualToString:[pathComponents objectAtIndex:0]]) {
+        NSString *postID = [pathComponents objectAtIndex:1];
         switch ([pathComponents count]) {
             case 1:
                 return [self queryPostsUsingFilter:nil params:params];
             case 2:
-                return [self getPost:[pathComponents objectAtIndex:1] withParams:params];
+                return [self getPost:postID withParams:params];
             case 3:
+                if ([@"children" isEqualToString:[pathComponents objectAtIndex:2]]) {
+                    return [self getPostChildren:postID withParams:params];
+                }
                 if ([@"filter" isEqualToString:[pathComponents objectAtIndex:1]]) {
                     return [self queryPostsUsingFilter:[pathComponents objectAtIndex:2] params:params];
                 }
@@ -124,6 +130,14 @@ static IFLogger *Logger;
     return postData;
 }
 
+- (id)getPostChildren:(NSString *)postID withParams:(NSDictionary *)params {
+    IFDBFilter *filter = [[IFDBFilter alloc] init];
+    filter.table = @"posts";
+    filter.filters = @{ @"parent": postID };
+    filter.orderBy = @"order";
+    return [filter applyTo:_postDB withParameters:@{}];
+}
+
 - (id)getPost:(NSString *)postID withParams:(NSDictionary *)params {
     // Read the post data.
     NSDictionary *postData = [_postDB readRecordWithID:postID fromTable:@"posts"];
@@ -143,10 +157,16 @@ static IFLogger *Logger;
     // Generate the full post HTML using the post data and the client template.
     _clientTemplateContext.postData = postData;
     NSString *postHTML = [IFStringTemplate render:template context:_clientTemplateContext];
-    // Add the post HTML to the post data.
-    // TODO: Review the dictionary key.
-    postData = [postData dictionaryWithAddedObject:postHTML forKey:@"postHTML"];
+    // Generate a content URL within the base content directory - this to ensure that references to base
+    // content can be resolved as relative references.
+    NSString *contentURL = [NSString stringWithFormat:@"file:///%@/%@-%@.html", _contentPath, postType, postID ];
+    // Add the post content and URL to the post data.
+    [postData extendWith:@{
+        @"content":     postHTML,
+        @"contentURL":  contentURL
+    }];
     NSString *format = [params getValueAsString:@"_format" defaultValue:@"webview"];
+    // Format the data result.
     id<IFDataFormatter> formatter = [_postFormats objectForKey:format];
     if (formatter) {
         postData = [formatter formatData:postData];

@@ -120,10 +120,11 @@
             }];
         }
         else if ([@"attachment" isEqualToString:type]) {
-            NSString *path = [_stagedContentPath stringByAppendingPathComponent:[item objectForKey:@"filename"]];
+            NSString *filename = [item objectForKey:@"filename"];
+            NSString *filepath = [_stagedContentPath stringByAppendingPathComponent:filename];
             [commands addObject:@{
                 @"name":  @"get",
-                @"args":  @[ [item objectForKey:@"url"], path, @3 ]
+                @"args":  @[ [item objectForKey:@"url"], filepath, @3 ]
             }];
         }
     }
