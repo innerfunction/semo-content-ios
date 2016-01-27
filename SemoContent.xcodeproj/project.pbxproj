@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0700D2561C596F370085714E /* IFContentTableViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 0700D2541C596F370085714E /* IFContentTableViewController.h */; };
+		0700D2571C596F370085714E /* IFContentTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0700D2551C596F370085714E /* IFContentTableViewController.m */; };
 		070616BB1C15A615003485FD /* SemoContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 070616BA1C15A615003485FD /* SemoContent.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		070616C21C15A615003485FD /* SemoContent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 070616B71C15A615003485FD /* SemoContent.framework */; };
 		070616C71C15A615003485FD /* SemoContentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 070616C61C15A615003485FD /* SemoContentTests.m */; };
@@ -77,6 +79,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0700D2541C596F370085714E /* IFContentTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFContentTableViewController.h; sourceTree = "<group>"; };
+		0700D2551C596F370085714E /* IFContentTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFContentTableViewController.m; sourceTree = "<group>"; };
 		070616B71C15A615003485FD /* SemoContent.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SemoContent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		070616BA1C15A615003485FD /* SemoContent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SemoContent.h; sourceTree = "<group>"; };
 		070616BC1C15A615003485FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -162,6 +166,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0700D2531C596F190085714E /* com.innerfunction.semo.content.ui */ = {
+			isa = PBXGroup;
+			children = (
+				0700D2541C596F370085714E /* IFContentTableViewController.h */,
+				0700D2551C596F370085714E /* IFContentTableViewController.m */,
+			);
+			name = com.innerfunction.semo.content.ui;
+			sourceTree = "<group>";
+		};
 		070616AD1C15A615003485FD = {
 			isa = PBXGroup;
 			children = (
@@ -185,6 +198,7 @@
 		070616B91C15A615003485FD /* SemoContent */ = {
 			isa = PBXGroup;
 			children = (
+				0700D2531C596F190085714E /* com.innerfunction.semo.content.ui */,
 				0768D5CB1C15ACF4003FA390 /* com.innerfunction.semo.content */,
 				07C707671C186D5800A6BA6D /* com.innerfunction.semo.commands */,
 				0768D5C21C15AB31003FA390 /* com.innerfunction.semo.db */,
@@ -330,6 +344,7 @@
 				07667AB61C1F017200602DEE /* IFWPDataTableFormatter.h in Headers */,
 				07C7076E1C18AA5800A6BA6D /* IFProtocol.h in Headers */,
 				0768D5C51C15AB70003FA390 /* IFDB.h in Headers */,
+				0700D2561C596F370085714E /* IFContentTableViewController.h in Headers */,
 				0768D5EB1C15C125003FA390 /* PLDatabaseMigrationTransactionManager.h in Headers */,
 				0768D5F51C15C125003FA390 /* PLSqlitePreparedStatement.h in Headers */,
 				0768D5EE1C15C125003FA390 /* PLResultSet.h in Headers */,
@@ -501,6 +516,7 @@
 				07B8748E1C20D992008B741E /* IFWPClientTemplateContext.m in Sources */,
 				0768D5F61C15C125003FA390 /* PLSqlitePreparedStatement.m in Sources */,
 				07DBB2471C173F87005351AE /* IFUnzipCommand.m in Sources */,
+				0700D2571C596F370085714E /* IFContentTableViewController.m in Sources */,
 				0768D5C61C15AB70003FA390 /* IFDB.m in Sources */,
 				0768D5F81C15C125003FA390 /* PLSqliteResultSet.m in Sources */,
 				0768D5E51C15C125003FA390 /* PlausibleDatabase.m in Sources */,
