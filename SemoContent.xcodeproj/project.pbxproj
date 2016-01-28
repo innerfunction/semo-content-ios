@@ -27,28 +27,30 @@
 		0768D5C91C15AC3D003FA390 /* IFDBHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5C71C15AC3D003FA390 /* IFDBHelper.h */; };
 		0768D5CA1C15AC3D003FA390 /* IFDBHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5C81C15AC3D003FA390 /* IFDBHelper.m */; };
 		0768D5E41C15C125003FA390 /* PlausibleDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5CF1C15C125003FA390 /* PlausibleDatabase.h */; };
-		0768D5E51C15C125003FA390 /* PlausibleDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5D01C15C125003FA390 /* PlausibleDatabase.m */; };
+		0768D5E51C15C125003FA390 /* PlausibleDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5D01C15C125003FA390 /* PlausibleDatabase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0768D5E61C15C125003FA390 /* PLDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5D11C15C125003FA390 /* PLDatabase.h */; };
 		0768D5E71C15C125003FA390 /* PLDatabaseConnectionProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5D21C15C125003FA390 /* PLDatabaseConnectionProvider.h */; };
 		0768D5E81C15C125003FA390 /* PLDatabaseMigrationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5D31C15C125003FA390 /* PLDatabaseMigrationDelegate.h */; };
 		0768D5E91C15C125003FA390 /* PLDatabaseMigrationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5D41C15C125003FA390 /* PLDatabaseMigrationManager.h */; };
-		0768D5EA1C15C125003FA390 /* PLDatabaseMigrationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5D51C15C125003FA390 /* PLDatabaseMigrationManager.m */; };
+		0768D5EA1C15C125003FA390 /* PLDatabaseMigrationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5D51C15C125003FA390 /* PLDatabaseMigrationManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0768D5EB1C15C125003FA390 /* PLDatabaseMigrationTransactionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5D61C15C125003FA390 /* PLDatabaseMigrationTransactionManager.h */; };
 		0768D5EC1C15C125003FA390 /* PLDatabaseMigrationVersionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5D71C15C125003FA390 /* PLDatabaseMigrationVersionManager.h */; };
 		0768D5ED1C15C125003FA390 /* PLPreparedStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5D81C15C125003FA390 /* PLPreparedStatement.h */; };
 		0768D5EE1C15C125003FA390 /* PLResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5D91C15C125003FA390 /* PLResultSet.h */; };
 		0768D5EF1C15C125003FA390 /* PLSqliteConnectionProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5DA1C15C125003FA390 /* PLSqliteConnectionProvider.h */; };
-		0768D5F01C15C125003FA390 /* PLSqliteConnectionProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5DB1C15C125003FA390 /* PLSqliteConnectionProvider.m */; };
+		0768D5F01C15C125003FA390 /* PLSqliteConnectionProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5DB1C15C125003FA390 /* PLSqliteConnectionProvider.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0768D5F11C15C125003FA390 /* PLSqliteDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5DC1C15C125003FA390 /* PLSqliteDatabase.h */; };
-		0768D5F21C15C125003FA390 /* PLSqliteDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5DD1C15C125003FA390 /* PLSqliteDatabase.m */; };
+		0768D5F21C15C125003FA390 /* PLSqliteDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5DD1C15C125003FA390 /* PLSqliteDatabase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0768D5F31C15C125003FA390 /* PLSqliteMigrationVersionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5DE1C15C125003FA390 /* PLSqliteMigrationVersionManager.h */; };
-		0768D5F41C15C125003FA390 /* PLSqliteMigrationVersionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5DF1C15C125003FA390 /* PLSqliteMigrationVersionManager.m */; };
+		0768D5F41C15C125003FA390 /* PLSqliteMigrationVersionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5DF1C15C125003FA390 /* PLSqliteMigrationVersionManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0768D5F51C15C125003FA390 /* PLSqlitePreparedStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5E01C15C125003FA390 /* PLSqlitePreparedStatement.h */; };
-		0768D5F61C15C125003FA390 /* PLSqlitePreparedStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5E11C15C125003FA390 /* PLSqlitePreparedStatement.m */; };
+		0768D5F61C15C125003FA390 /* PLSqlitePreparedStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5E11C15C125003FA390 /* PLSqlitePreparedStatement.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0768D5F71C15C125003FA390 /* PLSqliteResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 0768D5E21C15C125003FA390 /* PLSqliteResultSet.h */; };
-		0768D5F81C15C125003FA390 /* PLSqliteResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5E31C15C125003FA390 /* PLSqliteResultSet.m */; };
+		0768D5F81C15C125003FA390 /* PLSqliteResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 0768D5E31C15C125003FA390 /* PLSqliteResultSet.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		078F95E81C19D79C00D96C63 /* IFWPSchemeHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 078F95E61C19D79C00D96C63 /* IFWPSchemeHandler.h */; };
 		078F95E91C19D79C00D96C63 /* IFWPSchemeHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 078F95E71C19D79C00D96C63 /* IFWPSchemeHandler.m */; };
+		07A609921C5ADBD4006E0A0D /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 07A609911C5ADBD4006E0A0D /* libsqlite3.tbd */; };
+		07A609941C5ADBF1006E0A0D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 07A609931C5ADBF1006E0A0D /* libz.tbd */; };
 		07B8748D1C20D992008B741E /* IFWPClientTemplateContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 07B8748B1C20D992008B741E /* IFWPClientTemplateContext.h */; };
 		07B8748E1C20D992008B741E /* IFWPClientTemplateContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 07B8748C1C20D992008B741E /* IFWPClientTemplateContext.m */; };
 		07B8DB751C1B17DF002A1D61 /* IFDBFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 07B8DB731C1B17DF002A1D61 /* IFDBFilter.h */; };
@@ -125,6 +127,8 @@
 		0768D5E31C15C125003FA390 /* PLSqliteResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PLSqliteResultSet.m; path = Externals/PlausibleDatabase/PLSqliteResultSet.m; sourceTree = SOURCE_ROOT; };
 		078F95E61C19D79C00D96C63 /* IFWPSchemeHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFWPSchemeHandler.h; sourceTree = "<group>"; };
 		078F95E71C19D79C00D96C63 /* IFWPSchemeHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFWPSchemeHandler.m; sourceTree = "<group>"; };
+		07A609911C5ADBD4006E0A0D /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		07A609931C5ADBF1006E0A0D /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		07B8748B1C20D992008B741E /* IFWPClientTemplateContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFWPClientTemplateContext.h; sourceTree = "<group>"; };
 		07B8748C1C20D992008B741E /* IFWPClientTemplateContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFWPClientTemplateContext.m; sourceTree = "<group>"; };
 		07B8DB731C1B17DF002A1D61 /* IFDBFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFDBFilter.h; sourceTree = "<group>"; };
@@ -151,6 +155,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07A609941C5ADBF1006E0A0D /* libz.tbd in Frameworks */,
+				07A609921C5ADBD4006E0A0D /* libsqlite3.tbd in Frameworks */,
 				1169D7B35B300409A4879485 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -311,6 +317,8 @@
 		28549E88A8C2B02BC0343403 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				07A609931C5ADBF1006E0A0D /* libz.tbd */,
+				07A609911C5ADBD4006E0A0D /* libsqlite3.tbd */,
 				E29DC47354A1CBBBBC2B04FD /* libPods.a */,
 			);
 			name = Frameworks;
@@ -643,6 +651,17 @@
 				INFOPLIST_FILE = SemoContent/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/Q-ios\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/semo-core-ios\"",
+					"-DPL_DB_PRIVATE=1",
+				);
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.innerfunction.SemoContent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -660,6 +679,17 @@
 				INFOPLIST_FILE = SemoContent/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/Q-ios\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/semo-core-ios\"",
+					"-DPL_DB_PRIVATE=1",
+				);
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.innerfunction.SemoContent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
