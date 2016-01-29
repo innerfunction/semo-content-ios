@@ -1,0 +1,647 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0746AAB11C5BB06B00641C9F /* SemoContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 0746AAB01C5BB06B00641C9F /* SemoContent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		07928FB41C5BB0B600EFA4F0 /* IFContentTableViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 07928F911C5BB0B600EFA4F0 /* IFContentTableViewController.h */; };
+		07928FB51C5BB0B600EFA4F0 /* IFContentTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07928F921C5BB0B600EFA4F0 /* IFContentTableViewController.m */; };
+		07928FB61C5BB0B600EFA4F0 /* IFProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 07928F931C5BB0B600EFA4F0 /* IFProtocol.h */; };
+		07928FB71C5BB0B600EFA4F0 /* IFUnzipCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 07928F941C5BB0B600EFA4F0 /* IFUnzipCommand.h */; };
+		07928FB81C5BB0B600EFA4F0 /* IFWPContentContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 07928F951C5BB0B600EFA4F0 /* IFWPContentContainer.m */; };
+		07928FB91C5BB0B600EFA4F0 /* IFWPContentProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 07928F961C5BB0B600EFA4F0 /* IFWPContentProtocol.m */; };
+		07928FBA1C5BB0B600EFA4F0 /* IFWPDataWebviewFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 07928F971C5BB0B600EFA4F0 /* IFWPDataWebviewFormatter.m */; };
+		07928FBB1C5BB0B600EFA4F0 /* IFWPSchemeHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 07928F981C5BB0B600EFA4F0 /* IFWPSchemeHandler.h */; };
+		07928FBC1C5BB0B600EFA4F0 /* IFWPSchemeHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 07928F991C5BB0B600EFA4F0 /* IFWPSchemeHandler.m */; };
+		07928FBD1C5BB0B600EFA4F0 /* IFCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 07928F9A1C5BB0B600EFA4F0 /* IFCommand.h */; };
+		07928FBE1C5BB0B600EFA4F0 /* IFCommandScheduler.h in Headers */ = {isa = PBXBuildFile; fileRef = 07928F9B1C5BB0B600EFA4F0 /* IFCommandScheduler.h */; };
+		07928FBF1C5BB0B600EFA4F0 /* IFCommandScheduler.m in Sources */ = {isa = PBXBuildFile; fileRef = 07928F9C1C5BB0B600EFA4F0 /* IFCommandScheduler.m */; };
+		07928FC01C5BB0B600EFA4F0 /* IFDataFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 07928F9D1C5BB0B600EFA4F0 /* IFDataFormatter.h */; };
+		07928FC11C5BB0B600EFA4F0 /* IFDB.h in Headers */ = {isa = PBXBuildFile; fileRef = 07928F9E1C5BB0B600EFA4F0 /* IFDB.h */; };
+		07928FC21C5BB0B600EFA4F0 /* IFDB.m in Sources */ = {isa = PBXBuildFile; fileRef = 07928F9F1C5BB0B600EFA4F0 /* IFDB.m */; };
+		07928FC31C5BB0B600EFA4F0 /* IFDBFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 07928FA01C5BB0B600EFA4F0 /* IFDBFilter.h */; };
+		07928FC41C5BB0B600EFA4F0 /* IFDBFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 07928FA11C5BB0B600EFA4F0 /* IFDBFilter.m */; };
+		07928FC51C5BB0B600EFA4F0 /* IFDBHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 07928FA21C5BB0B600EFA4F0 /* IFDBHelper.h */; };
+		07928FC61C5BB0B600EFA4F0 /* IFDBHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 07928FA31C5BB0B600EFA4F0 /* IFDBHelper.m */; };
+		07928FC71C5BB0B600EFA4F0 /* IFGetURLCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 07928FA41C5BB0B600EFA4F0 /* IFGetURLCommand.h */; };
+		07928FC81C5BB0B600EFA4F0 /* IFGetURLCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 07928FA51C5BB0B600EFA4F0 /* IFGetURLCommand.m */; };
+		07928FC91C5BB0B600EFA4F0 /* IFMvFileCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 07928FA61C5BB0B600EFA4F0 /* IFMvFileCommand.h */; };
+		07928FCA1C5BB0B600EFA4F0 /* IFMvFileCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 07928FA71C5BB0B600EFA4F0 /* IFMvFileCommand.m */; };
+		07928FCB1C5BB0B600EFA4F0 /* IFProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 07928FA81C5BB0B600EFA4F0 /* IFProtocol.m */; };
+		07928FCC1C5BB0B600EFA4F0 /* IFRmFileCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 07928FA91C5BB0B600EFA4F0 /* IFRmFileCommand.h */; };
+		07928FCD1C5BB0B600EFA4F0 /* IFRmFileCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 07928FAA1C5BB0B600EFA4F0 /* IFRmFileCommand.m */; };
+		07928FCE1C5BB0B600EFA4F0 /* IFSemoContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 07928FAB1C5BB0B600EFA4F0 /* IFSemoContent.h */; };
+		07928FCF1C5BB0B600EFA4F0 /* IFUnzipCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 07928FAC1C5BB0B600EFA4F0 /* IFUnzipCommand.m */; };
+		07928FD01C5BB0B600EFA4F0 /* IFWPClientTemplateContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 07928FAD1C5BB0B600EFA4F0 /* IFWPClientTemplateContext.h */; };
+		07928FD11C5BB0B600EFA4F0 /* IFWPClientTemplateContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 07928FAE1C5BB0B600EFA4F0 /* IFWPClientTemplateContext.m */; };
+		07928FD21C5BB0B600EFA4F0 /* IFWPContentContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 07928FAF1C5BB0B600EFA4F0 /* IFWPContentContainer.h */; };
+		07928FD31C5BB0B600EFA4F0 /* IFWPContentProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 07928FB01C5BB0B600EFA4F0 /* IFWPContentProtocol.h */; };
+		07928FD41C5BB0B600EFA4F0 /* IFWPDataTableFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 07928FB11C5BB0B600EFA4F0 /* IFWPDataTableFormatter.h */; };
+		07928FD51C5BB0B600EFA4F0 /* IFWPDataTableFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 07928FB21C5BB0B600EFA4F0 /* IFWPDataTableFormatter.m */; };
+		07928FD61C5BB0B600EFA4F0 /* IFWPDataWebviewFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 07928FB31C5BB0B600EFA4F0 /* IFWPDataWebviewFormatter.h */; };
+		0792901C1C5BB1D100EFA4F0 /* PlausibleDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 079290071C5BB1D100EFA4F0 /* PlausibleDatabase.h */; };
+		0792901D1C5BB1D100EFA4F0 /* PlausibleDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 079290081C5BB1D100EFA4F0 /* PlausibleDatabase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0792901E1C5BB1D100EFA4F0 /* PLDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 079290091C5BB1D100EFA4F0 /* PLDatabase.h */; };
+		0792901F1C5BB1D200EFA4F0 /* PLDatabaseConnectionProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 0792900A1C5BB1D100EFA4F0 /* PLDatabaseConnectionProvider.h */; };
+		079290201C5BB1D200EFA4F0 /* PLDatabaseMigrationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0792900B1C5BB1D100EFA4F0 /* PLDatabaseMigrationDelegate.h */; };
+		079290211C5BB1D200EFA4F0 /* PLDatabaseMigrationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0792900C1C5BB1D100EFA4F0 /* PLDatabaseMigrationManager.h */; };
+		079290221C5BB1D200EFA4F0 /* PLDatabaseMigrationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0792900D1C5BB1D100EFA4F0 /* PLDatabaseMigrationManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		079290231C5BB1D200EFA4F0 /* PLDatabaseMigrationTransactionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0792900E1C5BB1D100EFA4F0 /* PLDatabaseMigrationTransactionManager.h */; };
+		079290241C5BB1D200EFA4F0 /* PLDatabaseMigrationVersionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0792900F1C5BB1D100EFA4F0 /* PLDatabaseMigrationVersionManager.h */; };
+		079290251C5BB1D200EFA4F0 /* PLPreparedStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 079290101C5BB1D100EFA4F0 /* PLPreparedStatement.h */; };
+		079290261C5BB1D200EFA4F0 /* PLResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 079290111C5BB1D100EFA4F0 /* PLResultSet.h */; };
+		079290271C5BB1D200EFA4F0 /* PLSqliteConnectionProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 079290121C5BB1D100EFA4F0 /* PLSqliteConnectionProvider.h */; };
+		079290281C5BB1D200EFA4F0 /* PLSqliteConnectionProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 079290131C5BB1D100EFA4F0 /* PLSqliteConnectionProvider.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		079290291C5BB1D200EFA4F0 /* PLSqliteDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 079290141C5BB1D100EFA4F0 /* PLSqliteDatabase.h */; };
+		0792902A1C5BB1D200EFA4F0 /* PLSqliteDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 079290151C5BB1D100EFA4F0 /* PLSqliteDatabase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0792902B1C5BB1D200EFA4F0 /* PLSqliteMigrationVersionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 079290161C5BB1D100EFA4F0 /* PLSqliteMigrationVersionManager.h */; };
+		0792902C1C5BB1D200EFA4F0 /* PLSqliteMigrationVersionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 079290171C5BB1D100EFA4F0 /* PLSqliteMigrationVersionManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0792902D1C5BB1D200EFA4F0 /* PLSqlitePreparedStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 079290181C5BB1D100EFA4F0 /* PLSqlitePreparedStatement.h */; };
+		0792902E1C5BB1D200EFA4F0 /* PLSqlitePreparedStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = 079290191C5BB1D100EFA4F0 /* PLSqlitePreparedStatement.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0792902F1C5BB1D200EFA4F0 /* PLSqliteResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 0792901A1C5BB1D100EFA4F0 /* PLSqliteResultSet.h */; };
+		079290301C5BB1D200EFA4F0 /* PLSqliteResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 0792901B1C5BB1D100EFA4F0 /* PLSqliteResultSet.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		079290321C5BB20F00EFA4F0 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 079290311C5BB20F00EFA4F0 /* libz.tbd */; };
+		079290341C5BB21500EFA4F0 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 079290331C5BB21500EFA4F0 /* libsqlite3.tbd */; };
+		079290591C5BB3A000EFA4F0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 079290581C5BB3A000EFA4F0 /* UIKit.framework */; };
+		0792905B1C5BB3A800EFA4F0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0792905A1C5BB3A800EFA4F0 /* Foundation.framework */; };
+		0792905D1C5BB5C200EFA4F0 /* libSemoCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 079290551C5BB36400EFA4F0 /* libSemoCore.a */; };
+		0792905F1C5BB5C200EFA4F0 /* libQ.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0792905E1C5BB5C200EFA4F0 /* libQ.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		079290541C5BB36400EFA4F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 079290361C5BB2C800EFA4F0 /* SemoCore.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 074D9F3F1AE7DD04006D1510;
+			remoteInfo = SemoCore;
+		};
+		079290561C5BB36400EFA4F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 079290361C5BB2C800EFA4F0 /* SemoCore.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 07E287F01AEBA7750078B95B;
+			remoteInfo = "SemoCore Tests";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0746AAAD1C5BB06B00641C9F /* SemoContent.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SemoContent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0746AAB01C5BB06B00641C9F /* SemoContent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SemoContent.h; sourceTree = "<group>"; };
+		0746AAB21C5BB06B00641C9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		07928F911C5BB0B600EFA4F0 /* IFContentTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFContentTableViewController.h; path = ../../SemoContent/IFContentTableViewController.h; sourceTree = "<group>"; };
+		07928F921C5BB0B600EFA4F0 /* IFContentTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFContentTableViewController.m; path = ../../SemoContent/IFContentTableViewController.m; sourceTree = "<group>"; };
+		07928F931C5BB0B600EFA4F0 /* IFProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFProtocol.h; path = ../../SemoContent/IFProtocol.h; sourceTree = "<group>"; };
+		07928F941C5BB0B600EFA4F0 /* IFUnzipCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFUnzipCommand.h; path = ../../SemoContent/IFUnzipCommand.h; sourceTree = "<group>"; };
+		07928F951C5BB0B600EFA4F0 /* IFWPContentContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFWPContentContainer.m; path = ../../SemoContent/IFWPContentContainer.m; sourceTree = "<group>"; };
+		07928F961C5BB0B600EFA4F0 /* IFWPContentProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFWPContentProtocol.m; path = ../../SemoContent/IFWPContentProtocol.m; sourceTree = "<group>"; };
+		07928F971C5BB0B600EFA4F0 /* IFWPDataWebviewFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFWPDataWebviewFormatter.m; path = ../../SemoContent/IFWPDataWebviewFormatter.m; sourceTree = "<group>"; };
+		07928F981C5BB0B600EFA4F0 /* IFWPSchemeHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFWPSchemeHandler.h; path = ../../SemoContent/IFWPSchemeHandler.h; sourceTree = "<group>"; };
+		07928F991C5BB0B600EFA4F0 /* IFWPSchemeHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFWPSchemeHandler.m; path = ../../SemoContent/IFWPSchemeHandler.m; sourceTree = "<group>"; };
+		07928F9A1C5BB0B600EFA4F0 /* IFCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFCommand.h; path = ../../SemoContent/IFCommand.h; sourceTree = "<group>"; };
+		07928F9B1C5BB0B600EFA4F0 /* IFCommandScheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFCommandScheduler.h; path = ../../SemoContent/IFCommandScheduler.h; sourceTree = "<group>"; };
+		07928F9C1C5BB0B600EFA4F0 /* IFCommandScheduler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFCommandScheduler.m; path = ../../SemoContent/IFCommandScheduler.m; sourceTree = "<group>"; };
+		07928F9D1C5BB0B600EFA4F0 /* IFDataFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFDataFormatter.h; path = ../../SemoContent/IFDataFormatter.h; sourceTree = "<group>"; };
+		07928F9E1C5BB0B600EFA4F0 /* IFDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFDB.h; path = ../../SemoContent/IFDB.h; sourceTree = "<group>"; };
+		07928F9F1C5BB0B600EFA4F0 /* IFDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFDB.m; path = ../../SemoContent/IFDB.m; sourceTree = "<group>"; };
+		07928FA01C5BB0B600EFA4F0 /* IFDBFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFDBFilter.h; path = ../../SemoContent/IFDBFilter.h; sourceTree = "<group>"; };
+		07928FA11C5BB0B600EFA4F0 /* IFDBFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFDBFilter.m; path = ../../SemoContent/IFDBFilter.m; sourceTree = "<group>"; };
+		07928FA21C5BB0B600EFA4F0 /* IFDBHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFDBHelper.h; path = ../../SemoContent/IFDBHelper.h; sourceTree = "<group>"; };
+		07928FA31C5BB0B600EFA4F0 /* IFDBHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFDBHelper.m; path = ../../SemoContent/IFDBHelper.m; sourceTree = "<group>"; };
+		07928FA41C5BB0B600EFA4F0 /* IFGetURLCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFGetURLCommand.h; path = ../../SemoContent/IFGetURLCommand.h; sourceTree = "<group>"; };
+		07928FA51C5BB0B600EFA4F0 /* IFGetURLCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFGetURLCommand.m; path = ../../SemoContent/IFGetURLCommand.m; sourceTree = "<group>"; };
+		07928FA61C5BB0B600EFA4F0 /* IFMvFileCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFMvFileCommand.h; path = ../../SemoContent/IFMvFileCommand.h; sourceTree = "<group>"; };
+		07928FA71C5BB0B600EFA4F0 /* IFMvFileCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFMvFileCommand.m; path = ../../SemoContent/IFMvFileCommand.m; sourceTree = "<group>"; };
+		07928FA81C5BB0B600EFA4F0 /* IFProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFProtocol.m; path = ../../SemoContent/IFProtocol.m; sourceTree = "<group>"; };
+		07928FA91C5BB0B600EFA4F0 /* IFRmFileCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFRmFileCommand.h; path = ../../SemoContent/IFRmFileCommand.h; sourceTree = "<group>"; };
+		07928FAA1C5BB0B600EFA4F0 /* IFRmFileCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFRmFileCommand.m; path = ../../SemoContent/IFRmFileCommand.m; sourceTree = "<group>"; };
+		07928FAB1C5BB0B600EFA4F0 /* IFSemoContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFSemoContent.h; path = ../../SemoContent/IFSemoContent.h; sourceTree = "<group>"; };
+		07928FAC1C5BB0B600EFA4F0 /* IFUnzipCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFUnzipCommand.m; path = ../../SemoContent/IFUnzipCommand.m; sourceTree = "<group>"; };
+		07928FAD1C5BB0B600EFA4F0 /* IFWPClientTemplateContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFWPClientTemplateContext.h; path = ../../SemoContent/IFWPClientTemplateContext.h; sourceTree = "<group>"; };
+		07928FAE1C5BB0B600EFA4F0 /* IFWPClientTemplateContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFWPClientTemplateContext.m; path = ../../SemoContent/IFWPClientTemplateContext.m; sourceTree = "<group>"; };
+		07928FAF1C5BB0B600EFA4F0 /* IFWPContentContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFWPContentContainer.h; path = ../../SemoContent/IFWPContentContainer.h; sourceTree = "<group>"; };
+		07928FB01C5BB0B600EFA4F0 /* IFWPContentProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFWPContentProtocol.h; path = ../../SemoContent/IFWPContentProtocol.h; sourceTree = "<group>"; };
+		07928FB11C5BB0B600EFA4F0 /* IFWPDataTableFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFWPDataTableFormatter.h; path = ../../SemoContent/IFWPDataTableFormatter.h; sourceTree = "<group>"; };
+		07928FB21C5BB0B600EFA4F0 /* IFWPDataTableFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFWPDataTableFormatter.m; path = ../../SemoContent/IFWPDataTableFormatter.m; sourceTree = "<group>"; };
+		07928FB31C5BB0B600EFA4F0 /* IFWPDataWebviewFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFWPDataWebviewFormatter.h; path = ../../SemoContent/IFWPDataWebviewFormatter.h; sourceTree = "<group>"; };
+		079290071C5BB1D100EFA4F0 /* PlausibleDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlausibleDatabase.h; sourceTree = "<group>"; };
+		079290081C5BB1D100EFA4F0 /* PlausibleDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlausibleDatabase.m; sourceTree = "<group>"; };
+		079290091C5BB1D100EFA4F0 /* PLDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLDatabase.h; sourceTree = "<group>"; };
+		0792900A1C5BB1D100EFA4F0 /* PLDatabaseConnectionProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLDatabaseConnectionProvider.h; sourceTree = "<group>"; };
+		0792900B1C5BB1D100EFA4F0 /* PLDatabaseMigrationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLDatabaseMigrationDelegate.h; sourceTree = "<group>"; };
+		0792900C1C5BB1D100EFA4F0 /* PLDatabaseMigrationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLDatabaseMigrationManager.h; sourceTree = "<group>"; };
+		0792900D1C5BB1D100EFA4F0 /* PLDatabaseMigrationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLDatabaseMigrationManager.m; sourceTree = "<group>"; };
+		0792900E1C5BB1D100EFA4F0 /* PLDatabaseMigrationTransactionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLDatabaseMigrationTransactionManager.h; sourceTree = "<group>"; };
+		0792900F1C5BB1D100EFA4F0 /* PLDatabaseMigrationVersionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLDatabaseMigrationVersionManager.h; sourceTree = "<group>"; };
+		079290101C5BB1D100EFA4F0 /* PLPreparedStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLPreparedStatement.h; sourceTree = "<group>"; };
+		079290111C5BB1D100EFA4F0 /* PLResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLResultSet.h; sourceTree = "<group>"; };
+		079290121C5BB1D100EFA4F0 /* PLSqliteConnectionProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLSqliteConnectionProvider.h; sourceTree = "<group>"; };
+		079290131C5BB1D100EFA4F0 /* PLSqliteConnectionProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLSqliteConnectionProvider.m; sourceTree = "<group>"; };
+		079290141C5BB1D100EFA4F0 /* PLSqliteDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLSqliteDatabase.h; sourceTree = "<group>"; };
+		079290151C5BB1D100EFA4F0 /* PLSqliteDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLSqliteDatabase.m; sourceTree = "<group>"; };
+		079290161C5BB1D100EFA4F0 /* PLSqliteMigrationVersionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLSqliteMigrationVersionManager.h; sourceTree = "<group>"; };
+		079290171C5BB1D100EFA4F0 /* PLSqliteMigrationVersionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLSqliteMigrationVersionManager.m; sourceTree = "<group>"; };
+		079290181C5BB1D100EFA4F0 /* PLSqlitePreparedStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLSqlitePreparedStatement.h; sourceTree = "<group>"; };
+		079290191C5BB1D100EFA4F0 /* PLSqlitePreparedStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLSqlitePreparedStatement.m; sourceTree = "<group>"; };
+		0792901A1C5BB1D100EFA4F0 /* PLSqliteResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLSqliteResultSet.h; sourceTree = "<group>"; };
+		0792901B1C5BB1D100EFA4F0 /* PLSqliteResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLSqliteResultSet.m; sourceTree = "<group>"; };
+		079290311C5BB20F00EFA4F0 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		079290331C5BB21500EFA4F0 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		079290361C5BB2C800EFA4F0 /* SemoCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SemoCore.xcodeproj; path = "../../semo-core-ios/SemoCore.xcodeproj"; sourceTree = "<group>"; };
+		0792903F1C5BB2D600EFA4F0 /* Q.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Q.xcodeproj; path = "../../Q-ios/Q/Q.xcodeproj"; sourceTree = "<group>"; };
+		079290581C5BB3A000EFA4F0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		0792905A1C5BB3A800EFA4F0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		0792905E1C5BB5C200EFA4F0 /* libQ.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libQ.a; path = "../../Q-ios/Q/build/Debug-iphoneos/libQ.a"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0746AAA91C5BB06B00641C9F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0792905F1C5BB5C200EFA4F0 /* libQ.a in Frameworks */,
+				0792905D1C5BB5C200EFA4F0 /* libSemoCore.a in Frameworks */,
+				0792905B1C5BB3A800EFA4F0 /* Foundation.framework in Frameworks */,
+				079290591C5BB3A000EFA4F0 /* UIKit.framework in Frameworks */,
+				079290341C5BB21500EFA4F0 /* libsqlite3.tbd in Frameworks */,
+				079290321C5BB20F00EFA4F0 /* libz.tbd in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0746AAA31C5BB06B00641C9F = {
+			isa = PBXGroup;
+			children = (
+				0746AAAF1C5BB06B00641C9F /* SemoContent */,
+				079290051C5BB1D100EFA4F0 /* Externals */,
+				079290351C5BB22000EFA4F0 /* Frameworks */,
+				0746AAAE1C5BB06B00641C9F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		0746AAAE1C5BB06B00641C9F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0746AAAD1C5BB06B00641C9F /* SemoContent.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0746AAAF1C5BB06B00641C9F /* SemoContent */ = {
+			isa = PBXGroup;
+			children = (
+				07928FD71C5BB0E100EFA4F0 /* com.innerfunction.semo.content.ui */,
+				07928FD81C5BB11A00EFA4F0 /* com.innerfunction.semo.content */,
+				07928FD91C5BB13C00EFA4F0 /* com.innerfunction.semo.commands */,
+				07928FDA1C5BB17900EFA4F0 /* com.innerfunction.semo.db */,
+				0746AAB21C5BB06B00641C9F /* Info.plist */,
+			);
+			path = SemoContent;
+			sourceTree = "<group>";
+		};
+		07928FD71C5BB0E100EFA4F0 /* com.innerfunction.semo.content.ui */ = {
+			isa = PBXGroup;
+			children = (
+				07928F911C5BB0B600EFA4F0 /* IFContentTableViewController.h */,
+				07928F921C5BB0B600EFA4F0 /* IFContentTableViewController.m */,
+			);
+			name = com.innerfunction.semo.content.ui;
+			sourceTree = "<group>";
+		};
+		07928FD81C5BB11A00EFA4F0 /* com.innerfunction.semo.content */ = {
+			isa = PBXGroup;
+			children = (
+				07928FAB1C5BB0B600EFA4F0 /* IFSemoContent.h */,
+				07928F951C5BB0B600EFA4F0 /* IFWPContentContainer.m */,
+				07928F961C5BB0B600EFA4F0 /* IFWPContentProtocol.m */,
+				07928F971C5BB0B600EFA4F0 /* IFWPDataWebviewFormatter.m */,
+				07928F981C5BB0B600EFA4F0 /* IFWPSchemeHandler.h */,
+				07928F991C5BB0B600EFA4F0 /* IFWPSchemeHandler.m */,
+				07928F9D1C5BB0B600EFA4F0 /* IFDataFormatter.h */,
+				07928FAD1C5BB0B600EFA4F0 /* IFWPClientTemplateContext.h */,
+				07928FAE1C5BB0B600EFA4F0 /* IFWPClientTemplateContext.m */,
+				07928FAF1C5BB0B600EFA4F0 /* IFWPContentContainer.h */,
+				07928FB01C5BB0B600EFA4F0 /* IFWPContentProtocol.h */,
+				07928FB11C5BB0B600EFA4F0 /* IFWPDataTableFormatter.h */,
+				07928FB21C5BB0B600EFA4F0 /* IFWPDataTableFormatter.m */,
+				07928FB31C5BB0B600EFA4F0 /* IFWPDataWebviewFormatter.h */,
+				0746AAB01C5BB06B00641C9F /* SemoContent.h */,
+			);
+			name = com.innerfunction.semo.content;
+			sourceTree = "<group>";
+		};
+		07928FD91C5BB13C00EFA4F0 /* com.innerfunction.semo.commands */ = {
+			isa = PBXGroup;
+			children = (
+				07928F9A1C5BB0B600EFA4F0 /* IFCommand.h */,
+				07928F9B1C5BB0B600EFA4F0 /* IFCommandScheduler.h */,
+				07928F9C1C5BB0B600EFA4F0 /* IFCommandScheduler.m */,
+				07928FA41C5BB0B600EFA4F0 /* IFGetURLCommand.h */,
+				07928FA51C5BB0B600EFA4F0 /* IFGetURLCommand.m */,
+				07928FA61C5BB0B600EFA4F0 /* IFMvFileCommand.h */,
+				07928FA71C5BB0B600EFA4F0 /* IFMvFileCommand.m */,
+				07928F931C5BB0B600EFA4F0 /* IFProtocol.h */,
+				07928FA81C5BB0B600EFA4F0 /* IFProtocol.m */,
+				07928FA91C5BB0B600EFA4F0 /* IFRmFileCommand.h */,
+				07928FAA1C5BB0B600EFA4F0 /* IFRmFileCommand.m */,
+				07928F941C5BB0B600EFA4F0 /* IFUnzipCommand.h */,
+				07928FAC1C5BB0B600EFA4F0 /* IFUnzipCommand.m */,
+			);
+			name = com.innerfunction.semo.commands;
+			sourceTree = "<group>";
+		};
+		07928FDA1C5BB17900EFA4F0 /* com.innerfunction.semo.db */ = {
+			isa = PBXGroup;
+			children = (
+				07928F9E1C5BB0B600EFA4F0 /* IFDB.h */,
+				07928F9F1C5BB0B600EFA4F0 /* IFDB.m */,
+				07928FA01C5BB0B600EFA4F0 /* IFDBFilter.h */,
+				07928FA11C5BB0B600EFA4F0 /* IFDBFilter.m */,
+				07928FA21C5BB0B600EFA4F0 /* IFDBHelper.h */,
+				07928FA31C5BB0B600EFA4F0 /* IFDBHelper.m */,
+			);
+			name = com.innerfunction.semo.db;
+			sourceTree = "<group>";
+		};
+		079290051C5BB1D100EFA4F0 /* Externals */ = {
+			isa = PBXGroup;
+			children = (
+				0792903F1C5BB2D600EFA4F0 /* Q.xcodeproj */,
+				079290361C5BB2C800EFA4F0 /* SemoCore.xcodeproj */,
+				079290061C5BB1D100EFA4F0 /* PlausibleDatabase */,
+			);
+			name = Externals;
+			path = ../Externals;
+			sourceTree = "<group>";
+		};
+		079290061C5BB1D100EFA4F0 /* PlausibleDatabase */ = {
+			isa = PBXGroup;
+			children = (
+				079290071C5BB1D100EFA4F0 /* PlausibleDatabase.h */,
+				079290081C5BB1D100EFA4F0 /* PlausibleDatabase.m */,
+				079290091C5BB1D100EFA4F0 /* PLDatabase.h */,
+				0792900A1C5BB1D100EFA4F0 /* PLDatabaseConnectionProvider.h */,
+				0792900B1C5BB1D100EFA4F0 /* PLDatabaseMigrationDelegate.h */,
+				0792900C1C5BB1D100EFA4F0 /* PLDatabaseMigrationManager.h */,
+				0792900D1C5BB1D100EFA4F0 /* PLDatabaseMigrationManager.m */,
+				0792900E1C5BB1D100EFA4F0 /* PLDatabaseMigrationTransactionManager.h */,
+				0792900F1C5BB1D100EFA4F0 /* PLDatabaseMigrationVersionManager.h */,
+				079290101C5BB1D100EFA4F0 /* PLPreparedStatement.h */,
+				079290111C5BB1D100EFA4F0 /* PLResultSet.h */,
+				079290121C5BB1D100EFA4F0 /* PLSqliteConnectionProvider.h */,
+				079290131C5BB1D100EFA4F0 /* PLSqliteConnectionProvider.m */,
+				079290141C5BB1D100EFA4F0 /* PLSqliteDatabase.h */,
+				079290151C5BB1D100EFA4F0 /* PLSqliteDatabase.m */,
+				079290161C5BB1D100EFA4F0 /* PLSqliteMigrationVersionManager.h */,
+				079290171C5BB1D100EFA4F0 /* PLSqliteMigrationVersionManager.m */,
+				079290181C5BB1D100EFA4F0 /* PLSqlitePreparedStatement.h */,
+				079290191C5BB1D100EFA4F0 /* PLSqlitePreparedStatement.m */,
+				0792901A1C5BB1D100EFA4F0 /* PLSqliteResultSet.h */,
+				0792901B1C5BB1D100EFA4F0 /* PLSqliteResultSet.m */,
+			);
+			path = PlausibleDatabase;
+			sourceTree = "<group>";
+		};
+		079290351C5BB22000EFA4F0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0792905E1C5BB5C200EFA4F0 /* libQ.a */,
+				0792905A1C5BB3A800EFA4F0 /* Foundation.framework */,
+				079290581C5BB3A000EFA4F0 /* UIKit.framework */,
+				079290331C5BB21500EFA4F0 /* libsqlite3.tbd */,
+				079290311C5BB20F00EFA4F0 /* libz.tbd */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		079290501C5BB36400EFA4F0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				079290551C5BB36400EFA4F0 /* libSemoCore.a */,
+				079290571C5BB36400EFA4F0 /* SemoCore Tests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		0746AAAA1C5BB06B00641C9F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				07928FC71C5BB0B600EFA4F0 /* IFGetURLCommand.h in Headers */,
+				079290231C5BB1D200EFA4F0 /* PLDatabaseMigrationTransactionManager.h in Headers */,
+				0746AAB11C5BB06B00641C9F /* SemoContent.h in Headers */,
+				07928FD41C5BB0B600EFA4F0 /* IFWPDataTableFormatter.h in Headers */,
+				07928FBB1C5BB0B600EFA4F0 /* IFWPSchemeHandler.h in Headers */,
+				07928FB61C5BB0B600EFA4F0 /* IFProtocol.h in Headers */,
+				079290271C5BB1D200EFA4F0 /* PLSqliteConnectionProvider.h in Headers */,
+				07928FB71C5BB0B600EFA4F0 /* IFUnzipCommand.h in Headers */,
+				07928FC11C5BB0B600EFA4F0 /* IFDB.h in Headers */,
+				07928FC01C5BB0B600EFA4F0 /* IFDataFormatter.h in Headers */,
+				079290251C5BB1D200EFA4F0 /* PLPreparedStatement.h in Headers */,
+				07928FD01C5BB0B600EFA4F0 /* IFWPClientTemplateContext.h in Headers */,
+				07928FD61C5BB0B600EFA4F0 /* IFWPDataWebviewFormatter.h in Headers */,
+				0792902B1C5BB1D200EFA4F0 /* PLSqliteMigrationVersionManager.h in Headers */,
+				0792902F1C5BB1D200EFA4F0 /* PLSqliteResultSet.h in Headers */,
+				07928FB41C5BB0B600EFA4F0 /* IFContentTableViewController.h in Headers */,
+				07928FC91C5BB0B600EFA4F0 /* IFMvFileCommand.h in Headers */,
+				079290291C5BB1D200EFA4F0 /* PLSqliteDatabase.h in Headers */,
+				07928FC31C5BB0B600EFA4F0 /* IFDBFilter.h in Headers */,
+				079290211C5BB1D200EFA4F0 /* PLDatabaseMigrationManager.h in Headers */,
+				0792901F1C5BB1D200EFA4F0 /* PLDatabaseConnectionProvider.h in Headers */,
+				07928FCC1C5BB0B600EFA4F0 /* IFRmFileCommand.h in Headers */,
+				07928FD21C5BB0B600EFA4F0 /* IFWPContentContainer.h in Headers */,
+				0792902D1C5BB1D200EFA4F0 /* PLSqlitePreparedStatement.h in Headers */,
+				07928FCE1C5BB0B600EFA4F0 /* IFSemoContent.h in Headers */,
+				079290201C5BB1D200EFA4F0 /* PLDatabaseMigrationDelegate.h in Headers */,
+				07928FD31C5BB0B600EFA4F0 /* IFWPContentProtocol.h in Headers */,
+				07928FBD1C5BB0B600EFA4F0 /* IFCommand.h in Headers */,
+				07928FC51C5BB0B600EFA4F0 /* IFDBHelper.h in Headers */,
+				0792901C1C5BB1D100EFA4F0 /* PlausibleDatabase.h in Headers */,
+				079290261C5BB1D200EFA4F0 /* PLResultSet.h in Headers */,
+				0792901E1C5BB1D100EFA4F0 /* PLDatabase.h in Headers */,
+				07928FBE1C5BB0B600EFA4F0 /* IFCommandScheduler.h in Headers */,
+				079290241C5BB1D200EFA4F0 /* PLDatabaseMigrationVersionManager.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		0746AAAC1C5BB06B00641C9F /* SemoContent */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0746AAB51C5BB06B00641C9F /* Build configuration list for PBXNativeTarget "SemoContent" */;
+			buildPhases = (
+				0746AAA81C5BB06B00641C9F /* Sources */,
+				0746AAA91C5BB06B00641C9F /* Frameworks */,
+				0746AAAA1C5BB06B00641C9F /* Headers */,
+				0746AAAB1C5BB06B00641C9F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SemoContent;
+			productName = SemoContent;
+			productReference = 0746AAAD1C5BB06B00641C9F /* SemoContent.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0746AAA41C5BB06B00641C9F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = InnerFunction;
+				TargetAttributes = {
+					0746AAAC1C5BB06B00641C9F = {
+						CreatedOnToolsVersion = 7.1;
+					};
+				};
+			};
+			buildConfigurationList = 0746AAA71C5BB06B00641C9F /* Build configuration list for PBXProject "SemoContent" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 0746AAA31C5BB06B00641C9F;
+			productRefGroup = 0746AAAE1C5BB06B00641C9F /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 079290501C5BB36400EFA4F0 /* Products */;
+					ProjectRef = 079290361C5BB2C800EFA4F0 /* SemoCore.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				0746AAAC1C5BB06B00641C9F /* SemoContent */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		079290551C5BB36400EFA4F0 /* libSemoCore.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSemoCore.a;
+			remoteRef = 079290541C5BB36400EFA4F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		079290571C5BB36400EFA4F0 /* SemoCore Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "SemoCore Tests.xctest";
+			remoteRef = 079290561C5BB36400EFA4F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0746AAAB1C5BB06B00641C9F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0746AAA81C5BB06B00641C9F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				07928FBF1C5BB0B600EFA4F0 /* IFCommandScheduler.m in Sources */,
+				079290301C5BB1D200EFA4F0 /* PLSqliteResultSet.m in Sources */,
+				07928FC61C5BB0B600EFA4F0 /* IFDBHelper.m in Sources */,
+				07928FB51C5BB0B600EFA4F0 /* IFContentTableViewController.m in Sources */,
+				0792902C1C5BB1D200EFA4F0 /* PLSqliteMigrationVersionManager.m in Sources */,
+				079290221C5BB1D200EFA4F0 /* PLDatabaseMigrationManager.m in Sources */,
+				07928FC41C5BB0B600EFA4F0 /* IFDBFilter.m in Sources */,
+				07928FCD1C5BB0B600EFA4F0 /* IFRmFileCommand.m in Sources */,
+				07928FD11C5BB0B600EFA4F0 /* IFWPClientTemplateContext.m in Sources */,
+				07928FBC1C5BB0B600EFA4F0 /* IFWPSchemeHandler.m in Sources */,
+				0792902E1C5BB1D200EFA4F0 /* PLSqlitePreparedStatement.m in Sources */,
+				07928FCA1C5BB0B600EFA4F0 /* IFMvFileCommand.m in Sources */,
+				07928FB81C5BB0B600EFA4F0 /* IFWPContentContainer.m in Sources */,
+				079290281C5BB1D200EFA4F0 /* PLSqliteConnectionProvider.m in Sources */,
+				07928FBA1C5BB0B600EFA4F0 /* IFWPDataWebviewFormatter.m in Sources */,
+				07928FCF1C5BB0B600EFA4F0 /* IFUnzipCommand.m in Sources */,
+				07928FCB1C5BB0B600EFA4F0 /* IFProtocol.m in Sources */,
+				0792902A1C5BB1D200EFA4F0 /* PLSqliteDatabase.m in Sources */,
+				07928FC21C5BB0B600EFA4F0 /* IFDB.m in Sources */,
+				07928FB91C5BB0B600EFA4F0 /* IFWPContentProtocol.m in Sources */,
+				0792901D1C5BB1D100EFA4F0 /* PlausibleDatabase.m in Sources */,
+				07928FC81C5BB0B600EFA4F0 /* IFGetURLCommand.m in Sources */,
+				07928FD51C5BB0B600EFA4F0 /* IFWPDataTableFormatter.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		0746AAB31C5BB06B00641C9F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		0746AAB41C5BB06B00641C9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		0746AAB61C5BB06B00641C9F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Externals";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/**";
+				INFOPLIST_FILE = SemoContent/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = "-DPL_DB_PRIVATE=1";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.innerfunction.SemoContent;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		0746AAB71C5BB06B00641C9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Externals";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/**";
+				INFOPLIST_FILE = SemoContent/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = "-DPL_DB_PRIVATE=1";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.innerfunction.SemoContent;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0746AAA71C5BB06B00641C9F /* Build configuration list for PBXProject "SemoContent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0746AAB31C5BB06B00641C9F /* Debug */,
+				0746AAB41C5BB06B00641C9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0746AAB51C5BB06B00641C9F /* Build configuration list for PBXNativeTarget "SemoContent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0746AAB61C5BB06B00641C9F /* Debug */,
+				0746AAB71C5BB06B00641C9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0746AAA41C5BB06B00641C9F /* Project object */;
+}

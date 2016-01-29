@@ -73,8 +73,8 @@ Pod::Spec.new do |s|
   # s.tvos.deployment_target = "9.0"
 
   # Pod dependencies
-  s.dependency 'semo-core-ios'
-  s.dependency 'Q-ios'
+  # s.dependency 'semo-core-ios'
+  # s.dependency 'Q-ios'
 
 
   # ――― Source Location ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -83,11 +83,43 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/innerfunction/semo-content-ios.git", :tag => "0.0.1" }
+  s.source       = { :git => "https://github.com/innerfunction/semo-content-ios.git" } #, :tag => "0.0.1" }
 
-  s.source_files  = "SemoContent/*.{h,m}", "Externals/**/*.{h,m}"
-  # s.exclude_files = 
+  semoCoreDir = 'Pods/semo-core-ios/SemoCore'
+  s.source_files  = "SemoContent/*.{h,m}",
+                    "Externals/**/*.{h,m}",
+                    "#{semoCoreDir}/*.{h,m}",
+                    "#{semoCoreDir}/com.innerfunction.*/*.{h,m}",
+                    "#{semoCoreDir}/Externals/**/*.{h,m}"
+
+  s.exclude_files = "Externals/PlausibleDatabase/*.{h.m}",
+                    "#{semoCoreDir}/Externals/ISO8601DateFormatter/*.m",
+                    "#{semoCoreDir}/Externals/JSONKit/*.m",
+                    "#{semoCoreDir}/Externals/ZipArchive/**/*.{m,mm,c}"
+
+  # This next line necessary to ensure that #include "minizip/zip.h" will still work.
+  s.header_mappings_dir = '#{dir}/Externals/ZipArchive'
   s.requires_arc = true
+
+  s.subspec 'plausible-database' do |ss|
+    ss.source_files  = "Externals/PlausibleDatabase/*.{h,m}"
+    ss.compiler_flags = '-DPL_DB_PRIVATE=1'
+    ss.requires_arc = false
+  end
+
+  s.subspec 'q-ios' do |ss|
+    dir = 'Pods/Q-ios/Q'
+    ss.source_files  = "#{dir}/Q/*.{h,m}"
+  end
+
+  s.subspec 'semo-core-noarc' do |ss|
+    dir = 'Pods/semo-core-ios/SemoCore'
+    ss.source_files = "#{dir}/Externals/ISO8601DateFormatter/*.{h,m}", "#{dir}/Externals/JSONKit/*.{h,m}", "#{dir}/Externals/ZipArchive/**/*.{h,m,mm,c}"
+    ss.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SRCROOT)/**" }
+    # This next line necessary to ensure that #include "minizip/zip.h" will still work.
+    ss.header_mappings_dir = '#{dir}/Externals/ZipArchive'
+    ss.requires_arc = false
+  end
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
@@ -125,9 +157,9 @@ Pod::Spec.new do |s|
   #  the lib prefix of their name.
   #
 
-  # s.frameworks = "UIKit", "Foundation"
+  s.frameworks = "UIKit", "Foundation"
 
-  # s.libraries = "z"
+  s.libraries = "z", "sqlite3"
 
 
   # ――― Project Settings ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #

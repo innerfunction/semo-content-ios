@@ -1,8 +1,8 @@
 PODS:
   - Q-ios (HEAD based on 0.0.1)
-  - semo-core-ios (HEAD based on 0.0.4):
-    - semo-core-ios/noarc (= HEAD based on 0.0.4)
-  - semo-core-ios/noarc (HEAD based on 0.0.4)
+  - semo-core-ios (HEAD based on 0.0.6):
+    - semo-core-ios/noarc (= HEAD based on 0.0.6)
+  - semo-core-ios/noarc (HEAD based on 0.0.6)
 
 DEPENDENCIES:
   - Q-ios (HEAD)
@@ -10,6 +10,6 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Q-ios: eb8a69c9eac56f82279b6db6ea728668f6a31993
-  semo-core-ios: 594fe2d1feff9baf98a3c8a98cc0583ec077a539
+  semo-core-ios: a28b98a70db6b33ca57f76d76517dba2c5c24a71
 
 COCOAPODS: 0.39.0
