@@ -13,6 +13,8 @@
 
 @implementation IFWPContentContainer
 
+@synthesize parentTargetContainer = _parentTargetContainer, namedTargets = _namedTargets, uriHandler = _uriHandler;
+
 - (id)init {
     self = [super init];
     if (self) {
@@ -159,7 +161,14 @@
     [self configureWith:componentConfig];
     
     // Configure the command scheduler.
-    _commandScheduler.commands = @{ @"content": _contentProtocol };
+    if (_contentProtocol) {
+        _commandScheduler.commands = @{ @"content": _contentProtocol };
+    }
+    
+    // Register the URI scheme handler.
+    if (_uriSchemeName && _uriScheme) {
+        [_uriHandler addHandler:_uriScheme forScheme:_uriSchemeName];
+    }
 }
 
 #pragma mark - IFService
@@ -168,6 +177,12 @@
     [super startService];
     [self unpackPackagedContent];
     [_commandScheduler executeQueue];
+}
+
+#pragma mark - IFTargetContainer
+
+- (BOOL)dispatchURI:(NSString *)uri {
+    return YES;
 }
 
 @end

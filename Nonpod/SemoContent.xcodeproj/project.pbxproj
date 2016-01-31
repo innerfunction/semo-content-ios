@@ -73,6 +73,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		075890DD1C5BB72E007A28D7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0792903F1C5BB2D600EFA4F0 /* Q.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 07AE779B1BBB329E00E3DB50;
+			remoteInfo = Q;
+		};
+		075890DF1C5BB72E007A28D7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0792903F1C5BB2D600EFA4F0 /* Q.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 07AE77A61BBB329E00E3DB50;
+			remoteInfo = QTests;
+		};
 		079290541C5BB36400EFA4F0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 079290361C5BB2C800EFA4F0 /* SemoCore.xcodeproj */;
@@ -205,6 +219,15 @@
 			path = SemoContent;
 			sourceTree = "<group>";
 		};
+		075890D91C5BB72E007A28D7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				075890DE1C5BB72E007A28D7 /* libQ.a */,
+				075890E01C5BB72E007A28D7 /* QTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		07928FD71C5BB0E100EFA4F0 /* com.innerfunction.semo.content.ui */ = {
 			isa = PBXGroup;
 			children = (
@@ -217,21 +240,21 @@
 		07928FD81C5BB11A00EFA4F0 /* com.innerfunction.semo.content */ = {
 			isa = PBXGroup;
 			children = (
+				0746AAB01C5BB06B00641C9F /* SemoContent.h */,
 				07928FAB1C5BB0B600EFA4F0 /* IFSemoContent.h */,
-				07928F951C5BB0B600EFA4F0 /* IFWPContentContainer.m */,
-				07928F961C5BB0B600EFA4F0 /* IFWPContentProtocol.m */,
-				07928F971C5BB0B600EFA4F0 /* IFWPDataWebviewFormatter.m */,
 				07928F981C5BB0B600EFA4F0 /* IFWPSchemeHandler.h */,
 				07928F991C5BB0B600EFA4F0 /* IFWPSchemeHandler.m */,
 				07928F9D1C5BB0B600EFA4F0 /* IFDataFormatter.h */,
 				07928FAD1C5BB0B600EFA4F0 /* IFWPClientTemplateContext.h */,
 				07928FAE1C5BB0B600EFA4F0 /* IFWPClientTemplateContext.m */,
 				07928FAF1C5BB0B600EFA4F0 /* IFWPContentContainer.h */,
+				07928F951C5BB0B600EFA4F0 /* IFWPContentContainer.m */,
 				07928FB01C5BB0B600EFA4F0 /* IFWPContentProtocol.h */,
+				07928F961C5BB0B600EFA4F0 /* IFWPContentProtocol.m */,
 				07928FB11C5BB0B600EFA4F0 /* IFWPDataTableFormatter.h */,
 				07928FB21C5BB0B600EFA4F0 /* IFWPDataTableFormatter.m */,
 				07928FB31C5BB0B600EFA4F0 /* IFWPDataWebviewFormatter.h */,
-				0746AAB01C5BB06B00641C9F /* SemoContent.h */,
+				07928F971C5BB0B600EFA4F0 /* IFWPDataWebviewFormatter.m */,
 			);
 			name = com.innerfunction.semo.content;
 			sourceTree = "<group>";
@@ -420,6 +443,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 075890D91C5BB72E007A28D7 /* Products */;
+					ProjectRef = 0792903F1C5BB2D600EFA4F0 /* Q.xcodeproj */;
+				},
+				{
 					ProductGroup = 079290501C5BB36400EFA4F0 /* Products */;
 					ProjectRef = 079290361C5BB2C800EFA4F0 /* SemoCore.xcodeproj */;
 				},
@@ -432,6 +459,20 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		075890DE1C5BB72E007A28D7 /* libQ.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libQ.a;
+			remoteRef = 075890DD1C5BB72E007A28D7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		075890E01C5BB72E007A28D7 /* QTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = QTests.xctest;
+			remoteRef = 075890DF1C5BB72E007A28D7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		079290551C5BB36400EFA4F0 /* libSemoCore.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;

@@ -12,8 +12,9 @@
 #import "IFWPSchemeHandler.h"
 #import "IFCommandScheduler.h"
 #import "IFIOCConfigurable.h"
+#import "IFTargetContainer.h"
 
-@interface IFWPContentContainer : IFContainer <IFIOCConfigurable> {
+@interface IFWPContentContainer : IFContainer <IFIOCConfigurable, IFTargetContainer> {
     // Container configuration template.
     IFConfiguration *_configTemplate;
     // Command scheduler for unpack and refresh operations.
