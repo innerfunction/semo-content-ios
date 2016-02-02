@@ -37,6 +37,8 @@
 @property (nonatomic, strong) NSString *uriSchemeName;
 /** The posts DB instance. */
 @property (nonatomic, strong) IFDB *postDB;
+/** Whether to reset the post DB on start. (Useful for debug). */
+@property (nonatomic, assign) BOOL resetPostDB;
 /** The content protocol instance; manages feed downloads. */
 @property (nonatomic, strong) IFWPContentProtocol *contentProtocol;
 /** The wp: URI scheme. */

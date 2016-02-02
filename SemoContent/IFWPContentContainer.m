@@ -18,21 +18,21 @@
 - (id)init {
     self = [super init];
     if (self) {
-        self.postDBName = @"com.innerfunction.semo.content";
-        self.feedURL = @"";
-        self.packagedContentPath = @"semo/content";
-        self.uriSchemeName = @"wp";
-        self.listFormats = @{
+        _postDBName = @"com.innerfunction.semo.content";
+        _feedURL = @"";
+        _packagedContentPath = @"semo";
+        _uriSchemeName = @"wp";
+        _listFormats = @{
             @"table": @{
                 @"ios:class": @"IFWPDataTableFormatter"
             }
         };
-        self.postFormats = @{
+        _postFormats = @{
             @"webview": @{
                 @"ios:class": @"IFWPDataWebviewFormatter"
             }
         };
-        self.postURITemplate = @"{uriSchemeName}:/post/{postID}";
+        _postURITemplate = @"{uriSchemeName}:/post/{postID}";
         
         // Configuration template. Note that the top-level property types are inferred from the
         // corresponding properties on the container object (i.e. self).
@@ -40,6 +40,7 @@
             @"postDB": @{
                 @"name":                    @"$postDBName",
                 @"version":                 @1,
+                @"resetDatabase":           @"$resetPostDB",
                 @"tables": @{
                     @"posts": @{
                         @"columns": @{
@@ -147,6 +148,7 @@
     // Setup configuration parameters.
     id parameters = @{
         @"postDBName":          _postDBName,
+        @"resetPostDB":         [NSNumber numberWithBool:_resetPostDB],
         @"feedURL":             _feedURL,
         @"stagingPath":         _stagingPath,
         @"packagedContentPath": packagedContentPath,
@@ -158,6 +160,8 @@
     
     // Generate the full container configuration.
     IFConfiguration *componentConfig = [_configTemplate extendWithParameters:parameters];
+    // TODO: This is a hack to make the config template work properly.
+    componentConfig.resource = configuration.resource;
     [self configureWith:componentConfig];
     
     // Configure the command scheduler.
@@ -175,6 +179,7 @@
 
 - (void)startService {
     [super startService];
+    [_postDB startService];
     [self unpackPackagedContent];
     [_commandScheduler executeQueue];
 }

@@ -197,12 +197,14 @@
             [_postDB updateValues:item inTable:@"posts"];
         }
         [_postDB commitTransaction];
-        // Schedule command to unzip base content.
-        NSDictionary *unzipCommand = @{
-            @"name":  @"unzip",
-            @"args":  @[ baseContentFile, _baseContentPath ]
-        };
-        [commands addObject:unzipCommand];
+        // Schedule command to unzip base content if the base content zip exists.
+        if ([[NSFileManager defaultManager] fileExistsAtPath:baseContentFile]) {
+            NSDictionary *unzipCommand = @{
+                @"name":  @"unzip",
+                @"args":  @[ baseContentFile, _baseContentPath ]
+            };
+            [commands addObject:unzipCommand];
+        }
     }
     return [Q resolve:commands];
 }

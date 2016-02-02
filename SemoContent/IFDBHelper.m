@@ -31,6 +31,7 @@ NSString *getDatabasePath(NSString *databaseName) {
         databaseName = name;
         databaseVersion = version;
         NSString *path = getDatabasePath( databaseName );
+        [Logger debug:@"Connection to database %@...", path];
         connectionProvider = [[PLSqliteConnectionProvider alloc] initWithPath:path];
     }
     return self;
