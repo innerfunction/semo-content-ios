@@ -41,7 +41,7 @@ static IFLogger *Logger;
     return self;
 }
 
-- (id)dereference:(IFCompoundURI *)uri parameters:(NSDictionary *)params parent:(id<IFResourceContext>)parent {
+- (id)dereference:(IFCompoundURI *)uri parameters:(NSDictionary *)params {
     // The following URI path forms are supported:
     // * posts:                 Query all posts, and possibly filter by specified parameters.
     // * posts/filter/{name}:   Query all posts and apply the named filter.

@@ -55,26 +55,28 @@
                             @"url":         @{ @"type": @"STRING" },    // The post's WP URL.
                             @"filename":    @{ @"type": @"TEXT" },      // Name of associated media file (i.e. for attachments)
                             @"parent":      @{ @"type": @"INTEGER" },   // ID of parent page/post.
-                            @"order":       @{ @"type": @"INTEGER" }    // Sort order; mapped to post.menu_order.
+                            @"menu_order":  @{ @"type": @"INTEGER" }    // Sort order; mapped to post.menu_order.
                         }
                     }
                 }
             },
             @"contentProtocol": @{
                 @"feedURL":                 @"$feedURL",
-                @"postDB":                  @"@named:postDB",
+                @"postDB":                  @"#postDB",
                 @"stagingPath":             @"$stagingPath",
                 @"packagedContentPath":     @"$packagedContentPath",
                 @"baseContentPath":         @"$baseContentPath",
                 @"contentPath":             @"$contentPath"
             },
             @"uriScheme": @{
-                @"postDB":                  @"@named:postDB",
+                @"postDB":                  @"#postDB",
                 @"listFormats":             @"$listFormats",
                 @"postFormats":             @"$postFormats",
                 @"baseContentPath":         @"$baseContentPath",
                 @"contentPath":             @"$contentPath",
-                @"clientTemplateContext":   @{ @"ios:class": @"IFWPClientTemplateContext" }
+                @"clientTemplateContext": @{
+                    @"ios:class":           @"IFWPClientTemplateContext"
+                }
             },
             @"packagedContentPath":         @"$packagedContentPath",
             @"contentPath":                 @"$contentPath"
@@ -115,7 +117,7 @@
 }
 
 - (void)unpackPackagedContent {
-    NSInteger count = [_postDB countInTable:_postDBName where:@"1 = 1"];
+    NSInteger count = [_postDB countInTable:@"posts" where:@"1 = 1"];
     if (count == 0) {
         [_commandScheduler appendCommand:@"content.unpack -packagedContentPath %@", _packagedContentPath];
     }
@@ -160,8 +162,10 @@
     
     // Generate the full container configuration.
     IFConfiguration *componentConfig = [_configTemplate extendWithParameters:parameters];
-    // TODO: This is a hack to make the config template work properly.
-    componentConfig.resource = configuration.resource;
+    // TODO: There should be some standard method for doing the following, but need to consider what
+    // the component configuration template pattern is exactly first.
+    componentConfig.uriHandler = configuration.uriHandler;
+    componentConfig.root = self;
     [self configureWith:componentConfig];
     
     // Configure the command scheduler.
@@ -179,7 +183,6 @@
 
 - (void)startService {
     [super startService];
-    [_postDB startService];
     [self unpackPackagedContent];
     [_commandScheduler executeQueue];
 }
