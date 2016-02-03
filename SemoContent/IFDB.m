@@ -196,9 +196,13 @@ static IFLogger *Logger;
 }
 
 - (NSInteger)countInTable:(NSString *)table where:(NSString *)where {
+    return [self countInTable:table where:where withParams:@[]];
+}
+
+- (NSInteger)countInTable:(NSString *)table where:(NSString *)where withParams:(NSArray *)params {
     NSInteger count = 0;
     NSString *sql = [NSString stringWithFormat:@"SELECT count(*) AS count FROM %@ WHERE %@", table, where];
-    NSArray *result = [self performQuery:sql withParams:@[]];
+    NSArray *result = [self performQuery:sql withParams:params];
     if ([result count] > 0) {
         NSDictionary *record = [result objectAtIndex:0];
         count = [(NSNumber *)[record objectForKey:@"count"] integerValue];
@@ -251,6 +255,45 @@ static IFLogger *Logger;
         [statement close];
     }
     return result;
+}
+
+- (BOOL)upsertValueList:(NSArray *)valueList intoTable:(NSString *)table {
+    id<PLDatabase> db = [_dbHelper getDatabase];
+    BOOL result = YES;
+    [self willChangeValueForKey:table];
+    for (NSDictionary *values in valueList) {
+        result &= [self upsertValues:values intoTable:table db:db];
+    }
+    [self didChangeValueForKey:table];
+    return result;
+}
+
+- (BOOL)upsertValues:(NSDictionary *)values intoTable:(NSString *)table {
+    id<PLDatabase> db = [_dbHelper getDatabase];
+    [self willChangeValueForKey:table];
+    BOOL result = [self upsertValues:values intoTable:table db:db];
+    [self didChangeValueForKey:table];
+    return result;
+}
+
+- (BOOL)upsertValues:(NSDictionary *)values intoTable:(NSString *)table db:(id<PLDatabase>)db {
+    BOOL update = NO;
+    NSString *idColumn = [self getColumnWithTag:@"id" fromTable:table];
+    if (idColumn) {
+        id idValue = [values objectForKey:idColumn];
+        if (idValue) {
+            NSString *where = [NSString stringWithFormat:@"%@=?", idColumn];
+            NSArray *params = @[ idValue ];
+            NSInteger count = [self countInTable:table where:where withParams:params];
+            update = (count == 1);
+        }
+    }
+    if (update) {
+        return [self updateValues:values idColumn:idColumn inTable:table db:db];
+    }
+    else {
+        return [self insertValues:values intoTable:table db:db];
+    }
 }
 
 - (BOOL)updateValues:(NSDictionary *)values inTable:(NSString *)table {

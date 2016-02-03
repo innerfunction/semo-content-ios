@@ -20,7 +20,7 @@
     if (self) {
         _postDBName = @"com.innerfunction.semo.content";
         _feedURL = @"";
-        _packagedContentPath = @"semo";
+        _packagedContentPath = @"";
         _uriSchemeName = @"wp";
         _listFormats = @{
             @"table": @{
@@ -131,7 +131,7 @@
 - (void)unpackPackagedContent {
     NSInteger count = [_postDB countInTable:@"posts" where:@"1 = 1"];
     if (count == 0) {
-        [_commandScheduler appendCommand:@"content.unpack -packagedContentPath %@", _packagedContentPath];
+        [_commandScheduler appendCommand:@"content.unpack"];// -packagedContentPath %@", _packagedContentPath];
     }
 }
 
@@ -181,6 +181,7 @@
     [self configureWith:componentConfig];
     
     // Configure the command scheduler.
+    _commandScheduler.queueDBName = [NSString stringWithFormat:@"%@.scheduler", _postDBName];
     if (_contentProtocol) {
         _commandScheduler.commands = @{ @"content": _contentProtocol };
     }

@@ -185,18 +185,20 @@
     // Parse arguments.
     NSDictionary *_args = [self parseArgArray:args defaults:nil];
     NSString *packagedContentPath = [_args objectForKey:@"packagedContentPath"];
+    if (!packagedContentPath) {
+        packagedContentPath = _packagedContentPath;
+    }
     if (packagedContentPath) {
         NSString *feedFile = [packagedContentPath stringByAppendingPathComponent:@"feed.json"];
         NSString *baseContentFile = [packagedContentPath stringByAppendingPathComponent:@"base-content.zip"];
         // Read initial posts data from packaged feed file.
-        NSDictionary *feedData = [IFFileIO readJSONFromFileAtPath:feedFile encoding:NSUTF8StringEncoding];
-        NSArray *feedItems = [feedData objectForKey:@"items"];
-        // Iterate over items and update post database.
-        [_postDB beginTransaction];
-        for (NSDictionary *item in feedItems) {
-            [_postDB updateValues:item inTable:@"posts"];
+        NSArray *feedItems = [IFFileIO readJSONFromFileAtPath:feedFile encoding:NSUTF8StringEncoding];
+        if (feedItems) {
+            // Iterate over items and update post database.
+            [_postDB beginTransaction];
+            [_postDB upsertValueList:feedItems intoTable:@"posts"];
+            [_postDB commitTransaction];
         }
-        [_postDB commitTransaction];
         // Schedule command to unzip base content if the base content zip exists.
         if ([[NSFileManager defaultManager] fileExistsAtPath:baseContentFile]) {
             NSDictionary *unzipCommand = @{

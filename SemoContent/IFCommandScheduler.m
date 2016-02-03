@@ -75,6 +75,14 @@ static dispatch_queue_t execQueue;
     return self;
 }
 
+- (NSString *)queueDBName {
+    return _db.name;
+}
+
+- (void)setQueueDBName:(NSString *)queueDBName {
+    _db.name = queueDBName;
+}
+
 - (void)setCommands:(NSDictionary *)commands {
     NSMutableDictionary *commandsToAdd = [[NSMutableDictionary alloc] init];
     // Iterate over the set of commands being added, to check for any command protocols.
@@ -119,7 +127,7 @@ static dispatch_queue_t execQueue;
         // Do nothing if nothing on the queue.
         return;
     }
-    if (_execIdx > [_execQueue count]) {
+    if (_execIdx > [_execQueue count] - 1) {
         // If moved past the end of the queue then try reading a new list of commands from the db.
         [self executeQueue];
         return;
@@ -196,6 +204,7 @@ static dispatch_queue_t execQueue;
         dispatch_async(execQueue, ^{
             [self executeNextCommand];
         });
+        return nil;
     })
     .fail(^(id error) {
         [Logger error:@"Error executing command %@ %@: %@", name, args, error];

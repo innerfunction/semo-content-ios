@@ -22,6 +22,10 @@
 }
 
 /**
+ * The name of the command queue database.
+ */
+@property (nonatomic, strong) NSString *queueDBName;
+/**
  * A map of command instances, keyed by name.
  * Commands which are protocol instances (i.e. IFProtocol subclasses) have each of their
  * protocol commands mapped into the command namespace with the protocol command name as

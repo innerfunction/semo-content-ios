@@ -30,7 +30,7 @@
 - (id)initWithConfiguration:(IFConfiguration *)configuration {
     self = [super initWithConfiguration:configuration];
     if (self) {
-        [(UITableView *)self registerClass:[IFContentTableViewCell class] forCellReuseIdentifier:@"content"];
+        [self.tableView registerClass:[IFContentTableViewCell class] forCellReuseIdentifier:@"content"];
     }
     return self;
 }
