@@ -47,7 +47,7 @@ static dispatch_queue_t execQueue;
     if (self) {
         // Command database setup.
         _db = [[IFDB alloc] init];
-        _db.name = @"semo-command-scheduler";
+        _db.name = @"com.innerfunction.semo.command-scheduler";
         _db.version = @0;
         _db.tables = @{
             @"queue": @{
@@ -174,7 +174,7 @@ static dispatch_queue_t execQueue;
             [Logger debug:@"Appending %@ %@", newName, newArgs];
             NSDictionary *values = @{
                 @"batch":   [NSNumber numberWithInteger:batch],
-                @"name":    newName,
+                @"command": newName,
                 @"args":    newArgs,
                 @"status":  @"P"
             };
@@ -226,7 +226,7 @@ static dispatch_queue_t execQueue;
     NSNumber *batch = [NSNumber numberWithInteger:_currentBatch];
     NSDictionary *values = @{
         @"batch":   batch,
-        @"name":    name,
+        @"command": name,
         @"args":    [args joinWithSeparator:@" "],
         @"status":  @"P"
     };
