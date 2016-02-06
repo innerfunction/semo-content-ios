@@ -52,14 +52,16 @@ static IFLogger *Logger;
     // filter will need to generate URIs referencing the post detail.
     NSString *path = uri.name;
     NSArray *pathComponents = [path split:@"/"];
+    NSString *postID;
     if ([pathComponents count] > 0 && [@"posts" isEqualToString:[pathComponents objectAtIndex:0]]) {
-        NSString *postID = [pathComponents objectAtIndex:1];
         switch ([pathComponents count]) {
             case 1:
                 return [self queryPostsUsingFilter:nil params:params];
             case 2:
+                postID = [pathComponents objectAtIndex:1];
                 return [self getPost:postID withParams:params];
             case 3:
+                postID = [pathComponents objectAtIndex:1];
                 if ([@"children" isEqualToString:[pathComponents objectAtIndex:2]]) {
                     return [self getPostChildren:postID withParams:params];
                 }

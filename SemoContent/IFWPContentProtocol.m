@@ -195,9 +195,12 @@
         NSArray *feedItems = [IFFileIO readJSONFromFileAtPath:feedFile encoding:NSUTF8StringEncoding];
         if (feedItems) {
             // Iterate over items and update post database.
-            [_postDB beginTransaction];
-            [_postDB upsertValueList:feedItems intoTable:@"posts"];
-            [_postDB commitTransaction];
+            // IFDB instances aren't threadsafe (i.e. because the underlying plausible db instances aren't
+            // threadsafe) so create a new instance of the db before applying the updates.
+            IFDB *db = [_postDB newInstance];
+            [db beginTransaction];
+            [db upsertValueList:feedItems intoTable:@"posts"];
+            [db commitTransaction];
         }
         // Schedule command to unzip base content if the base content zip exists.
         if ([[NSFileManager defaultManager] fileExistsAtPath:baseContentFile]) {

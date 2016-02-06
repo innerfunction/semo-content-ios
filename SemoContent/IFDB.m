@@ -16,6 +16,8 @@ static IFLogger *Logger;
 
 @interface IFDB ()
 
+/** Instantiate a new copy of an existing database. */
+- (id)initWithDB:(IFDB *)db;
 /** Read a record from the specified table. */
 - (NSDictionary *)readRecordWithID:(NSString *)identifier fromTable:(NSString *)table db:(id<PLDatabase>)db;
 /** Read a record from the specified table. */
@@ -54,6 +56,16 @@ static IFLogger *Logger;
         self.tables = @{};
         self.resetDatabase = NO;
         _initialData = [[NSMutableDictionary alloc] init];
+    }
+    return self;
+}
+
+- (id)initWithDB:(IFDB *)db {
+    self = [super init];
+    if (self) {
+        self.name = db.name;
+        self.version = db.version;
+        self.tables = db.tables;
     }
     return self;
 }
@@ -412,6 +424,12 @@ static IFLogger *Logger;
         }
     }
     return result;
+}
+
+- (IFDB *)newInstance {
+    IFDB *newDB = [[IFDB alloc] initWithDB:self];
+    [newDB startService];
+    return newDB;
 }
 
 #pragma mark - IFDBHelperDelegate

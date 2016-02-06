@@ -74,5 +74,7 @@
 - (BOOL)deleteFromTable:(NSString *)table where:(NSString *)where;
 /** Filter a set of named/value pairs to only contains names corresponding to a column name in the target db table. */
 - (NSDictionary *)filterValues:(NSDictionary *)values forTable:(NSString *)table;
+/** Create and return a new instance of this database connection. */
+- (IFDB *)newInstance;
 
 @end

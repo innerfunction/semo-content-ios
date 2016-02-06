@@ -176,7 +176,7 @@
     IFConfiguration *componentConfig = [_configTemplate extendWithParameters:parameters];
     // TODO: There should be some standard method for doing the following, but need to consider what
     // the component configuration template pattern is exactly first.
-    componentConfig.uriHandler = configuration.uriHandler;
+    componentConfig.uriHandler = configuration.uriHandler; // This necessary for relative URIs within the config to work.
     componentConfig.root = self;
     [self configureWith:componentConfig];
     
@@ -188,7 +188,8 @@
     
     // Register the URI scheme handler.
     if (_uriSchemeName && _uriScheme) {
-        [_uriHandler addHandler:_uriScheme forScheme:_uriSchemeName];
+        // Need to use the config's URI handler for wp: schemes to work within the config.
+        [componentConfig.uriHandler addHandler:_uriScheme forScheme:_uriSchemeName];
     }
 }
 

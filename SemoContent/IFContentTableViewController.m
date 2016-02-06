@@ -96,9 +96,11 @@
 }
 
 - (CGFloat)height {
+    [self layoutIfNeeded];
+    CGSize titleSize = self.textLabel.bounds.size;
     CGFloat width = self.detailTextLabel.bounds.size.width;
     CGSize contentSize = [self.detailTextLabel sizeThatFits:CGSizeMake(width, CGFLOAT_MAX)];
-    return contentSize.height;
+    return titleSize.height + contentSize.height;
 }
 
 #pragma mark - overloads
