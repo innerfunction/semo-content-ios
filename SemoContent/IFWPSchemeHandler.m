@@ -88,6 +88,7 @@ static IFLogger *Logger;
         // Construct an anonymous filter instance.
         IFDBFilter *filter = [[IFDBFilter alloc] init];
         filter.table = @"posts";
+        filter.orderBy = @"menu_order";
         // Construct a set of filter parameters from the URI parameters.
         IFRegExp *re = [[IFRegExp alloc] initWithPattern:@"^(\\w+)\\.(.*)"];
         NSMutableDictionary *filterParams = [[NSMutableDictionary alloc] init];

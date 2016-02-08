@@ -7,6 +7,7 @@
 //
 
 #import "IFContentTableViewController.h"
+#import "IFStringTemplate.h"
 #import "NSDictionary+IFValues.h"
 
 @interface IFContentTableViewController ()
@@ -35,13 +36,22 @@
     return self;
 }
 
+#pragma mark - Overridden methods
+
+- (void)setContent:(id)content {
+    if (_dataFormatter) {
+        content = [_dataFormatter formatData:content];
+    }
+    [super setContent:content];
+}
+
 #pragma mark - private methods
 
 - (void)configureCell:(IFContentTableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
     NSDictionary *data = [self.tableData rowDataForIndexPath:indexPath];
     cell.title = [data getValueAsString:@"title"];
     cell.content = [data getValueAsString:@"content"];
-    if ([data hasValue:@"action"]) {
+    if (_action || [data hasValue:@"action"]) {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     else {
@@ -57,6 +67,20 @@
     }
     [self configureCell:_layoutCell forIndexPath:indexPath];
     return _layoutCell.height;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSDictionary *data = [self.tableData rowDataForIndexPath:indexPath];
+    // Check for action on cell data.
+    NSString *action = [data getValueAsString:@"action"];
+    // If no action on cell data, but action defined on table then eval as a template on the cell data.
+    if (!action && _action) {
+        action = [IFStringTemplate render:_action context:data];
+    }
+    // If we have an action then dispatch it.
+    if (action) {
+        [self dispatchURI:action];
+    }
 }
 
 #pragma mark - Table view data source

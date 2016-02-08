@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0746AAB11C5BB06B00641C9F /* SemoContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 0746AAB01C5BB06B00641C9F /* SemoContent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		07916B411C68A3370028AEA5 /* GRMustache.h in Headers */ = {isa = PBXBuildFile; fileRef = 07916B3F1C68A3370028AEA5 /* GRMustache.h */; };
+		07916B421C68A3370028AEA5 /* libGRMustache7-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 07916B401C68A3370028AEA5 /* libGRMustache7-iOS.a */; };
 		07928FB41C5BB0B600EFA4F0 /* IFContentTableViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 07928F911C5BB0B600EFA4F0 /* IFContentTableViewController.h */; };
 		07928FB51C5BB0B600EFA4F0 /* IFContentTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07928F921C5BB0B600EFA4F0 /* IFContentTableViewController.m */; };
 		07928FB61C5BB0B600EFA4F0 /* IFProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 07928F931C5BB0B600EFA4F0 /* IFProtocol.h */; };
@@ -107,6 +109,8 @@
 		0746AAAD1C5BB06B00641C9F /* SemoContent.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SemoContent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0746AAB01C5BB06B00641C9F /* SemoContent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SemoContent.h; sourceTree = "<group>"; };
 		0746AAB21C5BB06B00641C9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		07916B3F1C68A3370028AEA5 /* GRMustache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustache.h; sourceTree = "<group>"; };
+		07916B401C68A3370028AEA5 /* libGRMustache7-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libGRMustache7-iOS.a"; sourceTree = "<group>"; };
 		07928F911C5BB0B600EFA4F0 /* IFContentTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFContentTableViewController.h; path = ../../SemoContent/IFContentTableViewController.h; sourceTree = "<group>"; };
 		07928F921C5BB0B600EFA4F0 /* IFContentTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFContentTableViewController.m; path = ../../SemoContent/IFContentTableViewController.m; sourceTree = "<group>"; };
 		07928F931C5BB0B600EFA4F0 /* IFProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFProtocol.h; path = ../../SemoContent/IFProtocol.h; sourceTree = "<group>"; };
@@ -178,6 +182,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0792905F1C5BB5C200EFA4F0 /* libQ.a in Frameworks */,
+				07916B421C68A3370028AEA5 /* libGRMustache7-iOS.a in Frameworks */,
 				0792905D1C5BB5C200EFA4F0 /* libSemoCore.a in Frameworks */,
 				0792905B1C5BB3A800EFA4F0 /* Foundation.framework in Frameworks */,
 				079290591C5BB3A000EFA4F0 /* UIKit.framework in Frameworks */,
@@ -226,6 +231,15 @@
 				075890E01C5BB72E007A28D7 /* QTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		07916B3E1C68A3370028AEA5 /* GRMustache */ = {
+			isa = PBXGroup;
+			children = (
+				07916B3F1C68A3370028AEA5 /* GRMustache.h */,
+				07916B401C68A3370028AEA5 /* libGRMustache7-iOS.a */,
+			);
+			path = GRMustache;
 			sourceTree = "<group>";
 		};
 		07928FD71C5BB0E100EFA4F0 /* com.innerfunction.semo.content.ui */ = {
@@ -297,6 +311,7 @@
 			children = (
 				0792903F1C5BB2D600EFA4F0 /* Q.xcodeproj */,
 				079290361C5BB2C800EFA4F0 /* SemoCore.xcodeproj */,
+				07916B3E1C68A3370028AEA5 /* GRMustache */,
 				079290061C5BB1D100EFA4F0 /* PlausibleDatabase */,
 			);
 			name = Externals;
@@ -371,6 +386,7 @@
 				07928FC01C5BB0B600EFA4F0 /* IFDataFormatter.h in Headers */,
 				079290251C5BB1D200EFA4F0 /* PLPreparedStatement.h in Headers */,
 				07928FD01C5BB0B600EFA4F0 /* IFWPClientTemplateContext.h in Headers */,
+				07916B411C68A3370028AEA5 /* GRMustache.h in Headers */,
 				07928FD61C5BB0B600EFA4F0 /* IFWPDataWebviewFormatter.h in Headers */,
 				0792902B1C5BB1D200EFA4F0 /* PLSqliteMigrationVersionManager.h in Headers */,
 				0792902F1C5BB1D200EFA4F0 /* PLSqliteResultSet.h in Headers */,

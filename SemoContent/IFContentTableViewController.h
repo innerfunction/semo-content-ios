@@ -7,11 +7,15 @@
 //
 
 #import "IFTableViewController.h"
+#import "IFDataFormatter.h"
 
 @class IFContentTableViewCell;
 
 @interface IFContentTableViewController : IFTableViewController {
     IFContentTableViewCell *_layoutCell;
 }
+
+@property (nonatomic, strong) id<IFDataFormatter> dataFormatter;
+@property (nonatomic, strong) NSString *action;
 
 @end
