@@ -12,18 +12,17 @@
 #import "IFDBFilter.h"
 #import "IFDataFormatter.h"
 #import "IFRegExp.h"
-#import "IFStringTemplate.h"
+//#import "IFStringTemplate.h"
 #import "NSString+IF.h"
 #import "NSDictionary+IFValues.h"
 #import "NSDictionary+IF.h"
+#import "GRMustache.h"
 
 static IFLogger *Logger;
 
 @interface IFWPSchemeHandler ()
 
 - (id)queryPostsUsingFilter:(NSString *)filterName params:(NSDictionary *)params;
-- (id)getPostChildren:(NSString *)postID withParams:(NSDictionary *)params;
-- (id)getPost:(NSString *)postID withParams:(NSDictionary *)params;
 
 @end
 
@@ -137,7 +136,7 @@ static IFLogger *Logger;
     IFDBFilter *filter = [[IFDBFilter alloc] init];
     filter.table = @"posts";
     filter.filters = @{ @"parent": postID };
-    filter.orderBy = @"order";
+    filter.orderBy = @"menu_order";
     return [filter applyTo:_postDB withParameters:@{}];
 }
 
@@ -159,7 +158,12 @@ static IFLogger *Logger;
     NSString *template = [NSString stringWithContentsOfFile:templatePath encoding:NSUTF8StringEncoding error:nil];
     // Generate the full post HTML using the post data and the client template.
     _clientTemplateContext.postData = postData;
-    NSString *postHTML = [IFStringTemplate render:template context:_clientTemplateContext];
+    NSError *error;
+    NSString *postHTML = [GRMustacheTemplate renderObject:_clientTemplateContext fromResource:template bundle:nil error:&error];
+    if (error) {
+        //[Logger error:@"Rendering template: %@", error];
+        postHTML = [NSString stringWithFormat:@"<h1>Template error</h1><pre>%@</pre>", error];
+    }
     // Generate a content URL within the base content directory - this to ensure that references to base
     // content can be resolved as relative references.
     NSString *contentURL = [NSString stringWithFormat:@"file:///%@/%@-%@.html", _contentPath, postType, postID ];

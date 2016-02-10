@@ -27,5 +27,7 @@
 }
 
 @property (nonatomic, strong) NSDictionary *postData;
+/** A dictionary of registered extensions. */
+@property (nonatomic, strong) NSDictionary *ext;
 
 @end

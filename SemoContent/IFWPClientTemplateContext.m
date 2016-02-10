@@ -82,8 +82,12 @@
             }
             return uri;
         }
+        else if ([@"ext" isEqualToString:prefix]) {
+            return [_ext valueForKey:[pathComponents objectAtIndex:1]];
+        }
     }
-    return [super valueForKeyPath:keyPath];
+    // Forward request to post data.
+    return [_postData valueForKeyPath:keyPath];
 }
 
 @end

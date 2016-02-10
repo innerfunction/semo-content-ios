@@ -75,7 +75,13 @@
                 @"baseContentPath":         @"$baseContentPath",
                 @"contentPath":             @"$contentPath",
                 @"clientTemplateContext": @{
-                    @"ios:class":           @"IFWPClientTemplateContext"
+                    @"ios:class":           @"IFWPClientTemplateContext",
+                    @"ext": @{
+                        @"childPosts": @{
+                            @"ios:class":       @"IFWPChildPostRendering",
+                            @"schemeHandler":   @"$uriScheme"
+                        }
+                    }
                 }
             },
             @"packagedContentPath":         @"$packagedContentPath",

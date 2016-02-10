@@ -7,6 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0743CF031C6BA079005A1E55 /* GRMustacheAvailabilityMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 0743CEF31C6BA079005A1E55 /* GRMustacheAvailabilityMacros.h */; };
+		0743CF041C6BA079005A1E55 /* GRMustacheConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 0743CEF41C6BA079005A1E55 /* GRMustacheConfiguration.h */; };
+		0743CF051C6BA079005A1E55 /* GRMustacheContentType.h in Headers */ = {isa = PBXBuildFile; fileRef = 0743CEF51C6BA079005A1E55 /* GRMustacheContentType.h */; };
+		0743CF061C6BA079005A1E55 /* GRMustacheContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 0743CEF61C6BA079005A1E55 /* GRMustacheContext.h */; };
+		0743CF071C6BA079005A1E55 /* GRMustacheError.h in Headers */ = {isa = PBXBuildFile; fileRef = 0743CEF71C6BA079005A1E55 /* GRMustacheError.h */; };
+		0743CF081C6BA079005A1E55 /* GRMustacheFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 0743CEF81C6BA079005A1E55 /* GRMustacheFilter.h */; };
+		0743CF091C6BA079005A1E55 /* GRMustacheLocalizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 0743CEF91C6BA079005A1E55 /* GRMustacheLocalizer.h */; };
+		0743CF0A1C6BA079005A1E55 /* GRMustacheRendering.h in Headers */ = {isa = PBXBuildFile; fileRef = 0743CEFA1C6BA079005A1E55 /* GRMustacheRendering.h */; };
+		0743CF0B1C6BA079005A1E55 /* GRMustacheSafeKeyAccess.h in Headers */ = {isa = PBXBuildFile; fileRef = 0743CEFB1C6BA079005A1E55 /* GRMustacheSafeKeyAccess.h */; };
+		0743CF0C1C6BA079005A1E55 /* GRMustacheTag.h in Headers */ = {isa = PBXBuildFile; fileRef = 0743CEFC1C6BA079005A1E55 /* GRMustacheTag.h */; };
+		0743CF0D1C6BA079005A1E55 /* GRMustacheTagDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0743CEFD1C6BA079005A1E55 /* GRMustacheTagDelegate.h */; };
+		0743CF0E1C6BA079005A1E55 /* GRMustacheTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0743CEFE1C6BA079005A1E55 /* GRMustacheTemplate.h */; };
+		0743CF0F1C6BA079005A1E55 /* GRMustacheTemplateRepository.h in Headers */ = {isa = PBXBuildFile; fileRef = 0743CEFF1C6BA079005A1E55 /* GRMustacheTemplateRepository.h */; };
+		0743CF101C6BA079005A1E55 /* GRMustacheVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 0743CF001C6BA079005A1E55 /* GRMustacheVersion.h */; };
+		0743CF111C6BA079005A1E55 /* NSFormatter+GRMustache.h in Headers */ = {isa = PBXBuildFile; fileRef = 0743CF011C6BA079005A1E55 /* NSFormatter+GRMustache.h */; };
+		0743CF121C6BA079005A1E55 /* NSValueTransformer+GRMustache.h in Headers */ = {isa = PBXBuildFile; fileRef = 0743CF021C6BA079005A1E55 /* NSValueTransformer+GRMustache.h */; };
 		0746AAB11C5BB06B00641C9F /* SemoContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 0746AAB01C5BB06B00641C9F /* SemoContent.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		07916B411C68A3370028AEA5 /* GRMustache.h in Headers */ = {isa = PBXBuildFile; fileRef = 07916B3F1C68A3370028AEA5 /* GRMustache.h */; };
 		07916B421C68A3370028AEA5 /* libGRMustache7-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 07916B401C68A3370028AEA5 /* libGRMustache7-iOS.a */; };
@@ -72,6 +88,8 @@
 		0792905B1C5BB3A800EFA4F0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0792905A1C5BB3A800EFA4F0 /* Foundation.framework */; };
 		0792905D1C5BB5C200EFA4F0 /* libSemoCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 079290551C5BB36400EFA4F0 /* libSemoCore.a */; };
 		0792905F1C5BB5C200EFA4F0 /* libQ.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0792905E1C5BB5C200EFA4F0 /* libQ.a */; };
+		07A981521C6BDD6300280F53 /* IFWPChildPostRendering.h in Headers */ = {isa = PBXBuildFile; fileRef = 07A981501C6BDD6300280F53 /* IFWPChildPostRendering.h */; };
+		07A981531C6BDD6300280F53 /* IFWPChildPostRendering.m in Sources */ = {isa = PBXBuildFile; fileRef = 07A981511C6BDD6300280F53 /* IFWPChildPostRendering.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +124,22 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0743CEF31C6BA079005A1E55 /* GRMustacheAvailabilityMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheAvailabilityMacros.h; sourceTree = "<group>"; };
+		0743CEF41C6BA079005A1E55 /* GRMustacheConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheConfiguration.h; sourceTree = "<group>"; };
+		0743CEF51C6BA079005A1E55 /* GRMustacheContentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheContentType.h; sourceTree = "<group>"; };
+		0743CEF61C6BA079005A1E55 /* GRMustacheContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheContext.h; sourceTree = "<group>"; };
+		0743CEF71C6BA079005A1E55 /* GRMustacheError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheError.h; sourceTree = "<group>"; };
+		0743CEF81C6BA079005A1E55 /* GRMustacheFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheFilter.h; sourceTree = "<group>"; };
+		0743CEF91C6BA079005A1E55 /* GRMustacheLocalizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheLocalizer.h; sourceTree = "<group>"; };
+		0743CEFA1C6BA079005A1E55 /* GRMustacheRendering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheRendering.h; sourceTree = "<group>"; };
+		0743CEFB1C6BA079005A1E55 /* GRMustacheSafeKeyAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheSafeKeyAccess.h; sourceTree = "<group>"; };
+		0743CEFC1C6BA079005A1E55 /* GRMustacheTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheTag.h; sourceTree = "<group>"; };
+		0743CEFD1C6BA079005A1E55 /* GRMustacheTagDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheTagDelegate.h; sourceTree = "<group>"; };
+		0743CEFE1C6BA079005A1E55 /* GRMustacheTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheTemplate.h; sourceTree = "<group>"; };
+		0743CEFF1C6BA079005A1E55 /* GRMustacheTemplateRepository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheTemplateRepository.h; sourceTree = "<group>"; };
+		0743CF001C6BA079005A1E55 /* GRMustacheVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheVersion.h; sourceTree = "<group>"; };
+		0743CF011C6BA079005A1E55 /* NSFormatter+GRMustache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFormatter+GRMustache.h"; sourceTree = "<group>"; };
+		0743CF021C6BA079005A1E55 /* NSValueTransformer+GRMustache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSValueTransformer+GRMustache.h"; sourceTree = "<group>"; };
 		0746AAAD1C5BB06B00641C9F /* SemoContent.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SemoContent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0746AAB01C5BB06B00641C9F /* SemoContent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SemoContent.h; sourceTree = "<group>"; };
 		0746AAB21C5BB06B00641C9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -174,6 +208,8 @@
 		079290581C5BB3A000EFA4F0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0792905A1C5BB3A800EFA4F0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0792905E1C5BB5C200EFA4F0 /* libQ.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libQ.a; path = "../../Q-ios/Q/build/Debug-iphoneos/libQ.a"; sourceTree = "<group>"; };
+		07A981501C6BDD6300280F53 /* IFWPChildPostRendering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFWPChildPostRendering.h; path = ../../SemoContent/IFWPChildPostRendering.h; sourceTree = "<group>"; };
+		07A981511C6BDD6300280F53 /* IFWPChildPostRendering.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFWPChildPostRendering.m; path = ../../SemoContent/IFWPChildPostRendering.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -237,6 +273,22 @@
 			isa = PBXGroup;
 			children = (
 				07916B3F1C68A3370028AEA5 /* GRMustache.h */,
+				0743CEF31C6BA079005A1E55 /* GRMustacheAvailabilityMacros.h */,
+				0743CEF41C6BA079005A1E55 /* GRMustacheConfiguration.h */,
+				0743CEF51C6BA079005A1E55 /* GRMustacheContentType.h */,
+				0743CEF61C6BA079005A1E55 /* GRMustacheContext.h */,
+				0743CEF71C6BA079005A1E55 /* GRMustacheError.h */,
+				0743CEF81C6BA079005A1E55 /* GRMustacheFilter.h */,
+				0743CEF91C6BA079005A1E55 /* GRMustacheLocalizer.h */,
+				0743CEFA1C6BA079005A1E55 /* GRMustacheRendering.h */,
+				0743CEFB1C6BA079005A1E55 /* GRMustacheSafeKeyAccess.h */,
+				0743CEFC1C6BA079005A1E55 /* GRMustacheTag.h */,
+				0743CEFD1C6BA079005A1E55 /* GRMustacheTagDelegate.h */,
+				0743CEFE1C6BA079005A1E55 /* GRMustacheTemplate.h */,
+				0743CEFF1C6BA079005A1E55 /* GRMustacheTemplateRepository.h */,
+				0743CF001C6BA079005A1E55 /* GRMustacheVersion.h */,
+				0743CF011C6BA079005A1E55 /* NSFormatter+GRMustache.h */,
+				0743CF021C6BA079005A1E55 /* NSValueTransformer+GRMustache.h */,
 				07916B401C68A3370028AEA5 /* libGRMustache7-iOS.a */,
 			);
 			path = GRMustache;
@@ -269,6 +321,8 @@
 				07928FB21C5BB0B600EFA4F0 /* IFWPDataTableFormatter.m */,
 				07928FB31C5BB0B600EFA4F0 /* IFWPDataWebviewFormatter.h */,
 				07928F971C5BB0B600EFA4F0 /* IFWPDataWebviewFormatter.m */,
+				07A981501C6BDD6300280F53 /* IFWPChildPostRendering.h */,
+				07A981511C6BDD6300280F53 /* IFWPChildPostRendering.m */,
 			);
 			name = com.innerfunction.semo.content;
 			sourceTree = "<group>";
@@ -374,40 +428,57 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0743CF121C6BA079005A1E55 /* NSValueTransformer+GRMustache.h in Headers */,
 				07928FC71C5BB0B600EFA4F0 /* IFGetURLCommand.h in Headers */,
 				079290231C5BB1D200EFA4F0 /* PLDatabaseMigrationTransactionManager.h in Headers */,
 				0746AAB11C5BB06B00641C9F /* SemoContent.h in Headers */,
+				0743CF0F1C6BA079005A1E55 /* GRMustacheTemplateRepository.h in Headers */,
 				07928FD41C5BB0B600EFA4F0 /* IFWPDataTableFormatter.h in Headers */,
 				07928FBB1C5BB0B600EFA4F0 /* IFWPSchemeHandler.h in Headers */,
 				07928FB61C5BB0B600EFA4F0 /* IFProtocol.h in Headers */,
 				079290271C5BB1D200EFA4F0 /* PLSqliteConnectionProvider.h in Headers */,
+				0743CF0A1C6BA079005A1E55 /* GRMustacheRendering.h in Headers */,
 				07928FB71C5BB0B600EFA4F0 /* IFUnzipCommand.h in Headers */,
 				07928FC11C5BB0B600EFA4F0 /* IFDB.h in Headers */,
+				07A981521C6BDD6300280F53 /* IFWPChildPostRendering.h in Headers */,
 				07928FC01C5BB0B600EFA4F0 /* IFDataFormatter.h in Headers */,
+				0743CF0E1C6BA079005A1E55 /* GRMustacheTemplate.h in Headers */,
+				0743CF061C6BA079005A1E55 /* GRMustacheContext.h in Headers */,
 				079290251C5BB1D200EFA4F0 /* PLPreparedStatement.h in Headers */,
 				07928FD01C5BB0B600EFA4F0 /* IFWPClientTemplateContext.h in Headers */,
 				07916B411C68A3370028AEA5 /* GRMustache.h in Headers */,
+				0743CF081C6BA079005A1E55 /* GRMustacheFilter.h in Headers */,
+				0743CF0C1C6BA079005A1E55 /* GRMustacheTag.h in Headers */,
 				07928FD61C5BB0B600EFA4F0 /* IFWPDataWebviewFormatter.h in Headers */,
 				0792902B1C5BB1D200EFA4F0 /* PLSqliteMigrationVersionManager.h in Headers */,
 				0792902F1C5BB1D200EFA4F0 /* PLSqliteResultSet.h in Headers */,
 				07928FB41C5BB0B600EFA4F0 /* IFContentTableViewController.h in Headers */,
+				0743CF051C6BA079005A1E55 /* GRMustacheContentType.h in Headers */,
 				07928FC91C5BB0B600EFA4F0 /* IFMvFileCommand.h in Headers */,
 				079290291C5BB1D200EFA4F0 /* PLSqliteDatabase.h in Headers */,
 				07928FC31C5BB0B600EFA4F0 /* IFDBFilter.h in Headers */,
+				0743CF0B1C6BA079005A1E55 /* GRMustacheSafeKeyAccess.h in Headers */,
+				0743CF091C6BA079005A1E55 /* GRMustacheLocalizer.h in Headers */,
 				079290211C5BB1D200EFA4F0 /* PLDatabaseMigrationManager.h in Headers */,
 				0792901F1C5BB1D200EFA4F0 /* PLDatabaseConnectionProvider.h in Headers */,
+				0743CF111C6BA079005A1E55 /* NSFormatter+GRMustache.h in Headers */,
 				07928FCC1C5BB0B600EFA4F0 /* IFRmFileCommand.h in Headers */,
+				0743CF031C6BA079005A1E55 /* GRMustacheAvailabilityMacros.h in Headers */,
 				07928FD21C5BB0B600EFA4F0 /* IFWPContentContainer.h in Headers */,
 				0792902D1C5BB1D200EFA4F0 /* PLSqlitePreparedStatement.h in Headers */,
+				0743CF071C6BA079005A1E55 /* GRMustacheError.h in Headers */,
 				07928FCE1C5BB0B600EFA4F0 /* IFSemoContent.h in Headers */,
+				0743CF101C6BA079005A1E55 /* GRMustacheVersion.h in Headers */,
 				079290201C5BB1D200EFA4F0 /* PLDatabaseMigrationDelegate.h in Headers */,
 				07928FD31C5BB0B600EFA4F0 /* IFWPContentProtocol.h in Headers */,
+				0743CF0D1C6BA079005A1E55 /* GRMustacheTagDelegate.h in Headers */,
 				07928FBD1C5BB0B600EFA4F0 /* IFCommand.h in Headers */,
 				07928FC51C5BB0B600EFA4F0 /* IFDBHelper.h in Headers */,
 				0792901C1C5BB1D100EFA4F0 /* PlausibleDatabase.h in Headers */,
 				079290261C5BB1D200EFA4F0 /* PLResultSet.h in Headers */,
 				0792901E1C5BB1D100EFA4F0 /* PLDatabase.h in Headers */,
 				07928FBE1C5BB0B600EFA4F0 /* IFCommandScheduler.h in Headers */,
+				0743CF041C6BA079005A1E55 /* GRMustacheConfiguration.h in Headers */,
 				079290241C5BB1D200EFA4F0 /* PLDatabaseMigrationVersionManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -537,6 +608,7 @@
 				07928FBA1C5BB0B600EFA4F0 /* IFWPDataWebviewFormatter.m in Sources */,
 				07928FCF1C5BB0B600EFA4F0 /* IFUnzipCommand.m in Sources */,
 				07928FCB1C5BB0B600EFA4F0 /* IFProtocol.m in Sources */,
+				07A981531C6BDD6300280F53 /* IFWPChildPostRendering.m in Sources */,
 				0792902A1C5BB1D200EFA4F0 /* PLSqliteDatabase.m in Sources */,
 				07928FC21C5BB0B600EFA4F0 /* IFDB.m in Sources */,
 				07928FB91C5BB0B600EFA4F0 /* IFWPContentProtocol.m in Sources */,
@@ -649,6 +721,7 @@
 				INFOPLIST_FILE = SemoContent/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Externals/**";
 				OTHER_CFLAGS = "-DPL_DB_PRIVATE=1";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.innerfunction.SemoContent;
@@ -669,6 +742,7 @@
 				INFOPLIST_FILE = SemoContent/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Externals/**";
 				OTHER_CFLAGS = "-DPL_DB_PRIVATE=1";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.innerfunction.SemoContent;

@@ -51,4 +51,9 @@
 /** An object to use as the template context when rendering the client template for a post. */
 @property (nonatomic, strong) IFWPClientTemplateContext *clientTemplateContext;
 
+/** Return the child posts of a specified post. */
+- (id)getPostChildren:(NSString *)postID withParams:(NSDictionary *)params;
+/** Return data for a specified post. */
+- (id)getPost:(NSString *)postID withParams:(NSDictionary *)params;
+
 @end
