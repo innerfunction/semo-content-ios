@@ -21,8 +21,6 @@
     IFCommandScheduler *_commandScheduler;
     // Location for staging downloaded content prior to deployment.
     NSString *_stagingPath;
-    // Base content location.
-    NSString *_baseContentPath;
     // The location of downloaded post content once deployed.
     NSString *_contentPath;
 }
@@ -33,6 +31,8 @@
 @property (nonatomic, strong) NSString *feedURL;
 /** The location of pre-packaged post content, relative to the installed app. */
 @property (nonatomic, strong) NSString *packagedContentPath;
+/** The location of base content. */
+@property (nonatomic, strong) NSString *baseContentPath;
 /** The scheme name the URI handler should be bound to; defaults to wp: */
 @property (nonatomic, strong) NSString *uriSchemeName;
 /** The posts DB instance. */

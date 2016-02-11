@@ -146,20 +146,20 @@ static IFLogger *Logger;
     // Load the client template for the post type.
     NSString *postType = [postData objectForKey:@"type"];
     NSString *templateName = [NSString stringWithFormat:@"template-%@.html", postType];
-    NSString *templatePath = [_contentPath stringByAppendingPathComponent:templateName];
+    NSString *templatePath = [_baseContentPath stringByAppendingPathComponent:templateName];
     if (![_fileManager fileExistsAtPath:templatePath isDirectory:nil]) {
-        templatePath = [_contentPath stringByAppendingString:@"template-single.html"];
+        templatePath = [_baseContentPath stringByAppendingString:@"template-single.html"];
         if (![_fileManager fileExistsAtPath:templatePath isDirectory:nil]) {
             [Logger warn:@"Client template for post type '%@' not found at %@", postType, _contentPath];
+            return nil;
         }
-        return nil;
     }
     // Assume at this point that the template file exists.
     NSString *template = [NSString stringWithContentsOfFile:templatePath encoding:NSUTF8StringEncoding error:nil];
     // Generate the full post HTML using the post data and the client template.
-    _clientTemplateContext.postData = postData;
+    id context = [_clientTemplateContext templateContextForPostData:postData];
     NSError *error;
-    NSString *postHTML = [GRMustacheTemplate renderObject:_clientTemplateContext fromResource:template bundle:nil error:&error];
+    NSString *postHTML = [GRMustacheTemplate renderObject:context fromString:template error:&error];
     if (error) {
         //[Logger error:@"Rendering template: %@", error];
         postHTML = [NSString stringWithFormat:@"<h1>Template error</h1><pre>%@</pre>", error];
@@ -172,12 +172,14 @@ static IFLogger *Logger;
         @"content":     postHTML,
         @"contentURL":  contentURL
     }];
+    /* TODO: Review the need for this.
     NSString *format = [params getValueAsString:@"_format" defaultValue:@"webview"];
     // Format the data result.
     id<IFDataFormatter> formatter = [_postFormats objectForKey:format];
     if (formatter) {
         postData = [formatter formatData:postData];
     }
+    */
     return postData;
 }
 

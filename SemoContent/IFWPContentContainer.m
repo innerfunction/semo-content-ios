@@ -24,12 +24,12 @@
         _uriSchemeName = @"wp";
         _listFormats = @{
             @"table": @{
-                @"ios:class": @"IFWPDataTableFormatter"
+                @"*ios-class": @"IFWPDataTableFormatter"
             }
         };
         _postFormats = @{
             @"webview": @{
-                @"ios:class": @"IFWPDataWebviewFormatter"
+                @"*ios-class": @"IFWPDataWebviewFormatter"
             }
         };
         _postURITemplate = @"{uriSchemeName}:/post/{postID}";
@@ -75,10 +75,10 @@
                 @"baseContentPath":         @"$baseContentPath",
                 @"contentPath":             @"$contentPath",
                 @"clientTemplateContext": @{
-                    @"ios:class":           @"IFWPClientTemplateContext",
+                    @"*ios-class":          @"IFWPClientTemplateContext",
                     @"ext": @{
                         @"childPosts": @{
-                            @"ios:class":       @"IFWPChildPostRendering",
+                            @"*ios-class":      @"IFWPChildPostRendering",
                             @"schemeHandler":   @"$uriScheme"
                         }
                     }

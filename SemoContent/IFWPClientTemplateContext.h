@@ -11,6 +11,24 @@
 #import "IFIOCContainerAware.h"
 #import "IFWPContentContainer.h"
 
+@interface IFWPAttachmentsProxy : NSObject {
+    NSFileManager *_fileManager;
+}
+
+@property (nonatomic, strong) IFWPContentContainer *container;
+@property (nonatomic, strong) IFDB *postDB;
+@property (nonatomic, strong) NSString *packagedContentPath;
+@property (nonatomic, strong) NSString *contentPath;
+
+@end
+
+@interface IFWPPostsProxy : NSObject
+
+@property (nonatomic, strong) IFWPContentContainer *container;
+@property (nonatomic, strong) IFDB *postDB;
+
+@end
+
 /**
  * Data context implementation for the client template.
  * The client template is used to generate post HTML pages using the latest mobile
@@ -19,15 +37,13 @@
  * post references with appropriate URIs.
  */
 @interface IFWPClientTemplateContext : NSObject <IFIOCContainerAware> {
-    NSFileManager *_fileManager;
-    IFWPContentContainer *_container;
-    IFDB *_postDB;
-    NSString *_packagedContentPath;
-    NSString *_contentPath;
+    IFWPAttachmentsProxy *_attachments;
+    IFWPPostsProxy *_posts;
 }
 
-@property (nonatomic, strong) NSDictionary *postData;
 /** A dictionary of registered extensions. */
 @property (nonatomic, strong) NSDictionary *ext;
+
+- (id)templateContextForPostData:(id)postData;
 
 @end
