@@ -44,6 +44,9 @@
                 }
                 [terms addObject:filterName];
                 NSString *filterValue = [_filters valueForKey:filterName];
+                if (![filterValue isKindOfClass:[NSString class]]) {
+                    filterValue = [filterValue description];
+                }
                 if ([predicatePattern matches:filterValue]) {
                     [terms addObject:filterValue];
                 }

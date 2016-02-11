@@ -79,7 +79,7 @@
                     @"ext": @{
                         @"childPosts": @{
                             @"*ios-class":      @"IFWPChildPostRendering",
-                            @"schemeHandler":   @"$uriScheme"
+                            @"schemeHandler":   @"#uriScheme"
                         }
                     }
                 }

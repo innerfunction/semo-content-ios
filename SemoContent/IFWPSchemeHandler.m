@@ -166,9 +166,10 @@ static IFLogger *Logger;
     }
     // Generate a content URL within the base content directory - this to ensure that references to base
     // content can be resolved as relative references.
-    NSString *contentURL = [NSString stringWithFormat:@"file:///%@/%@-%@.html", _contentPath, postType, postID ];
+    NSString *separator = [_contentPath hasSuffix:@"/"] ? @"" : @"/";
+    NSString *contentURL = [NSString stringWithFormat:@"file://%@%@%@-%@.html", _contentPath, separator, postType, postID ];
     // Add the post content and URL to the post data.
-    [postData extendWith:@{
+    postData = [postData extendWith:@{
         @"content":     postHTML,
         @"contentURL":  contentURL
     }];

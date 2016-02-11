@@ -13,7 +13,7 @@
 - (NSString *)renderForMustacheTag:(GRMustacheTag *)tag context:(GRMustacheContext *)context HTMLSafe:(BOOL *)HTMLSafe error:(NSError *__autoreleasing *)error {
     NSString *result = @"";
     // Get the in-scope post ID.
-    NSString *postID = [context valueForKey:@"id"];
+    NSString *postID = [context valueForMustacheKey:@"id"];
     if (postID) {
         // Read the list of child posts.
         NSArray *childPosts = [_schemeHandler getPostChildren:postID withParams:@{}];
@@ -29,6 +29,7 @@
             result = [result stringByAppendingString:childHTML];
         }
     }
+    *HTMLSafe = YES;
     return result;
 }
 
