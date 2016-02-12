@@ -16,6 +16,10 @@
 }
 
 @property (nonatomic, strong) id<IFDataFormatter> dataFormatter;
+@property (nonatomic, strong) UIImage *rowImage;
+@property (nonatomic, strong) NSNumber *rowImageHeight;
+@property (nonatomic, strong) NSNumber *rowImageWidth;
 @property (nonatomic, strong) NSString *action;
+@property (nonatomic, assign) BOOL showContent;
 
 @end

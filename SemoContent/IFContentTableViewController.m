@@ -32,6 +32,7 @@
     self = [super initWithConfiguration:configuration];
     if (self) {
         [self.tableView registerClass:[IFContentTableViewCell class] forCellReuseIdentifier:@"content"];
+        _showContent = YES;
     }
     return self;
 }
@@ -50,7 +51,29 @@
 - (void)configureCell:(IFContentTableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
     NSDictionary *data = [self.tableData rowDataForIndexPath:indexPath];
     cell.title = [data getValueAsString:@"title"];
-    cell.content = [data getValueAsString:@"content"];
+    if (_showContent) {
+        cell.content = [data getValueAsString:@"content"];
+    }
+    
+    CGFloat imageHeight = [[data getValueAsNumber:@"imageHeight" defaultValue:_rowImageHeight] floatValue];
+    if (!imageHeight) {
+        imageHeight = 40.0f;
+    }
+    CGFloat imageWidth = imageHeight;
+    if ([data hasValue:@"imageWidth"]) {
+        imageWidth = [[data getValueAsNumber:@"imageWidth" defaultValue:_rowImageWidth] floatValue];
+    }
+    UIImage *image = [self loadImageWithRowData:data dataName:@"image" width:imageWidth height:imageHeight defaultImage:_rowImage];
+    if (image) {
+        cell.imageView.image = image;
+        // Add rounded corners to image.
+        cell.imageView.layer.masksToBounds = YES;
+        cell.imageView.layer.cornerRadius = 3.0;
+    }
+    else {
+        cell.imageView.image = nil;
+    }
+
     if (_action || [data hasValue:@"action"]) {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
@@ -75,7 +98,7 @@
     NSString *action = [data getValueAsString:@"action"];
     // If no action on cell data, but action defined on table then eval as a template on the cell data.
     if (!action && _action) {
-        action = [IFStringTemplate render:_action context:data];
+        action = [IFStringTemplate render:_action context:data uriEncode:YES];
     }
     // If we have an action then dispatch it.
     if (action) {
