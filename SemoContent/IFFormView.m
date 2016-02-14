@@ -10,6 +10,49 @@
 
 @implementation IFFormView
 
+- (void)setFields:(NSArray *)fields {
+    _fields = fields;
+    NSMutableDictionary *defaultValues = [[NSMutableDictionary alloc] init];
+    for (IFFormField *field in _fields) {
+        if (field.name && field.value != nil) {
+            [defaultValues setObject:field.value forKey:field.name];
+        }
+    }
+    _defaultValues = defaultValues;
+    // If input values have already been set then set again so that field values are populated.
+    if (_inputValues) {
+        self.inputValues = _inputValues;
+    }
+}
+
+- (void)setMethod:(NSString *)method {
+    _method = [method uppercaseString];
+}
+
+- (void)setInputValues:(NSDictionary *)inputValues {
+    _inputValues = inputValues;
+    for (IFFormField *field in _fields) {
+        if (field.name) {
+            id value = [inputValues valueForKey:field.name];
+            if (value != nil) {
+                field.value = value == [NSNull null] ? nil : value;
+            }
+        }
+    }
+}
+
+- (NSDictionary *)inputValues {
+    NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
+    for (IFFormField *field in _fields) {
+        if (field.isInput && field.name && field.value != nil) {
+            [values setObject:field.value forKey:field.name];
+        }
+    }
+    return values;
+}
+
+#pragma mark - Instance methods
+
 - (IFFormField *)getFocusedField {
     return (IFFormField *)[_fields objectAtIndex:_focusedFieldIdx];
 }
@@ -34,14 +77,112 @@
     }
 }
 
-- (NSDictionary *)getInputValues {
-    NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
+- (void)reset {
     for (IFFormField *field in _fields) {
-        if (field.isInput && field.name && field.value != nil) {
-            [values setObject:field.value forKey:field.name];
+        if (field.name) {
+            field.value = [_defaultValues objectForKey:field.name];
         }
     }
-    return values;
+}
+
+- (BOOL)validate {
+    BOOL ok = YES;
+    NSInteger row = 0;
+    for (IFFormField *field in _fields) {
+        if (![field validate]) {
+            if (ok) {
+                // Scroll to the first invalid field.
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSIndexPath *indexPath = [NSIndexPath indexPathWithIndex:row];
+                    [self scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+                });
+                ok = NO;
+            }
+        }
+        row++;
+    }
+    return ok;
+}
+
+- (BOOL)submit {
+    BOOL ok = [self validate];
+    if (ok) {
+        // TODO: Submit
+        // 1. Prepare request - method, url, body
+        // NOTE: Important to use property accessor instead of _inputValues var below, so as to get current field values.
+        NSDictionary *values = self.inputValues;
+        NSURLComponents *urlParts = [NSURLComponents componentsWithString:_submitURL];
+        NSMutableArray *queryItems = [[NSMutableArray alloc] init];
+        for (NSString *name in values) {
+            NSURLQueryItem *queryItem = [NSURLQueryItem queryItemWithName:name value:[values objectForKey:name]];
+            [queryItems addObject:queryItem];
+        }
+        urlParts.queryItems = queryItems;
+        // 2. Send request
+        NSURLRequest *request = [NSURLRequest requestWithURL:urlParts.URL];
+        NSURLSession *session = [NSURLSession sharedSession];
+        NSURLSessionDataTask *task = [session dataTaskWithRequest:request
+            completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                // 3. Process response - http ok/error, parse body, application ok/error
+                if (error) {
+                    [self onSubmitTransportError:error];
+                }
+                else {
+                    id responseData = [self onSubmitResponse:response data:data];
+                    if ([self isSubmitErrorResponse:response data:responseData]) {
+                        [self onSubmitError:responseData];
+                    }
+                    else {
+                        [self onSubmitOk:responseData];
+                    }
+                }
+            }];
+        [task resume];
+    }
+    return ok;
+}
+
+- (id)onSubmitResponse:(NSURLResponse *)response data:(id)data {
+    NSString *contentType = response.MIMEType;
+    if ([@"application/json" isEqualToString:contentType]) {
+        data = [NSJSONSerialization JSONObjectWithData:data
+                                               options:0
+                                                 error:nil];
+        // TODO: Parse error handling.
+    }
+    else if ([@"application/x-www-form-urlencoded" isEqualToString:contentType]) {
+        // Adapted from http://stackoverflow.com/questions/8756683/best-way-to-parse-url-string-to-get-values-for-keys
+        NSMutableDictionary *mdata = [[NSMutableDictionary alloc] init];
+        NSURLComponents *urlParts = [NSURLComponents componentsWithURL:response.URL resolvingAgainstBaseURL:NO];
+        for (NSURLQueryItem *queryItem in urlParts.queryItems) {
+            [mdata setObject:queryItem.value forKey:queryItem.name];
+        }
+        data = mdata;
+    }
+    return data;
+}
+
+- (BOOL)isSubmitErrorResponse:(NSURLResponse *)response data:(id)data {
+    BOOL ok = YES;
+    if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+        ok = ((NSHTTPURLResponse *)response).statusCode < 400;
+    }
+    return ok;
+}
+
+- (void)onSubmitTransportError:(NSError *)error {
+    
+}
+
+- (void)onSubmitError:(id)data {
+    
+}
+
+- (void)onSubmitOk:(id)data {
+    // TODO: This behaviour should be configurable? i.e. not all form submits echo the form data back.
+    if ([data isKindOfClass:[NSDictionary class]]) {
+        self.inputValues = (NSDictionary *)data;
+    }
 }
 
 #pragma mark - IFActionDispatcher
@@ -79,7 +220,7 @@
     // Following taken from http://stackoverflow.com/a/12125261
     self.contentInset = UIEdgeInsetsMake(_defaultInsets.top, _defaultInsets.left, keyboardRect.size.height, _defaultInsets.right);
     self.scrollIndicatorInsets = self.contentInset;
-    NSIndexPath *indexPath = [[NSIndexPath alloc] initWithIndex:_focusedFieldIdx];
+    NSIndexPath *indexPath = [NSIndexPath indexPathWithIndex:_focusedFieldIdx];
     [self scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 }
 

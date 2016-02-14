@@ -25,5 +25,6 @@
 
 - (BOOL)takeFieldFocus;
 - (void)releaseFieldFocus;
+- (BOOL)validate;
 
 @end

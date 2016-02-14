@@ -17,13 +17,13 @@
  * - retries:   The number of retries left. If the command fails (e.g. due to a connection timeout)
  *              then it will automatically schedule a retry, up to a specified maximum number of retries.
  */
-@interface IFGetURLCommand : NSObject <IFCommand, NSURLConnectionDataDelegate>  {
+@interface IFGetURLCommand : NSObject <IFCommand/*, NSURLConnectionDataDelegate*/>  {
     QPromise *_promise;
     NSString *_commandName;
     NSString *_url;
     NSString *_filename;
     NSInteger _remainingRetries;
-    NSFileHandle *_fileHandle;
+    //NSFileHandle *_fileHandle;
 }
 
 @property (nonatomic, assign) NSInteger maxRetries;

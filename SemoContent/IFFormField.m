@@ -24,6 +24,10 @@
 
 - (void)releaseFieldFocus {}
 
+- (BOOL)validate {
+    return YES;
+}
+
 #pragma mark - Overrides
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

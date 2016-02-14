@@ -89,6 +89,14 @@
                     }];
 }
 
+- (BOOL)validate {
+    // TODO: Actual validation should happen immediately after edit.
+    // TODO: Initial validation is restricted to required field validation.
+    // TODO: If a field is invalid, then an icon should be displayed next to the text input.
+    // TODO: And a toast with the validation error should be displayed on focus and on leave focus.
+    return YES;
+}
+
 #pragma mark - UITextFieldDelegate
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {

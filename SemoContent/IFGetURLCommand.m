@@ -32,16 +32,17 @@
             retry = [(NSString *)[args objectAtIndex:2] integerValue];
         }
         _remainingRetries = _maxRetries - retry;
-        
+        /*
         NSFileManager *fileManager = [NSFileManager defaultManager];
         if ([fileManager fileExistsAtPath:_filename]) {
             [fileManager removeItemAtPath:_filename error:nil];
         }
         [fileManager createFileAtPath:_filename contents:nil attributes:nil];
         _fileHandle = [NSFileHandle fileHandleForWritingAtPath:_filename];
-        
+        */
         NSURL *url = [NSURL URLWithString:_url];
         // See note here about NSURLConnection cacheing: http://blackpixel.com/blog/2012/05/caching-and-nsurlconnection.html
+        /*
         NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL:url
                                                            cachePolicy:NSURLRequestReloadRevalidatingCacheData // NOTE
                                                        timeoutInterval:60];
@@ -49,13 +50,44 @@
         
         NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:req delegate:self];
         [connection start];
+        */
+        NSURLRequest *request = [NSURLRequest requestWithURL:url
+                                                 cachePolicy:NSURLRequestReloadRevalidatingCacheData // NOTE
+                                             timeoutInterval:60];
+        NSURLSession *session = [NSURLSession sharedSession];
+        NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request
+                                                        completionHandler:
+        ^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            if (error) {
+                // Check for retries.
+                if (_remainingRetries > 0) {
+                    NSString *args = [NSString stringWithFormat:@"%@ %ld", _url, _remainingRetries - 1 ];
+                    NSDictionary *retryCommand = @{
+                        @"name": _commandName,
+                        @"args": args
+                    };
+                    [_promise resolve:@[ retryCommand ]];
+                }
+                else {
+                    [_promise reject:@"All retries used"];
+                }
+            }
+            else {
+                // Copy downloaded file to target location.
+                NSURL *fileURL = [NSURL fileURLWithPath:_filename];
+                [[NSFileManager defaultManager] moveItemAtURL:location toURL:fileURL error:nil];
+                [_promise resolve:@[]];
+            }
+        }];
+        // Start the request.
+        [task resume];
     }
     else {
         [_promise reject:@"Incorrect number of arguments"];
     }
     return _promise;
 }
-
+/*
 #pragma mark - NSURLConnectionDataDelegate
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
@@ -82,5 +114,5 @@
         [_promise reject:@"All retries used"];
     }
 }
-
+*/
 @end
