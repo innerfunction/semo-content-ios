@@ -122,6 +122,9 @@
         paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
         cachePath = [paths objectAtIndex:0];
         _contentPath = [cachePath stringByAppendingPathComponent:@"com.innerfunction.semo.content"];
+        
+        // Factory for producing login + account management forms.
+        _formFactory = [[IFWPContentContainerFormFactory alloc] initWithContainer:self];
     }
     return self;
 }

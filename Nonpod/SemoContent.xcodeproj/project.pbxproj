@@ -100,6 +100,8 @@
 		07CF15721C6E6EEC0000CCE6 /* IFFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CF15701C6E6EEC0000CCE6 /* IFFormView.m */; };
 		07CF15751C6E72FB0000CCE6 /* IFFormImageField.h in Headers */ = {isa = PBXBuildFile; fileRef = 07CF15731C6E72FB0000CCE6 /* IFFormImageField.h */; };
 		07CF15761C6E72FB0000CCE6 /* IFFormImageField.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CF15741C6E72FB0000CCE6 /* IFFormImageField.m */; };
+		07DAB78B1C7385C200697D92 /* IFWPContentContainerFormFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 07DAB7891C7385C200697D92 /* IFWPContentContainerFormFactory.h */; };
+		07DAB78C1C7385C200697D92 /* IFWPContentContainerFormFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 07DAB78A1C7385C200697D92 /* IFWPContentContainerFormFactory.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -230,6 +232,8 @@
 		07CF15701C6E6EEC0000CCE6 /* IFFormView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFFormView.m; path = ../../SemoContent/IFFormView.m; sourceTree = "<group>"; };
 		07CF15731C6E72FB0000CCE6 /* IFFormImageField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFFormImageField.h; path = ../../SemoContent/IFFormImageField.h; sourceTree = "<group>"; };
 		07CF15741C6E72FB0000CCE6 /* IFFormImageField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFFormImageField.m; path = ../../SemoContent/IFFormImageField.m; sourceTree = "<group>"; };
+		07DAB7891C7385C200697D92 /* IFWPContentContainerFormFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFWPContentContainerFormFactory.h; path = ../../SemoContent/IFWPContentContainerFormFactory.h; sourceTree = "<group>"; };
+		07DAB78A1C7385C200697D92 /* IFWPContentContainerFormFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFWPContentContainerFormFactory.m; path = ../../SemoContent/IFWPContentContainerFormFactory.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -336,6 +340,8 @@
 				07928FAE1C5BB0B600EFA4F0 /* IFWPClientTemplateContext.m */,
 				07928FAF1C5BB0B600EFA4F0 /* IFWPContentContainer.h */,
 				07928F951C5BB0B600EFA4F0 /* IFWPContentContainer.m */,
+				07DAB7891C7385C200697D92 /* IFWPContentContainerFormFactory.h */,
+				07DAB78A1C7385C200697D92 /* IFWPContentContainerFormFactory.m */,
 				07928FB01C5BB0B600EFA4F0 /* IFWPContentProtocol.h */,
 				07928F961C5BB0B600EFA4F0 /* IFWPContentProtocol.m */,
 				07928FB11C5BB0B600EFA4F0 /* IFWPDataTableFormatter.h */,
@@ -495,6 +501,7 @@
 				07CF15651C6E61A90000CCE6 /* IFFormField.h in Headers */,
 				0743CF051C6BA079005A1E55 /* GRMustacheContentType.h in Headers */,
 				07928FC91C5BB0B600EFA4F0 /* IFMvFileCommand.h in Headers */,
+				07DAB78B1C7385C200697D92 /* IFWPContentContainerFormFactory.h in Headers */,
 				079290291C5BB1D200EFA4F0 /* PLSqliteDatabase.h in Headers */,
 				07928FC31C5BB0B600EFA4F0 /* IFDBFilter.h in Headers */,
 				0743CF0B1C6BA079005A1E55 /* GRMustacheSafeKeyAccess.h in Headers */,
@@ -640,6 +647,7 @@
 				07928FC61C5BB0B600EFA4F0 /* IFDBHelper.m in Sources */,
 				07928FB51C5BB0B600EFA4F0 /* IFContentTableViewController.m in Sources */,
 				0792902C1C5BB1D200EFA4F0 /* PLSqliteMigrationVersionManager.m in Sources */,
+				07DAB78C1C7385C200697D92 /* IFWPContentContainerFormFactory.m in Sources */,
 				079290221C5BB1D200EFA4F0 /* PLDatabaseMigrationManager.m in Sources */,
 				07928FC41C5BB0B600EFA4F0 /* IFDBFilter.m in Sources */,
 				07928FCD1C5BB0B600EFA4F0 /* IFRmFileCommand.m in Sources */,

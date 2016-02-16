@@ -13,6 +13,7 @@
 #import "IFCommandScheduler.h"
 #import "IFIOCConfigurable.h"
 #import "IFTargetContainer.h"
+#import "IFWPContentContainerFormFactory.h"
 
 @interface IFWPContentContainer : IFContainer <IFIOCConfigurable, IFTargetContainer> {
     // Container configuration template.
@@ -49,6 +50,8 @@
 @property (nonatomic, strong) NSDictionary *postFormats;
 /** Template for generating post URIs. See uriForPostWithID: */
 @property (nonatomic, strong) NSString *postURITemplate;
+/** Factory for producing login and account managment forms. */
+@property (nonatomic, strong, readonly) IFWPContentContainerFormFactory *formFactory;
 
 /** Unpack packaged content. */
 - (void)unpackPackagedContent;
