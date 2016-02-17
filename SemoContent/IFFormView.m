@@ -210,12 +210,6 @@
     }
 }
 
-#pragma mark - IFActionDispatcher
-
-- (BOOL)dispatchURI:(NSString *)uri {
-    return NO;
-}
-
 #pragma mark - Overrides
 
 - (void)didMoveToSuperview {
@@ -285,7 +279,7 @@
     IFFormField *field = [_fields objectAtIndex:_focusedFieldIdx];
     [field takeFieldFocus];
     if (field.action) {
-        // TODO: Dispatch action
+        [_actionDispatcher dispatchURI:field.action];
     }
 }
 

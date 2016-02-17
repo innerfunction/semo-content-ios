@@ -67,7 +67,6 @@
         onShow = ^(IFFormView *form) {
             // Check if user already logged in, if so then dispatch a specified event.
             // Else change the form to enabled, populate with any existing credentials.
-            [form dispatchURI:@""];
         };
         onSubmitOk = ^(IFFormView *form, id data) {
             // Store user credentials & user info

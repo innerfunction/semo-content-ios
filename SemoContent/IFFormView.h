@@ -14,7 +14,7 @@ typedef void (^IFFormViewEventCallback)(IFFormView *);
 typedef void (^IFFormViewDataEventCallback)(IFFormView *, id);
 typedef void (^IFFormViewErrorEventCallback)(IFFormView *, NSError *);
 
-@interface IFFormView : UITableView <UITableViewDataSource, UITableViewDelegate, IFActionDispatcher> {
+@interface IFFormView : UITableView <UITableViewDataSource, UITableViewDelegate> {
     NSInteger _focusedFieldIdx;
     UIEdgeInsets _defaultInsets;
     NSDictionary *_defaultValues;
@@ -32,6 +32,7 @@ typedef void (^IFFormViewErrorEventCallback)(IFFormView *, NSError *);
 /** Flag specifying whether the form is enabled or not. */
 @property (nonatomic, assign) BOOL isEnabled;
 
+@property (nonatomic, strong) id<IFActionDispatcher> actionDispatcher;
 @property (nonatomic, assign) IFFormViewEventCallback onShowCallback;
 @property (nonatomic, assign) IFFormViewErrorEventCallback onSubmitTransportErrorCallback;
 @property (nonatomic, assign) IFFormViewDataEventCallback onSubmitErrorCallback;
