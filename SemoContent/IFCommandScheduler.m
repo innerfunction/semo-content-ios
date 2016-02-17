@@ -233,13 +233,20 @@ static dispatch_queue_t execQueue;
 - (void)appendCommand:(NSString *)name withArgs:(NSArray *)args {
     [Logger debug:@"Appending %@ %@", name, args];
     NSNumber *batch = [NSNumber numberWithInteger:_currentBatch];
+    NSString *joinedArgs = [args joinWithSeparator:@" "];
     NSDictionary *values = @{
         @"batch":   batch,
         @"command": name,
-        @"args":    [args joinWithSeparator:@" "],
+        @"args":    joinedArgs,
         @"status":  @"P"
     };
-    [_db insertValues:values intoTable:@"queue"];
+    // Only one pending command with the same name and args should exist for the same batch
+    // at any time, so only insert record if no matching record found.
+    NSArray *params = @[ batch, name, joinedArgs, @"P" ];
+    NSInteger count = [_db countInTable:@"queue" where:@"batch=? AND command=? AND args=? AND status=?" withParams:params];
+    if (count == 0) {
+        [_db upsertValues:values intoTable:@"queue"];
+    }
 }
 
 - (void)appendCommand:(NSString *)command, ... {

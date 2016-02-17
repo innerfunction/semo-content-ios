@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "IFIOCObjectFactoryBase.h"
+#import "IFURIHandling.h"
 
 @class IFWPContentContainer;
 

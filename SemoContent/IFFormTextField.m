@@ -60,7 +60,8 @@
 }
 
 - (BOOL)takeFieldFocus {
-    if (_isEditable) {
+    BOOL focusable = _isEditable && self.form.isEnabled;
+    if (focusable) {
         // Animate transition to edit view.
         [UIView transitionWithView: self
                           duration: AnimationDuration
@@ -73,7 +74,7 @@
                             [_input becomeFirstResponder];
                         }];
     }
-    return _isEditable;
+    return focusable;
 }
 
 - (void)releaseFieldFocus {

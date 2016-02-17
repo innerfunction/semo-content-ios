@@ -22,6 +22,7 @@
 - (void)setImage:(UIImage *)image {
     _image = image;
     _imageView.image = image;
+    self.height = [NSNumber numberWithFloat:image.size.height];
 }
 
 - (void)layoutSubviews {

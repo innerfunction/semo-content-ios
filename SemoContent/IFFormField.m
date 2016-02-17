@@ -14,6 +14,8 @@
     self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:IFFormFieldReuseID];
     if (self) {
         self.isInput = NO;
+        self.backgroundColor = [UIColor redColor];
+        self.height = @45.0f;
     }
     return self;
 }
@@ -33,6 +35,12 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
     // Configure the view for the selected state
+}
+
+#pragma mark - Class methods
+
++ (void)registerClassWithTableView:(UITableView *)tableView {
+    [tableView registerClass:self forCellReuseIdentifier:NSStringFromClass(self)];
 }
 
 @end

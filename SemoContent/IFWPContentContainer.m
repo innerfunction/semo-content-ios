@@ -125,6 +125,7 @@
         
         // Factory for producing login + account management forms.
         _formFactory = [[IFWPContentContainerFormFactory alloc] initWithContainer:self];
+
     }
     return self;
 }
@@ -165,6 +166,7 @@
 - (void)beforeConfiguration:(IFConfiguration *)configuration inContainer:(IFContainer *)container {}
 
 - (void)afterConfiguration:(IFConfiguration *)configuration inContainer:(IFContainer *)container {
+    
     // Packaged content is packaged with the app executable.
     NSString *packagedContentPath = [MainBundlePath stringByAppendingPathComponent:_packagedContentPath];
     

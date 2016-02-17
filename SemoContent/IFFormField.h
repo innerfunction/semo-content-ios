@@ -27,4 +27,6 @@
 - (void)releaseFieldFocus;
 - (BOOL)validate;
 
++ (void)registerClassWithTableView:(UITableView *)tableView;
+
 @end

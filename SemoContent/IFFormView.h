@@ -10,6 +10,10 @@
 #import "IFFormField.h"
 #import "IFActionDispatcher.h"
 
+typedef void (^IFFormViewEventCallback)(IFFormView *);
+typedef void (^IFFormViewDataEventCallback)(IFFormView *, id);
+typedef void (^IFFormViewErrorEventCallback)(IFFormView *, NSError *);
+
 @interface IFFormView : UITableView <UITableViewDataSource, UITableViewDelegate, IFActionDispatcher> {
     NSInteger _focusedFieldIdx;
     UIEdgeInsets _defaultInsets;
@@ -25,6 +29,13 @@
 @property (nonatomic, strong) NSString *submitURL;
 /** A dictionary containing values for all named input fields. */
 @property (nonatomic, strong) NSDictionary *inputValues;
+/** Flag specifying whether the form is enabled or not. */
+@property (nonatomic, assign) BOOL isEnabled;
+
+@property (nonatomic, assign) IFFormViewEventCallback onShowCallback;
+@property (nonatomic, assign) IFFormViewErrorEventCallback onSubmitTransportErrorCallback;
+@property (nonatomic, assign) IFFormViewDataEventCallback onSubmitErrorCallback;
+@property (nonatomic, assign) IFFormViewDataEventCallback onSubmitOkCallback;
 
 /** Get the currently focused field. */
 - (IFFormField *)getFocusedField;
@@ -68,5 +79,9 @@
  * Called if the submit request is successful.
  */
 - (void)onSubmitOk:(id)data;
+/**
+ * Form show event callback.
+ */
+- (void)onShow;
 
 @end

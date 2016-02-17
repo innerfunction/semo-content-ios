@@ -7,8 +7,29 @@
 //
 
 #import "IFFormView.h"
+#import "IFFormField.h"
+#import "IFFormTitleField.h"
+#import "IFFormTextField.h"
+#import "IFFormImageField.h"
 
 @implementation IFFormView
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        self.dataSource = self;
+        self.delegate = self;
+        self.separatorStyle = UITableViewCellSeparatorStyleNone;
+        /* Table calls aren't dequeued, so no need for to register reuse identifiers
+        [[IFFormField class] registerClassWithTableView:self];
+        [[IFFormTitleField class] registerClassWithTableView:self];
+        [[IFFormTextField class] registerClassWithTableView:self];
+        [[IFFormImageField class] registerClassWithTableView:self];
+        */
+        _isEnabled = YES;
+    }
+    return self;
+}
 
 - (void)setFields:(NSArray *)fields {
     _fields = fields;
@@ -171,17 +192,26 @@
 }
 
 - (void)onSubmitTransportError:(NSError *)error {
-    
+    if (_onSubmitTransportErrorCallback) {
+        _onSubmitTransportErrorCallback(self, error);
+    }
 }
 
 - (void)onSubmitError:(id)data {
-    
+    if (_onSubmitErrorCallback) {
+        _onSubmitErrorCallback(self, data);
+    }
 }
 
 - (void)onSubmitOk:(id)data {
-    // TODO: This behaviour should be configurable? i.e. not all form submits echo the form data back.
-    if ([data isKindOfClass:[NSDictionary class]]) {
-        self.inputValues = (NSDictionary *)data;
+    if (_onSubmitOkCallback) {
+        _onSubmitOkCallback(self, data);
+    }
+}
+
+- (void)onShow {
+    if (_onShowCallback) {
+        _onShowCallback(self);
     }
 }
 

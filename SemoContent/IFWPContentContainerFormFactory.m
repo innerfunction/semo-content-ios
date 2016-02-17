@@ -8,15 +8,20 @@
 
 #import "IFWPContentContainerFormFactory.h"
 #import "IFWPContentContainer.h"
+#import "IFFormViewController.h"
 #import "NSDictionary+IF.h"
 
 @implementation IFWPContentContainerFormFactory
 
 - (id)initWithContainer:(IFWPContentContainer *)container {
     NSDictionary *baseConfiguration = @{
-        @"*ios-class":  @"IFFormView",
-        @"method":      @"POST",
-        @"actionURL":   @"$ActionURL"
+        @"*ios-class":      @"IFFormViewController",
+        @"form": @{
+            @"method":      @"POST",
+            @"actionURL":   @"$ActionURL",
+            @"isEnabled":   @"$IsEnabled",
+            @"fields":      @"$Fields"
+        }
     };
     self = [super initWithBaseConfiguration:baseConfiguration];
     if (self) {
@@ -43,24 +48,48 @@
 }
 
 - (id)buildObjectWithConfiguration:(IFConfiguration *)configuration inContainer:(IFContainer *)container identifier:(NSString *)identifier {
-    NSDictionary *params = _stdParams;
     NSString *formType = [configuration getValueAsString:@"formType"];
+    NSString *actionURL = @"";
+    BOOL isEnabled = YES;
+    IFFormViewEventCallback onShow;
+    IFFormViewDataEventCallback onSubmitOk;
+    // TODO: Following need to be filled in properly
     if ([@"login" isEqualToString:formType]) {
-        // Username + Password field params
-        // onSubmit: Save credentials, dispatch login action
-        params = [params extendWith:@{
-            @"SubmitURL": @""
-        }];
+        actionURL = @"login";
+        isEnabled = NO;
+        onShow = ^(IFFormView *form) {
+            // Check if user already logged in, if so then dispatch a specified event.
+            // Else change the form to enabled, populate with any existing credentials.
+            [form dispatchURI:@""];
+        };
+        onSubmitOk = ^(IFFormView *form, id data) {
+            // Store user credentials & user info
+            // Dispatch the specified event
+        };
     }
     else if ([@"new-account" isEqualToString:formType]) {
-        // Username + Password + other field params
-        // onSubmit: Save credentials, dispatch login action
+        actionURL = @"create-account";
+        // onSubmitOk probably same as for login
     }
     else if ([@"account" isEqualToString:formType]) {
-        // Username + Password + other field params
-        // onSubmit: ?
+        actionURL = @"update-account";
+        onSubmitOk = ^(IFFormView *form, id data) {
+            // Update stored user info
+        };
     }
-    return [self buildObjectWithConfiguration:configuration inContainer:container withParameters:params identifier:identifier];
+    NSDictionary *params = [_stdParams extendWith:@{
+        @"ActionURL":   actionURL,
+        @"IsEnabled":   [NSNumber numberWithBool:isEnabled],
+        // TODO: Note that 'fields' will itself contain parameter references; this should work but is untested.
+        @"Fields":      [configuration getValue:@"fields"]
+    }];
+    IFFormViewController *formView = (IFFormViewController *)[self buildObjectWithConfiguration:nil
+                                                                                    inContainer:container
+                                                                                 withParameters:params
+                                                                                     identifier:identifier];
+    formView.form.onShowCallback = onShow;
+    formView.form.onSubmitOkCallback = onSubmitOk;
+    return formView;
 }
 
 @end
