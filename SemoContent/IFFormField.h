@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "IFTextStyle.h"
 
 @class IFFormView;
 
@@ -20,13 +21,14 @@
 @property (nonatomic, strong) id value;
 @property (nonatomic, strong) NSString *action;
 @property (nonatomic, strong) NSNumber *height;
+@property (nonatomic, strong) UIColor *backgroundColor;
 @property (nonatomic, strong) UIImage *backgroundImage;
 @property (nonatomic, strong) UIImage *focusedBackgroundImage;
+@property (nonatomic, strong) NSString *title;
+@property (nonatomic, strong) IFTextStyle *titleStyle;
 
 - (BOOL)takeFieldFocus;
 - (void)releaseFieldFocus;
 - (BOOL)validate;
-
-+ (void)registerClassWithTableView:(UITableView *)tableView;
 
 @end

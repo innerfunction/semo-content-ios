@@ -14,6 +14,7 @@
     self = [super initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:IFFormFieldReuseID];
     if (self) {
         _imageView = [[UIImageView alloc] init];
+        _imageView.contentMode = UIViewContentModeCenter;
         [self addSubview:_imageView];
     }
     return self;

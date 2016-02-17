@@ -27,21 +27,28 @@
     if (self) {
         _container = container;
         _stdParams = @{
-           @"ImageField": @{
-               @"*ios-class":   @"IFFormImageField"
-           },
-           @"UsernameField": @{
-               @"*ios-class":   @"IFFormTextField",
-               @"name":         @"username"
-           },
-           @"PasswordField": @{
-               @"*ios-class":   @"IFFormTextField",
-               @"name":         @"password",
-               @"isPassword":   [NSNumber numberWithBool:YES]
-           },
-           @"SubmitField": @{
-               @"*ios-class":   @"IFFormField"
-           }
+            @"ImageField": @{
+                @"*ios-class":          @"IFFormImageField"
+            },
+            @"UsernameField": @{
+                @"*ios-class":          @"IFFormTextField",
+                @"name":                @"username",
+                @"title":               @"Username"
+            },
+            @"PasswordField": @{
+                @"*ios-class":          @"IFFormTextField",
+                @"name":                @"password",
+                @"isPassword":          [NSNumber numberWithBool:YES],
+                @"title":               @"Password"
+            },
+            @"ForgotPasswordField": @{
+                @"*ios-class":          @"IFFormField",
+                @"title":               @"Password reminder"
+            },
+            @"SubmitField": @{
+                @"*ios-class":          @"IFFormField",
+                @"title":               @"Login"
+            }
         };
     }
     return self;
@@ -83,7 +90,8 @@
         // TODO: Note that 'fields' will itself contain parameter references; this should work but is untested.
         @"Fields":      [configuration getValue:@"fields"]
     }];
-    IFFormViewController *formView = (IFFormViewController *)[self buildObjectWithConfiguration:nil
+    configuration = [configuration configurationWithKeysExcluded:@[ @"*factory", @"formType", @"fields" ]];
+    IFFormViewController *formView = (IFFormViewController *)[self buildObjectWithConfiguration:configuration
                                                                                     inContainer:container
                                                                                  withParameters:params
                                                                                      identifier:identifier];

@@ -18,11 +18,12 @@
     self = [super initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:IFFormFieldReuseID];
     if (self) {
         self.isInput = YES;
+        self.isEditable = YES;
         
         _inputContentView = [[UIView alloc] init];
         _input = [[UITextField alloc] init];
         _input.delegate = self;
-        
+
         [_inputContentView addSubview:_input];
         _inputContentView.hidden = YES;
         [self addSubview:_inputContentView];
@@ -30,9 +31,26 @@
     return self;
 }
 
+- (void)setTitle:(NSString *)title {
+    super.title = title;
+    self.textLabel.text = title;
+    _input.placeholder = title;
+}
+
+- (void)setInputStyle:(IFTextStyle *)inputStyle {
+    _inputStyle = inputStyle;
+    [_inputStyle applyToTextField:_input];
+}
+
+- (void)setIsPassword:(BOOL)isPassword {
+    _isPassword = isPassword;
+    _input.secureTextEntry = isPassword;
+}
+
 - (void)layoutSubviews {
     [super layoutSubviews];
-    CGRect frame = self.contentView.frame;
+    CGRect frame = self.contentView.bounds;
+    self.textLabel.frame = frame;
     _inputContentView.frame = frame;
     _input.frame = CGRectMake(Padding, Padding, frame.size.width - (Padding * 2), frame.size.height - (Padding * 2));
 }

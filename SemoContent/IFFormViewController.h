@@ -13,5 +13,6 @@
 @interface IFFormViewController : IFTargetContainerViewController
 
 @property (nonatomic, strong, readonly) IFFormView *form;
+@property (nonatomic, strong) UIColor *backgroundColor;
 
 @end

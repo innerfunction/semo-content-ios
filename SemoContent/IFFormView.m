@@ -8,7 +8,6 @@
 
 #import "IFFormView.h"
 #import "IFFormField.h"
-#import "IFFormTitleField.h"
 #import "IFFormTextField.h"
 #import "IFFormImageField.h"
 
@@ -20,12 +19,7 @@
         self.dataSource = self;
         self.delegate = self;
         self.separatorStyle = UITableViewCellSeparatorStyleNone;
-        /* Table calls aren't dequeued, so no need for to register reuse identifiers
-        [[IFFormField class] registerClassWithTableView:self];
-        [[IFFormTitleField class] registerClassWithTableView:self];
-        [[IFFormTextField class] registerClassWithTableView:self];
-        [[IFFormImageField class] registerClassWithTableView:self];
-        */
+
         _isEnabled = YES;
     }
     return self;
@@ -35,6 +29,7 @@
     _fields = fields;
     NSMutableDictionary *defaultValues = [[NSMutableDictionary alloc] init];
     for (IFFormField *field in _fields) {
+        field.form = self;
         if (field.name && field.value != nil) {
             [defaultValues setObject:field.value forKey:field.name];
         }
@@ -221,6 +216,8 @@
     return NO;
 }
 
+#pragma mark - Overrides
+
 - (void)didMoveToSuperview {
     [super didMoveToSuperview];
     // Notifications for when keyboard is shown or hidden.
@@ -287,14 +284,14 @@
     _focusedFieldIdx = indexPath.row;
     IFFormField *field = [_fields objectAtIndex:_focusedFieldIdx];
     [field takeFieldFocus];
+    if (field.action) {
+        // TODO: Dispatch action
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
     IFFormField *field = [_fields objectAtIndex:_focusedFieldIdx];
     [field releaseFieldFocus];
-    if (field.action) {
-        // TODO: Dispatch action
-    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

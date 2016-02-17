@@ -14,10 +14,50 @@
     self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:IFFormFieldReuseID];
     if (self) {
         self.isInput = NO;
-        self.backgroundColor = [UIColor redColor];
         self.height = @45.0f;
+        self.backgroundColor = [UIColor clearColor];
     }
     return self;
+}
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        self.isInput = NO;
+        self.height = @45.0f;
+        self.backgroundColor = [UIColor clearColor];
+    }
+    return self;
+}
+
+- (void)setValue:(id)value {
+    _value = value;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.title = [_value description];
+    });
+}
+
+- (void)setTitle:(NSString *)title {
+    self.textLabel.text = title;
+}
+
+- (NSString *)title {
+    return self.textLabel.text;
+}
+
+- (void)setTitleStyle:(IFTextStyle *)titleStyle {
+    _titleStyle = titleStyle;
+    [_titleStyle applyToLabel:self.textLabel];
+}
+
+// TODO: The UITableViewCell class does have a backgroundColor property, but this isn't being detected by
+// the container when configuring form fields; need to investigate in IFTypeInfo if there is a reason for this.
+- (void)setBackgroundColor:(UIColor *)backgroundColor {
+    super.backgroundColor = backgroundColor;
+}
+
+- (UIColor *)backgroundColor {
+    return super.backgroundColor;
 }
 
 - (BOOL)takeFieldFocus {
@@ -35,12 +75,6 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
     // Configure the view for the selected state
-}
-
-#pragma mark - Class methods
-
-+ (void)registerClassWithTableView:(UITableView *)tableView {
-    [tableView registerClass:self forCellReuseIdentifier:NSStringFromClass(self)];
 }
 
 @end

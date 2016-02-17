@@ -7,6 +7,7 @@
 //
 
 #import "IFFormField.h"
+#import "IFTextStyle.h"
 
 @interface IFFormTextField : IFFormField <UITextFieldDelegate> {
     UIView *_inputContentView;
@@ -15,5 +16,6 @@
 
 @property (nonatomic, assign) BOOL isPassword;
 @property (nonatomic, assign) BOOL isEditable;
+@property (nonatomic, strong) IFTextStyle *inputStyle;
 
 @end

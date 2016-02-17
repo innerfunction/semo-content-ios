@@ -14,11 +14,20 @@
     self = [super init];
     if (self) {
         _form = [[IFFormView alloc] init];
+        _form.backgroundColor = [UIColor clearColor];
         self.view = _form;
         self.view.autoresizesSubviews = YES;
         self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     }
     return self;
+}
+
+- (void)setBackgroundColor:(UIColor *)backgroundColor {
+    _form.backgroundColor = backgroundColor;
+}
+
+- (UIColor *)backgroundColor {
+    return _form.backgroundColor;
 }
 
 #pragma mark - View lifecycle methods
