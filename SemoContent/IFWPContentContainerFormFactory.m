@@ -41,6 +41,12 @@
                 @"isPassword":          [NSNumber numberWithBool:YES],
                 @"title":               @"Password"
             },
+            @"ConfirmPasswordField": @{
+                @"*ios-class":          @"IFFormTextField",
+                @"name":                @"confirm-password",
+                @"isPassword":          [NSNumber numberWithBool:YES],
+                @"title":               @"Password"
+            },
             @"ForgotPasswordField": @{
                 @"*ios-class":          @"IFFormField",
                 @"title":               @"Password reminder"
