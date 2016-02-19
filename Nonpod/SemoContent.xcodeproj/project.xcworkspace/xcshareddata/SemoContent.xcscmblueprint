@@ -4,14 +4,18 @@
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "9EDEC795D04B3E279370B0DA5F4D246DCDBD8B6C" : 0,
     "540C910E42B95F98B95753FE4D6FBD1E5262CE38" : 0,
     "14B458305D9FAFD052AA77FB414A5FCA3958A213" : 0,
+    "8A15A8EA0B3D0B497C4883425BC74DF995224BB3" : 0,
     "17028A5F28D761F17062CA1783A15DEDBB8E4D2B" : 0
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "D82A921E-8781-4795-A6BA-3189B253EB82",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "9EDEC795D04B3E279370B0DA5F4D246DCDBD8B6C" : "GRMustache\/",
     "540C910E42B95F98B95753FE4D6FBD1E5262CE38" : "Q-ios\/",
     "14B458305D9FAFD052AA77FB414A5FCA3958A213" : "semo-content-ios\/",
+    "8A15A8EA0B3D0B497C4883425BC74DF995224BB3" : "GRMustache\/src\/vendor\/groue\/jrswizzle\/",
     "17028A5F28D761F17062CA1783A15DEDBB8E4D2B" : "semo-core-ios\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "SemoContent",
@@ -32,6 +36,16 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:innerfunction\/Q-ios.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "540C910E42B95F98B95753FE4D6FBD1E5262CE38"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/groue\/jrswizzle.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8A15A8EA0B3D0B497C4883425BC74DF995224BB3"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:groue\/GRMustache.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "9EDEC795D04B3E279370B0DA5F4D246DCDBD8B6C"
     }
   ]
 }
