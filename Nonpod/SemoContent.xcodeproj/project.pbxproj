@@ -184,6 +184,8 @@
 		07DAB7911C73D35500697D92 /* IFFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07DAB78F1C73D35500697D92 /* IFFormViewController.m */; };
 		07DAB7941C74C72300697D92 /* IFTextStyle.h in Headers */ = {isa = PBXBuildFile; fileRef = 07DAB7921C74C72200697D92 /* IFTextStyle.h */; };
 		07DAB7951C74C72300697D92 /* IFTextStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 07DAB7931C74C72200697D92 /* IFTextStyle.m */; };
+		07F32B7A1C7D13A700B144D6 /* IFSubmitField.h in Headers */ = {isa = PBXBuildFile; fileRef = 07F32B781C7D13A700B144D6 /* IFSubmitField.h */; };
+		07F32B7B1C7D13A700B144D6 /* IFSubmitField.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F32B791C7D13A700B144D6 /* IFSubmitField.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -391,6 +393,8 @@
 		07DAB78F1C73D35500697D92 /* IFFormViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFFormViewController.m; path = ../../SemoContent/IFFormViewController.m; sourceTree = "<group>"; };
 		07DAB7921C74C72200697D92 /* IFTextStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFTextStyle.h; path = ../../SemoContent/IFTextStyle.h; sourceTree = "<group>"; };
 		07DAB7931C74C72200697D92 /* IFTextStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFTextStyle.m; path = ../../SemoContent/IFTextStyle.m; sourceTree = "<group>"; };
+		07F32B781C7D13A700B144D6 /* IFSubmitField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFSubmitField.h; path = ../../SemoContent/IFSubmitField.h; sourceTree = "<group>"; };
+		07F32B791C7D13A700B144D6 /* IFSubmitField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFSubmitField.m; path = ../../SemoContent/IFSubmitField.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -808,6 +812,8 @@
 				07CF156C1C6E6A130000CCE6 /* IFFormTextField.m */,
 				07CF15731C6E72FB0000CCE6 /* IFFormImageField.h */,
 				07CF15741C6E72FB0000CCE6 /* IFFormImageField.m */,
+				07F32B781C7D13A700B144D6 /* IFSubmitField.h */,
+				07F32B791C7D13A700B144D6 /* IFSubmitField.m */,
 				07DAB78E1C73D35500697D92 /* IFFormViewController.h */,
 				07DAB78F1C73D35500697D92 /* IFFormViewController.m */,
 				07DAB7921C74C72200697D92 /* IFTextStyle.h */,
@@ -912,6 +918,7 @@
 				073E07F01C767A1C0031533F /* NSFormatter+GRMustache.h in Headers */,
 				073E07C21C767A1C0031533F /* GRMustacheSectionTag_private.h in Headers */,
 				073E07D41C767A1C0031533F /* GRMustacheVersion.h in Headers */,
+				07F32B7A1C7D13A700B144D6 /* IFSubmitField.h in Headers */,
 				07928FC51C5BB0B600EFA4F0 /* IFDBHelper.h in Headers */,
 				073E07F21C767A1C0031533F /* NSValueTransformer+GRMustache.h in Headers */,
 				07CF15711C6E6EEC0000CCE6 /* IFFormView.h in Headers */,
@@ -1036,6 +1043,7 @@
 				073E082C1C767A350031533F /* JRSwizzle.m in Sources */,
 				073E080C1C767A1C0031533F /* GRMustacheTemplateRepository.m in Sources */,
 				073E07CA1C767A1C0031533F /* GRMustacheTextNode.m in Sources */,
+				07F32B7B1C7D13A700B144D6 /* IFSubmitField.m in Sources */,
 				0792902C1C5BB1D200EFA4F0 /* PLSqliteMigrationVersionManager.m in Sources */,
 				073E07D51C767A1C0031533F /* GRMustacheExpressionParser.m in Sources */,
 				073E07D91C767A1C0031533F /* GRMustacheToken.m in Sources */,
@@ -1210,6 +1218,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.innerfunction.SemoContent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Debug;
 		};
@@ -1231,6 +1240,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.innerfunction.SemoContent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Release;
 		};

@@ -14,11 +14,21 @@ typedef void (^IFFormViewEventCallback)(IFFormView *);
 typedef void (^IFFormViewDataEventCallback)(IFFormView *, id);
 typedef void (^IFFormViewErrorEventCallback)(IFFormView *, NSError *);
 
+/**
+ * Protocol implemented by form fields which can indicate form loading status.
+ */
+@protocol IFFormLoadingIndicator <NSObject>
+
+- (void)showFormLoading:(BOOL)loading;
+
+@end
+
 @interface IFFormView : UITableView <UITableViewDataSource, UITableViewDelegate> {
     NSInteger _focusedFieldIdx;
     UIEdgeInsets _defaultInsets;
     NSDictionary *_defaultValues;
     NSDictionary *_inputValues;
+    id<IFFormLoadingIndicator> _loadingIndicator;
 }
 
 /** The list of form fields. */

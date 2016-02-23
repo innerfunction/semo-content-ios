@@ -12,6 +12,7 @@
 @interface IFFormTextField : IFFormField <UITextFieldDelegate> {
     UIView *_inputContentView;
     UITextField *_input;
+    NSTextAlignment _defaultTitleAlignment;
 }
 
 @property (nonatomic, assign) BOOL isPassword;

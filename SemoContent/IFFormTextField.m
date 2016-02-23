@@ -19,7 +19,7 @@
     if (self) {
         self.isInput = YES;
         self.isEditable = YES;
-        
+
         _inputContentView = [[UIView alloc] init];
         _input = [[UITextField alloc] init];
         _input.delegate = self;
@@ -37,6 +37,11 @@
     _input.placeholder = title;
 }
 
+- (void)setTitleStyle:(IFTextStyle *)titleStyle {
+    [super setTitleStyle:titleStyle];
+    _defaultTitleAlignment = self.textLabel.textAlignment;
+}
+
 - (void)setInputStyle:(IFTextStyle *)inputStyle {
     _inputStyle = inputStyle;
     [_inputStyle applyToTextField:_input];
@@ -49,10 +54,13 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    CGRect frame = self.contentView.bounds;
+    CGRect frame = CGRectInset( self.contentView.bounds, Padding, Padding);
+    
     self.textLabel.frame = frame;
-    _inputContentView.frame = frame;
-    _input.frame = CGRectMake(Padding, Padding, frame.size.width - (Padding * 2), frame.size.height - (Padding * 2));
+    self.detailTextLabel.frame = frame;
+
+    _inputContentView.frame = self.contentView.bounds;
+    _input.frame = frame;
 }
 
 // TODO Set input's keyboard, capitalization, spell checking and keyboard types.
@@ -62,18 +70,23 @@
         value = [value description];
     }
     super.value = value;
+    NSString *valueLabel = value;
+    BOOL hasValue = [value length] > 0;
+    if (_isPassword) {
+        NSMutableString *password = [[NSMutableString alloc] initWithCapacity:[value length]];
+        for (NSInteger i = 0; i < [value length]; i++) {
+            [password appendString:@"\u25CF"];
+        }
+        valueLabel = password;
+    }
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (_isPassword) {
-            NSMutableString *password = [[NSMutableString alloc] initWithCapacity:[value length]];
-            for (NSInteger i = 0; i < [value length]; i++) {
-                [password appendString:@"\u25CF"];
-            }
-            self.detailTextLabel.text = password;
-        }
-        else {
-            self.detailTextLabel.text = value;
-        }
         _input.text = value;
+        self.textLabel.textAlignment = hasValue ? NSTextAlignmentLeft : _defaultTitleAlignment;
+        self.detailTextLabel.text = valueLabel;
+        // Check whether sufficient room to display both detail and text labels, hide the text label if not.
+        CGFloat textWidth = [self.textLabel.text sizeWithAttributes:@{ NSFontAttributeName: self.textLabel.font }].width;
+        CGFloat labelWidth = [self.detailTextLabel.text sizeWithAttributes:@{ NSFontAttributeName: self.detailTextLabel.font }].width;
+        self.textLabel.hidden = self.contentView.bounds.size.width - labelWidth - textWidth < Padding;
     });
 }
 
@@ -119,6 +132,7 @@
 #pragma mark - UITextFieldDelegate
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
+    self.value = textField.text;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {

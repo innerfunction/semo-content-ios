@@ -32,9 +32,6 @@
 
 - (void)setValue:(id)value {
     _value = value;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.title = [_value description];
-    });
 }
 
 - (void)setTitle:(NSString *)title {

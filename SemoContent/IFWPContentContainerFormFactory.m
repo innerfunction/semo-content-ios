@@ -45,14 +45,14 @@
                 @"*ios-class":          @"IFFormTextField",
                 @"name":                @"confirm-password",
                 @"isPassword":          [NSNumber numberWithBool:YES],
-                @"title":               @"Password"
+                @"title":               @"Confirm password"
             },
             @"ForgotPasswordField": @{
                 @"*ios-class":          @"IFFormField",
                 @"title":               @"Password reminder"
             },
             @"SubmitField": @{
-                @"*ios-class":          @"IFFormField",
+                @"*ios-class":          @"IFSubmitField",
                 @"title":               @"Login"
             }
         };

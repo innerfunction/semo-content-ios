@@ -33,6 +33,9 @@
         if (field.name && field.value != nil) {
             [defaultValues setObject:field.value forKey:field.name];
         }
+        if ([field conformsToProtocol:@protocol(IFFormLoadingIndicator)]) {
+            _loadingIndicator = (id<IFFormLoadingIndicator>)field;
+        }
     }
     _defaultValues = defaultValues;
     // If input values have already been set then set again so that field values are populated.
@@ -82,11 +85,13 @@
     [self clearFieldFocus];
     IFFormField *field;
     for (NSInteger idx = _focusedFieldIdx + 1; idx != _focusedFieldIdx; idx++ ) {
-        if (idx > [_fields count]) {
+        if (idx > [_fields count] - 1) {
             idx = 0;
         }
         field = (IFFormField *)[_fields objectAtIndex:idx];
         if ([field takeFieldFocus]) {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:idx inSection:0];
+            [self selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
             _focusedFieldIdx = idx;
             break;
         }
@@ -121,6 +126,7 @@
 }
 
 - (BOOL)submit {
+    [_loadingIndicator showFormLoading:YES];
     BOOL ok = [self validate];
     if (ok) {
         // TODO: Submit
@@ -152,6 +158,7 @@
                         [self onSubmitOk:responseData];
                     }
                 }
+                [_loadingIndicator showFormLoading:NO];
             }];
         [task resume];
     }
