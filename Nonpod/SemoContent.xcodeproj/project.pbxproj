@@ -168,6 +168,8 @@
 		079290591C5BB3A000EFA4F0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 079290581C5BB3A000EFA4F0 /* UIKit.framework */; };
 		0792905B1C5BB3A800EFA4F0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0792905A1C5BB3A800EFA4F0 /* Foundation.framework */; };
 		0792905F1C5BB5C200EFA4F0 /* libQ.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0792905E1C5BB5C200EFA4F0 /* libQ.a */; };
+		07A90EB81C7DCA67008D3951 /* IFHTTPClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 07A90EB61C7DCA67008D3951 /* IFHTTPClient.h */; };
+		07A90EB91C7DCA67008D3951 /* IFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 07A90EB71C7DCA67008D3951 /* IFHTTPClient.m */; };
 		07A981521C6BDD6300280F53 /* IFWPChildPostRendering.h in Headers */ = {isa = PBXBuildFile; fileRef = 07A981501C6BDD6300280F53 /* IFWPChildPostRendering.h */; };
 		07A981531C6BDD6300280F53 /* IFWPChildPostRendering.m in Sources */ = {isa = PBXBuildFile; fileRef = 07A981511C6BDD6300280F53 /* IFWPChildPostRendering.m */; };
 		07CF15651C6E61A90000CCE6 /* IFFormField.h in Headers */ = {isa = PBXBuildFile; fileRef = 07CF15631C6E61A90000CCE6 /* IFFormField.h */; };
@@ -377,6 +379,8 @@
 		079290581C5BB3A000EFA4F0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0792905A1C5BB3A800EFA4F0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0792905E1C5BB5C200EFA4F0 /* libQ.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libQ.a; path = "../../Q-ios/Q/build/Debug-iphoneos/libQ.a"; sourceTree = "<group>"; };
+		07A90EB61C7DCA67008D3951 /* IFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFHTTPClient.h; path = ../../SemoContent/IFHTTPClient.h; sourceTree = "<group>"; };
+		07A90EB71C7DCA67008D3951 /* IFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFHTTPClient.m; path = ../../SemoContent/IFHTTPClient.m; sourceTree = "<group>"; };
 		07A981501C6BDD6300280F53 /* IFWPChildPostRendering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFWPChildPostRendering.h; path = ../../SemoContent/IFWPChildPostRendering.h; sourceTree = "<group>"; };
 		07A981511C6BDD6300280F53 /* IFWPChildPostRendering.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFWPChildPostRendering.m; path = ../../SemoContent/IFWPChildPostRendering.m; sourceTree = "<group>"; };
 		07CF15631C6E61A90000CCE6 /* IFFormField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFFormField.h; path = ../../SemoContent/IFFormField.h; sourceTree = "<group>"; };
@@ -712,6 +716,8 @@
 				07928F971C5BB0B600EFA4F0 /* IFWPDataWebviewFormatter.m */,
 				07A981501C6BDD6300280F53 /* IFWPChildPostRendering.h */,
 				07A981511C6BDD6300280F53 /* IFWPChildPostRendering.m */,
+				07A90EB61C7DCA67008D3951 /* IFHTTPClient.h */,
+				07A90EB71C7DCA67008D3951 /* IFHTTPClient.m */,
 			);
 			name = com.innerfunction.semo.content;
 			sourceTree = "<group>";
@@ -837,6 +843,7 @@
 				079290231C5BB1D200EFA4F0 /* PLDatabaseMigrationTransactionManager.h in Headers */,
 				0746AAB11C5BB06B00641C9F /* SemoContent.h in Headers */,
 				073E07D11C767A1C0031533F /* GRMustache.h in Headers */,
+				07A90EB81C7DCA67008D3951 /* IFHTTPClient.h in Headers */,
 				073E07C51C767A1C0031533F /* GRMustacheTag_private.h in Headers */,
 				07928FD41C5BB0B600EFA4F0 /* IFWPDataTableFormatter.h in Headers */,
 				073E07C91C767A1C0031533F /* GRMustacheTemplateASTVisitor_private.h in Headers */,
@@ -1046,6 +1053,7 @@
 				07F32B7B1C7D13A700B144D6 /* IFSubmitField.m in Sources */,
 				0792902C1C5BB1D200EFA4F0 /* PLSqliteMigrationVersionManager.m in Sources */,
 				073E07D51C767A1C0031533F /* GRMustacheExpressionParser.m in Sources */,
+				07A90EB91C7DCA67008D3951 /* IFHTTPClient.m in Sources */,
 				073E07D91C767A1C0031533F /* GRMustacheToken.m in Sources */,
 				073E07C11C767A1C0031533F /* GRMustacheSectionTag.m in Sources */,
 				073E07B91C767A1C0031533F /* GRMustacheCompiler.m in Sources */,

@@ -126,76 +126,45 @@
 }
 
 - (BOOL)submit {
-    [_loadingIndicator showFormLoading:YES];
     BOOL ok = [self validate];
     if (ok) {
-        // TODO: Submit
-        // 1. Prepare request - method, url, body
-        // NOTE: Important to use property accessor instead of _inputValues var below, so as to get current field values.
-        NSDictionary *values = self.inputValues;
-        NSURLComponents *urlParts = [NSURLComponents componentsWithString:_submitURL];
-        NSMutableArray *queryItems = [[NSMutableArray alloc] init];
-        for (NSString *name in values) {
-            NSURLQueryItem *queryItem = [NSURLQueryItem queryItemWithName:name value:[values objectForKey:name]];
-            [queryItems addObject:queryItem];
-        }
-        urlParts.queryItems = queryItems;
-        // 2. Send request
-        NSURLRequest *request = [NSURLRequest requestWithURL:urlParts.URL];
-        NSURLSession *session = [NSURLSession sharedSession];
-        NSURLSessionDataTask *task = [session dataTaskWithRequest:request
-            completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-                // 3. Process response - http ok/error, parse body, application ok/error
-                if (error) {
-                    [self onSubmitTransportError:error];
-                }
-                else {
-                    id responseData = [self onSubmitResponse:response data:data];
-                    if ([self isSubmitErrorResponse:response data:responseData]) {
-                        [self onSubmitError:responseData];
-                    }
-                    else {
-                        [self onSubmitOk:responseData];
-                    }
-                }
-                [_loadingIndicator showFormLoading:NO];
-            }];
-        [task resume];
+        [self submitting:YES];
+        [IFHTTPClient submit:_method url:_submitURL data:self.inputValues]
+        .then((id)^(IFHTTPClientResponse *response) {
+            id responseData = [response parseData];
+            if ([self isSubmitErrorResponse:response]) {
+                [self onSubmitError:responseData];
+            }
+            else {
+                [self onSubmitOk:responseData];
+            }
+            [self submitting:NO];
+            return nil;
+        })
+        .fail(^(id error) {
+            [self onSubmitRequestError:error];
+            [self submitting:NO];
+        });
     }
     return ok;
 }
 
-- (id)onSubmitResponse:(NSURLResponse *)response data:(id)data {
-    NSString *contentType = response.MIMEType;
-    if ([@"application/json" isEqualToString:contentType]) {
-        data = [NSJSONSerialization JSONObjectWithData:data
-                                               options:0
-                                                 error:nil];
-        // TODO: Parse error handling.
-    }
-    else if ([@"application/x-www-form-urlencoded" isEqualToString:contentType]) {
-        // Adapted from http://stackoverflow.com/questions/8756683/best-way-to-parse-url-string-to-get-values-for-keys
-        NSMutableDictionary *mdata = [[NSMutableDictionary alloc] init];
-        NSURLComponents *urlParts = [NSURLComponents componentsWithURL:response.URL resolvingAgainstBaseURL:NO];
-        for (NSURLQueryItem *queryItem in urlParts.queryItems) {
-            [mdata setObject:queryItem.value forKey:queryItem.name];
-        }
-        data = mdata;
-    }
-    return data;
+- (void)submitting:(BOOL)submitting {
+    [_loadingIndicator showFormLoading:submitting];
+    _isEnabled = !submitting;
 }
 
-- (BOOL)isSubmitErrorResponse:(NSURLResponse *)response data:(id)data {
+- (BOOL)isSubmitErrorResponse:(IFHTTPClientResponse *)response {
     BOOL ok = YES;
-    if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
-        ok = ((NSHTTPURLResponse *)response).statusCode < 400;
+    if ([response.httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
+        ok = ((NSHTTPURLResponse *)response.httpResponse).statusCode < 400;
     }
     return ok;
 }
 
-- (void)onSubmitTransportError:(NSError *)error {
-    if (_onSubmitTransportErrorCallback) {
-        _onSubmitTransportErrorCallback(self, error);
+- (void)onSubmitRequestError:(NSError *)error {
+    if (_onSubmitRequestErrorCallback) {
+        _onSubmitRequestErrorCallback(self, error);
     }
 }
 

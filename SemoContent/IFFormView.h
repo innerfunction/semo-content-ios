@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "IFFormField.h"
 #import "IFActionDispatcher.h"
+#import "IFHTTPClient.h"
 
 typedef void (^IFFormViewEventCallback)(IFFormView *);
 typedef void (^IFFormViewDataEventCallback)(IFFormView *, id);
@@ -44,7 +45,7 @@ typedef void (^IFFormViewErrorEventCallback)(IFFormView *, NSError *);
 
 @property (nonatomic, strong) id<IFActionDispatcher> actionDispatcher;
 @property (nonatomic, assign) IFFormViewEventCallback onShowCallback;
-@property (nonatomic, assign) IFFormViewErrorEventCallback onSubmitTransportErrorCallback;
+@property (nonatomic, assign) IFFormViewErrorEventCallback onSubmitRequestErrorCallback;
 @property (nonatomic, assign) IFFormViewDataEventCallback onSubmitErrorCallback;
 @property (nonatomic, assign) IFFormViewDataEventCallback onSubmitOkCallback;
 
@@ -67,19 +68,18 @@ typedef void (^IFFormViewErrorEventCallback)(IFFormView *, NSError *);
  */
 - (BOOL)submit;
 /**
- * Submit event callback.
- * Called when the submit response is received. Allows the response data to be parsed.
+ * Update the form's visible state to show that it is submitting.
  */
-- (id)onSubmitResponse:(NSURLResponse *)response data:(id)data;
+- (void)submitting:(BOOL)submitting;
 /**
  * Submit event callback.
- * Called if a transport (i.e. HTTP) error occurs on submit.
+ * Called if the request failed below the application layer.
  */
-- (void)onSubmitTransportError:(NSError *)error;
+- (void)onSubmitRequestError:(NSError *)error;
 /**
  * Test if a submit response is an application level error.
  */
-- (BOOL)isSubmitErrorResponse:(NSURLResponse *)response data:(id)data;
+- (BOOL)isSubmitErrorResponse:(IFHTTPClientResponse *)response;
 /**
  * Submit event callback.
  * Called if an application level error occurs on submit.
