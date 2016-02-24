@@ -93,10 +93,7 @@
 - (void)moveFocusToNextField {
     [self clearFieldFocus];
     IFFormField *field;
-    for (NSInteger idx = _focusedFieldIdx + 1; idx != _focusedFieldIdx; idx++ ) {
-        if (idx > [_fields count] - 1) {
-            idx = 0;
-        }
+    for (NSInteger idx = _focusedFieldIdx + 1; idx < [_fields count]; idx++ ) {
         field = (IFFormField *)[_fields objectAtIndex:idx];
         if ([field takeFieldFocus]) {
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:idx inSection:0];
@@ -123,10 +120,11 @@
             if (ok) {
                 // Scroll to the first invalid field.
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    NSIndexPath *indexPath = [NSIndexPath indexPathWithIndex:row];
-                    [self scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
+                    [self selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
                 });
                 ok = NO;
+                break;
             }
         }
         row++;
@@ -158,7 +156,9 @@
 }
 
 - (void)submitting:(BOOL)submitting {
-    [_loadingIndicator showFormLoading:submitting];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_loadingIndicator showFormLoading:submitting];
+    });
     _isEnabled = !submitting;
 }
 
