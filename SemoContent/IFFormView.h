@@ -11,9 +11,8 @@
 #import "IFActionDispatcher.h"
 #import "IFHTTPClient.h"
 
-typedef void (^IFFormViewEventCallback)(IFFormView *);
-typedef void (^IFFormViewDataEventCallback)(IFFormView *, id);
-typedef void (^IFFormViewErrorEventCallback)(IFFormView *, NSError *);
+typedef void (^IFFormViewDataEvent)(IFFormView *, id);
+typedef void (^IFFormViewErrorEvent)(IFFormView *, NSError *);
 
 /**
  * Protocol implemented by form fields which can indicate form loading status.
@@ -44,11 +43,12 @@ typedef void (^IFFormViewErrorEventCallback)(IFFormView *, NSError *);
 @property (nonatomic, assign) BOOL isEnabled;
 
 @property (nonatomic, strong) id<IFActionDispatcher> actionDispatcher;
-@property (nonatomic, assign) IFFormViewEventCallback onShowCallback;
-@property (nonatomic, assign) IFFormViewErrorEventCallback onSubmitRequestErrorCallback;
-@property (nonatomic, assign) IFFormViewDataEventCallback onSubmitErrorCallback;
-@property (nonatomic, assign) IFFormViewDataEventCallback onSubmitOkCallback;
+@property (nonatomic, copy) IFFormViewErrorEvent onSubmitRequestError;
+@property (nonatomic, copy) IFFormViewDataEvent onSubmitError;
+@property (nonatomic, copy) IFFormViewDataEvent onSubmitOk;
 
+/** Get the current value of a named field. */
+- (id)getFieldValue:(NSString *)name;
 /** Get the currently focused field. */
 - (IFFormField *)getFocusedField;
 /** Clear the current field focus. */
@@ -75,7 +75,7 @@ typedef void (^IFFormViewErrorEventCallback)(IFFormView *, NSError *);
  * Submit event callback.
  * Called if the request failed below the application layer.
  */
-- (void)onSubmitRequestError:(NSError *)error;
+- (void)submitRequestError:(NSError *)error;
 /**
  * Test if a submit response is an application level error.
  */
@@ -84,15 +84,15 @@ typedef void (^IFFormViewErrorEventCallback)(IFFormView *, NSError *);
  * Submit event callback.
  * Called if an application level error occurs on submit.
  */
-- (void)onSubmitError:(id)data;
+- (void)submitError:(IFHTTPClientResponse *)response;
 /**
  * Submit event callback.
  * Called if the submit request is successful.
  */
-- (void)onSubmitOk:(id)data;
+- (void)submitOk:(IFHTTPClientResponse *)response;
 /**
- * Form show event callback.
+ * Display a notification of a form error.
  */
-- (void)onShow;
+- (void)notifyError:(NSString *)message;
 
 @end

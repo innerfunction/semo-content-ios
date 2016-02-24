@@ -15,6 +15,7 @@
 @interface IFWPContentContainerFormFactory : IFIOCObjectFactoryBase {
     IFWPContentContainer *_container;
     NSDictionary *_stdParams;
+    NSUserDefaults *_userDefaults;
 }
 
 - (id)initWithContainer:(IFWPContentContainer *)container;

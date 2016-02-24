@@ -11,6 +11,7 @@
 
 #define Padding             (10.0f)
 #define AnimationDuration   (0.33f)
+#define InvalidWarningWidth (25.0f)
 
 @implementation IFFormTextField
 
@@ -19,14 +20,23 @@
     if (self) {
         self.isInput = YES;
         self.isEditable = YES;
-
+        
         _inputContentView = [[UIView alloc] init];
         _input = [[UITextField alloc] init];
         _input.delegate = self;
-
+        
         [_inputContentView addSubview:_input];
+
         _inputContentView.hidden = YES;
         [self addSubview:_inputContentView];
+        
+        _invalidWarning = [[UILabel alloc] init];
+        _invalidWarning.text = @"\u26A0";
+        _invalidWarning.textAlignment = NSTextAlignmentRight;
+        _invalidWarning.hidden = YES;
+        [self addSubview:_invalidWarning];
+        
+        _valid = YES;
     }
     return self;
 }
@@ -57,7 +67,10 @@
     CGRect frame = CGRectInset( self.contentView.bounds, Padding, Padding);
     
     self.textLabel.frame = frame;
-    self.detailTextLabel.frame = frame;
+    
+    CGFloat detailTextLabelWidth = frame.size.width - InvalidWarningWidth;
+    self.detailTextLabel.frame = CGRectMake(frame.origin.x, frame.origin.y, detailTextLabelWidth, frame.size.height);
+    _invalidWarning.frame = CGRectMake(frame.origin.x + detailTextLabelWidth, frame.origin.y, InvalidWarningWidth, frame.size.height);
 
     _inputContentView.frame = self.contentView.bounds;
     _input.frame = frame;
@@ -88,6 +101,7 @@
         CGFloat labelWidth = [self.detailTextLabel.text sizeWithAttributes:@{ NSFontAttributeName: self.detailTextLabel.font }].width;
         self.textLabel.hidden = self.contentView.bounds.size.width - labelWidth - textWidth < Padding;
     });
+    [self validate];
 }
 
 - (BOOL)takeFieldFocus {
@@ -103,30 +117,41 @@
                         }
                         completion: ^(BOOL finished) {
                             [_input becomeFirstResponder];
+                            if (!_valid) {
+                                // TODO: Proper error messages
+                                [self.form notifyError:@"Invalid field"];
+                            }
                         }];
     }
     return focusable;
 }
 
 - (void)releaseFieldFocus {
-    [_input resignFirstResponder];
-    [UIView transitionWithView: self
-                      duration: AnimationDuration
-                       options: UIViewAnimationOptionTransitionFlipFromTop + UIViewAnimationOptionCurveLinear
-                    animations: ^{
-                        self.contentView.hidden = NO;
-                        _inputContentView.hidden = YES;
-                    }
-                    completion: ^(BOOL finished) {
-                    }];
+    if ([_input isFirstResponder]) {
+        [_input resignFirstResponder];
+        [UIView transitionWithView: self
+                          duration: AnimationDuration
+                           options: UIViewAnimationOptionTransitionFlipFromTop + UIViewAnimationOptionCurveLinear
+                        animations: ^{
+                            self.contentView.hidden = NO;
+                            _inputContentView.hidden = YES;
+                        }
+                        completion: ^(BOOL finished) {
+                        }];
+    }
 }
 
 - (BOOL)validate {
-    // TODO: Actual validation should happen immediately after edit.
-    // TODO: Initial validation is restricted to required field validation.
-    // TODO: If a field is invalid, then an icon should be displayed next to the text input.
-    // TODO: And a toast with the validation error should be displayed on focus and on leave focus.
-    return YES;
+    _valid = YES;
+    if (_isRequired && [self.value length] == 0) {
+        _valid = NO;
+    }
+    else if (_hasSameValueAs) {
+        id otherValue = [self.form getFieldValue:_hasSameValueAs];
+        _valid = [self.value isEqual:otherValue];
+    }
+    _invalidWarning.hidden = _valid;
+    return _valid;
 }
 
 #pragma mark - UITextFieldDelegate

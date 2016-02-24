@@ -17,6 +17,7 @@
 
 @property (nonatomic, weak) IFFormView *form;
 @property (nonatomic, assign) BOOL isInput;
+@property (nonatomic, readonly) BOOL isSelectable;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) id value;
 @property (nonatomic, strong) NSString *action;
@@ -30,5 +31,6 @@
 - (BOOL)takeFieldFocus;
 - (void)releaseFieldFocus;
 - (BOOL)validate;
+- (void)selected;
 
 @end

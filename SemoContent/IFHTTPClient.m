@@ -42,6 +42,9 @@
         }
         data = mdata;
     }
+    else if ([@"text/html" isEqualToString:contentType]) {
+        data = [[NSString alloc] initWithData:_data encoding:NSUTF8StringEncoding];
+    }
     return data;
 }
 

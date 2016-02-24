@@ -7,6 +7,7 @@
 //
 
 #import "IFFormField.h"
+#import "IFFormView.h"
 
 @implementation IFFormField
 
@@ -47,6 +48,10 @@
     [_titleStyle applyToLabel:self.textLabel];
 }
 
+- (BOOL)isSelectable {
+    return self.isInput || self.action != nil;
+}
+
 // TODO: The UITableViewCell class does have a backgroundColor property, but this isn't being detected by
 // the container when configuring form fields; need to investigate in IFTypeInfo if there is a reason for this.
 - (void)setBackgroundColor:(UIColor *)backgroundColor {
@@ -65,6 +70,12 @@
 
 - (BOOL)validate {
     return YES;
+}
+
+- (void)selected {
+    if (_action) {
+        [_form.actionDispatcher dispatchURI:_action];
+    }
 }
 
 #pragma mark - Overrides

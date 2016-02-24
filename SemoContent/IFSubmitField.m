@@ -7,6 +7,7 @@
 //
 
 #import "IFSubmitField.h"
+#import "IFFormView.h"
 
 @implementation IFSubmitField
 
@@ -25,6 +26,14 @@
     _loadingIndicator.frame = self.contentView.bounds;
 }
 
+- (BOOL)isSelectable {
+    return YES;
+}
+
+- (void)selected {
+    [self.form submit];
+}
+
 - (void)showFormLoading:(BOOL)loading {
     if (loading) {
         [_loadingIndicator startAnimating];
@@ -32,6 +41,7 @@
     else {
         [_loadingIndicator stopAnimating];
     }
+    self.textLabel.hidden = loading;
 }
 
 @end

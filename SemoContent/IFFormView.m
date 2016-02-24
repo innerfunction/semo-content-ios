@@ -72,6 +72,15 @@
 
 #pragma mark - Instance methods
 
+- (NSString *)getFieldValue:(NSString *)name {
+    for (IFFormField *field in _fields) {
+        if ([field.name isEqualToString:name]) {
+            return field.value;
+        }
+    }
+    return nil;
+}
+
 - (IFFormField *)getFocusedField {
     return (IFFormField *)[_fields objectAtIndex:_focusedFieldIdx];
 }
@@ -131,18 +140,17 @@
         [self submitting:YES];
         [IFHTTPClient submit:_method url:_submitURL data:self.inputValues]
         .then((id)^(IFHTTPClientResponse *response) {
-            id responseData = [response parseData];
             if ([self isSubmitErrorResponse:response]) {
-                [self onSubmitError:responseData];
+                [self submitError:response];
             }
             else {
-                [self onSubmitOk:responseData];
+                [self submitOk:response];
             }
             [self submitting:NO];
             return nil;
         })
         .fail(^(id error) {
-            [self onSubmitRequestError:error];
+            [self submitRequestError:error];
             [self submitting:NO];
         });
     }
@@ -157,33 +165,32 @@
 - (BOOL)isSubmitErrorResponse:(IFHTTPClientResponse *)response {
     BOOL ok = YES;
     if ([response.httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
-        ok = ((NSHTTPURLResponse *)response.httpResponse).statusCode < 400;
+        NSInteger statusCode = ((NSHTTPURLResponse *)response.httpResponse).statusCode;
+        ok = statusCode < 400;
     }
-    return ok;
+    return !ok;
 }
 
-- (void)onSubmitRequestError:(NSError *)error {
-    if (_onSubmitRequestErrorCallback) {
-        _onSubmitRequestErrorCallback(self, error);
-    }
-}
-
-- (void)onSubmitError:(id)data {
-    if (_onSubmitErrorCallback) {
-        _onSubmitErrorCallback(self, data);
+- (void)submitRequestError:(NSError *)error {
+    if (_onSubmitRequestError) {
+        _onSubmitRequestError(self, error);
     }
 }
 
-- (void)onSubmitOk:(id)data {
-    if (_onSubmitOkCallback) {
-        _onSubmitOkCallback(self, data);
+- (void)submitError:(IFHTTPClientResponse *)response {
+    if (_onSubmitError) {
+        _onSubmitError(self, [response parseData]);
     }
 }
 
-- (void)onShow {
-    if (_onShowCallback) {
-        _onShowCallback(self);
+- (void)submitOk:(IFHTTPClientResponse *)response {
+    if (_onSubmitOk) {
+        _onSubmitOk(self, [response parseData]);
     }
+}
+
+- (void)notifyError:(NSString *)message {
+    NSLog(@"%@", message );
 }
 
 #pragma mark - Overrides
@@ -246,7 +253,7 @@
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
     IFFormField *field = [_fields objectAtIndex:indexPath.row];
-    return field.isInput || field.action != nil;
+    return field.isSelectable;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -254,9 +261,7 @@
     _focusedFieldIdx = indexPath.row;
     IFFormField *field = [_fields objectAtIndex:_focusedFieldIdx];
     [field takeFieldFocus];
-    if (field.action) {
-        [_actionDispatcher dispatchURI:field.action];
-    }
+    [field selected];
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {

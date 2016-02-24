@@ -31,11 +31,4 @@
     return _form.backgroundColor;
 }
 
-#pragma mark - View lifecycle methods
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    [_form onShow];
-}
-
 @end
