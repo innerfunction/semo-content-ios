@@ -7,35 +7,15 @@
 //
 
 #import "IFWPSchemeHandler.h"
-#import "IFSemoContent.h"
-#import "IFWPClientTemplateContext.h"
-#import "IFDBFilter.h"
-#import "IFDataFormatter.h"
-#import "IFRegExp.h"
-//#import "IFStringTemplate.h"
+#import "IFWPContentContainer.h"
 #import "NSString+IF.h"
-#import "NSDictionary+IFValues.h"
-#import "NSDictionary+IF.h"
-#import "GRMustache.h"
-
-static IFLogger *Logger;
-
-@interface IFWPSchemeHandler ()
-
-- (id)queryPostsUsingFilter:(NSString *)filterName params:(NSDictionary *)params;
-
-@end
 
 @implementation IFWPSchemeHandler
 
-+ (void)initialize {
-    Logger = [[IFLogger alloc] initWithTag:@"IFWPSchemeHandler"];
-}
-
-- (id)init {
+- (id)initWithContentContainer:(IFWPContentContainer *)contentContainer {
     self = [super init];
     if (self) {
-        _fileManager = [NSFileManager defaultManager];
+        _contentContainer = contentContainer;
     }
     return self;
 }
@@ -55,133 +35,23 @@ static IFLogger *Logger;
     if ([pathComponents count] > 0 && [@"posts" isEqualToString:[pathComponents objectAtIndex:0]]) {
         switch ([pathComponents count]) {
             case 1:
-                return [self queryPostsUsingFilter:nil params:params];
+                return [_contentContainer queryPostsUsingFilter:nil params:params];
             case 2:
                 postID = [pathComponents objectAtIndex:1];
-                return [self getPost:postID withParams:params];
+                return [_contentContainer getPost:postID withParams:params];
             case 3:
                 postID = [pathComponents objectAtIndex:1];
                 if ([@"children" isEqualToString:[pathComponents objectAtIndex:2]]) {
-                    return [self getPostChildren:postID withParams:params];
+                    return [_contentContainer getPostChildren:postID withParams:params];
                 }
                 if ([@"filter" isEqualToString:[pathComponents objectAtIndex:1]]) {
-                    return [self queryPostsUsingFilter:[pathComponents objectAtIndex:2] params:params];
+                    return [_contentContainer queryPostsUsingFilter:[pathComponents objectAtIndex:2] params:params];
                 }
             default:
                 break;
         }
     }
-    [Logger warn:@"Unhandled URI %@", uri];
     return nil;
-}
-
-- (id)queryPostsUsingFilter:(NSString *)filterName params:(NSDictionary *)params {
-    id postData = nil;
-    if (filterName) {
-        IFDBFilter *filter = [_filters objectForKey:filterName];
-        if (filter) {
-            postData = [filter applyTo:_postDB withParameters:params];
-        }
-    }
-    else {
-        // Construct an anonymous filter instance.
-        IFDBFilter *filter = [[IFDBFilter alloc] init];
-        filter.table = @"posts";
-        filter.orderBy = @"menu_order";
-        // Construct a set of filter parameters from the URI parameters.
-        IFRegExp *re = [[IFRegExp alloc] initWithPattern:@"^(\\w+)\\.(.*)"];
-        NSMutableDictionary *filterParams = [[NSMutableDictionary alloc] init];
-        for (NSString *paramName in [params allKeys]) {
-            // The 'orderBy' parameter is a special name used to specify sort order.
-            if ([@"_orderBy" isEqualToString:paramName]) {
-                filter.orderBy = [params getValueAsString:@"_orderBy"];
-                continue;
-            }
-            NSString *fieldName = paramName;
-            NSString *paramValue = [params objectForKey:paramName];
-            // Check for a comparison suffix on the name.
-            NSArray *groups = [re match:paramName];
-            if ([groups count] > 1) {
-                fieldName = [groups objectAtIndex:0];
-                NSString *comparison = [groups objectAtIndex:1];
-                if ([@"min" isEqualToString:comparison]) {
-                    paramValue = [NSString stringWithFormat:@">%@", paramValue];
-                }
-                else if ([@"max" isEqualToString:comparison]) {
-                    paramValue = [NSString stringWithFormat:@"<%@", paramValue];
-                }
-                else if ([@"like" isEqualToString:comparison]) {
-                    paramValue = [NSString stringWithFormat:@"LIKE %@", paramValue];
-                }
-                else if ([@"not" isEqualToString:comparison]) {
-                    paramValue = [NSString stringWithFormat:@"NOT %@", paramValue];
-                }
-            }
-            [filterParams setObject:paramValue forKey:fieldName];
-        }
-        // Remove any parameters not corresponding to a column on the posts table.
-        filter.filters = [_postDB filterValues:filterParams forTable:@"posts"];
-        // Apply the filter.
-        postData = [filter applyTo:_postDB withParameters:@{}];
-    }
-    NSString *format = [params getValueAsString:@"_format" defaultValue:@"table"];
-    id<IFDataFormatter> formatter = [_listFormats objectForKey:format];
-    if (formatter) {
-        postData = [formatter formatData:postData];
-    }
-    return postData;
-}
-
-- (id)getPostChildren:(NSString *)postID withParams:(NSDictionary *)params {
-    IFDBFilter *filter = [[IFDBFilter alloc] init];
-    filter.table = @"posts";
-    filter.filters = @{ @"parent": postID };
-    filter.orderBy = @"menu_order";
-    return [filter applyTo:_postDB withParameters:@{}];
-}
-
-- (id)getPost:(NSString *)postID withParams:(NSDictionary *)params {
-    // Read the post data.
-    NSDictionary *postData = [_postDB readRecordWithID:postID fromTable:@"posts"];
-    // Load the client template for the post type.
-    NSString *postType = [postData objectForKey:@"type"];
-    NSString *templateName = [NSString stringWithFormat:@"template-%@.html", postType];
-    NSString *templatePath = [_baseContentPath stringByAppendingPathComponent:templateName];
-    if (![_fileManager fileExistsAtPath:templatePath isDirectory:nil]) {
-        templatePath = [_baseContentPath stringByAppendingString:@"template-single.html"];
-        if (![_fileManager fileExistsAtPath:templatePath isDirectory:nil]) {
-            [Logger warn:@"Client template for post type '%@' not found at %@", postType, _contentPath];
-            return nil;
-        }
-    }
-    // Assume at this point that the template file exists.
-    NSString *template = [NSString stringWithContentsOfFile:templatePath encoding:NSUTF8StringEncoding error:nil];
-    // Generate the full post HTML using the post data and the client template.
-    id context = [_clientTemplateContext templateContextForPostData:postData];
-    NSError *error;
-    NSString *postHTML = [GRMustacheTemplate renderObject:context fromString:template error:&error];
-    if (error) {
-        //[Logger error:@"Rendering template: %@", error];
-        postHTML = [NSString stringWithFormat:@"<h1>Template error</h1><pre>%@</pre>", error];
-    }
-    // Generate a content URL within the base content directory - this to ensure that references to base
-    // content can be resolved as relative references.
-    NSString *separator = [_contentPath hasSuffix:@"/"] ? @"" : @"/";
-    NSString *contentURL = [NSString stringWithFormat:@"file://%@%@%@-%@.html", _contentPath, separator, postType, postID ];
-    // Add the post content and URL to the post data.
-    postData = [postData extendWith:@{
-        @"content":     postHTML,
-        @"contentURL":  contentURL
-    }];
-    /* TODO: Review the need for this.
-    NSString *format = [params getValueAsString:@"_format" defaultValue:@"webview"];
-    // Format the data result.
-    id<IFDataFormatter> formatter = [_postFormats objectForKey:format];
-    if (formatter) {
-        postData = [formatter formatData:postData];
-    }
-    */
-    return postData;
 }
 
 @end

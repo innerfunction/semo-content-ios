@@ -15,6 +15,8 @@
 #import "IFTargetContainer.h"
 #import "IFWPContentContainerFormFactory.h"
 
+@class IFWPClientTemplateContext;
+
 @interface IFWPContentContainer : IFContainer <IFIOCConfigurable, IFTargetContainer> {
     // Container configuration template.
     IFConfiguration *_configTemplate;
@@ -22,6 +24,8 @@
     IFCommandScheduler *_commandScheduler;
     // Location for staging downloaded content prior to deployment.
     NSString *_stagingPath;
+    // File manager.
+    NSFileManager *_fileManager;
 }
 
 /** The name of the posts DB. */
@@ -52,6 +56,10 @@
 @property (nonatomic, strong) NSString *postURITemplate;
 /** Factory for producing login and account managment forms. */
 @property (nonatomic, strong, readonly) IFWPContentContainerFormFactory *formFactory;
+/** Map of pre-defined post filters, keyed by name. */
+@property (nonatomic, strong) NSDictionary *filters;
+/** An object to use as the template context when rendering the client template for a post. */
+@property (nonatomic, strong) IFWPClientTemplateContext *clientTemplateContext;
 
 /** Unpack packaged content. */
 - (void)unpackPackagedContent;
@@ -61,5 +69,11 @@
 - (void)getContentFromURL:(NSString *)url writeToFilename:(NSString *)filename;
 /** Generate a URI to reference the post with the specified ID. */
 - (NSString *)uriForPostWithID:(NSString *)postID;
+/** Return the child posts of a specified post. */
+- (id)getPostChildren:(NSString *)postID withParams:(NSDictionary *)params;
+/** Return data for a specified post. */
+- (id)getPost:(NSString *)postID withParams:(NSDictionary *)params;
+/** Query the post database using a predefined filter. */
+- (id)queryPostsUsingFilter:(NSString *)filterName params:(NSDictionary *)params;
 
 @end

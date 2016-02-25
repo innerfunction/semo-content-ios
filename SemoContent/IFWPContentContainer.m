@@ -8,12 +8,26 @@
 
 #import "IFWPContentContainer.h"
 #import "IFSemoContent.h"
+#import "IFWPClientTemplateContext.h"
+#import "IFWPDataTableFormatter.h"
+#import "IFWPDataWebviewFormatter.h"
 #import "IFStringTemplate.h"
+#import "IFDBFilter.h"
+#import "IFDataFormatter.h"
+#import "IFRegExp.h"
 #import "NSDictionary+IF.h"
+#import "NSDictionary+IFValues.h"
+#import "GRMustache.h"
+
+static IFLogger *Logger;
 
 @implementation IFWPContentContainer
 
 @synthesize parentTargetContainer = _parentTargetContainer, namedTargets = _namedTargets, uriHandler = _uriHandler;
+
++ (void)initialize {
+    Logger = [[IFLogger alloc] initWithTag:@"IFWPContentContainer"];
+}
 
 - (id)init {
     self = [super init];
@@ -23,14 +37,10 @@
         _packagedContentPath = @"";
         _uriSchemeName = @"wp";
         _listFormats = @{
-            @"table": @{
-                @"*ios-class": @"IFWPDataTableFormatter"
-            }
+            @"table": [[IFWPDataTableFormatter alloc] init]
         };
         _postFormats = @{
-            @"webview": @{
-                @"*ios-class": @"IFWPDataWebviewFormatter"
-            }
+            @"webview": [[IFWPDataWebviewFormatter alloc] init]
         };
         _postURITemplate = @"{uriSchemeName}:/post/{postID}";
         
@@ -68,19 +78,11 @@
                 @"baseContentPath":         @"$baseContentPath",
                 @"contentPath":             @"$contentPath"
             },
-            @"uriScheme": @{
-                @"postDB":                  @"#postDB",
-                @"listFormats":             @"$listFormats",
-                @"postFormats":             @"$postFormats",
-                @"baseContentPath":         @"$baseContentPath",
-                @"contentPath":             @"$contentPath",
-                @"clientTemplateContext": @{
-                    @"*ios-class":          @"IFWPClientTemplateContext",
-                    @"ext": @{
-                        @"childPosts": @{
-                            @"*ios-class":      @"IFWPChildPostRendering",
-                            @"schemeHandler":   @"#uriScheme"
-                        }
+            @"clientTemplateContext": @{
+                @"*ios-class":              @"IFWPClientTemplateContext",
+                @"ext": @{
+                    @"childPosts": @{
+                        @"*ios-class":      @"IFWPChildPostRendering"
                     }
                 }
             },
@@ -88,6 +90,9 @@
             @"contentPath":                 @"$contentPath"
         };
         _configTemplate = [[IFConfiguration alloc] initWithData:template];
+        
+        _uriScheme = [[IFWPSchemeHandler alloc] initWithContentContainer:self];
+        
         // TODO: Is there a way for the command scheduler to use the same DB as the post DB? This would
         //       require the ability for the scheduler to merge its table schema over the schema above;
         //       May also complicate schema versioning.
@@ -100,7 +105,7 @@
         // Command scheduler is manually instantiated, so has to be manually added to the services list.
         // TODO: This is another aspect that needs to be considered when formalizing the configuration
         //       template pattern used by this container.
-        [self->services addObject:_commandScheduler];
+        [self->_services addObject:_commandScheduler];
         
         // NOTES on staging and content paths:
         // * Freshly downloaded content is stored under the staging path until the download is complete, after which
@@ -125,6 +130,8 @@
         
         // Factory for producing login + account management forms.
         _formFactory = [[IFWPContentContainerFormFactory alloc] initWithContainer:self];
+        
+        _fileManager = [NSFileManager defaultManager];
 
     }
     return self;
@@ -137,6 +144,8 @@
 - (void)setPostFormats:(NSDictionary *)postFormats {
     _postFormats = [_postFormats extendWith:postFormats];
 }
+
+#pragma mark - Instance methods
 
 - (void)unpackPackagedContent {
     NSInteger count = [_postDB countInTable:@"posts" where:@"1 = 1"];
@@ -159,6 +168,115 @@
 - (NSString *)uriForPostWithID:(NSString *)postID {
     NSDictionary *context = @{ @"uriSchemeName": _uriSchemeName, @"postID": postID };
     return [IFStringTemplate render:_postURITemplate context:context];
+}
+
+- (id)queryPostsUsingFilter:(NSString *)filterName params:(NSDictionary *)params {
+    id postData = nil;
+    if (filterName) {
+        IFDBFilter *filter = [_filters objectForKey:filterName];
+        if (filter) {
+            postData = [filter applyTo:_postDB withParameters:params];
+        }
+    }
+    else {
+        // Construct an anonymous filter instance.
+        IFDBFilter *filter = [[IFDBFilter alloc] init];
+        filter.table = @"posts";
+        filter.orderBy = @"menu_order";
+        // Construct a set of filter parameters from the URI parameters.
+        IFRegExp *re = [[IFRegExp alloc] initWithPattern:@"^(\\w+)\\.(.*)"];
+        NSMutableDictionary *filterParams = [[NSMutableDictionary alloc] init];
+        for (NSString *paramName in [params allKeys]) {
+            // The 'orderBy' parameter is a special name used to specify sort order.
+            if ([@"_orderBy" isEqualToString:paramName]) {
+                filter.orderBy = [params getValueAsString:@"_orderBy"];
+                continue;
+            }
+            NSString *fieldName = paramName;
+            NSString *paramValue = [params objectForKey:paramName];
+            // Check for a comparison suffix on the name.
+            NSArray *groups = [re match:paramName];
+            if ([groups count] > 1) {
+                fieldName = [groups objectAtIndex:0];
+                NSString *comparison = [groups objectAtIndex:1];
+                if ([@"min" isEqualToString:comparison]) {
+                    paramValue = [NSString stringWithFormat:@">%@", paramValue];
+                }
+                else if ([@"max" isEqualToString:comparison]) {
+                    paramValue = [NSString stringWithFormat:@"<%@", paramValue];
+                }
+                else if ([@"like" isEqualToString:comparison]) {
+                    paramValue = [NSString stringWithFormat:@"LIKE %@", paramValue];
+                }
+                else if ([@"not" isEqualToString:comparison]) {
+                    paramValue = [NSString stringWithFormat:@"NOT %@", paramValue];
+                }
+            }
+            [filterParams setObject:paramValue forKey:fieldName];
+        }
+        // Remove any parameters not corresponding to a column on the posts table.
+        filter.filters = [_postDB filterValues:filterParams forTable:@"posts"];
+        // Apply the filter.
+        postData = [filter applyTo:_postDB withParameters:@{}];
+    }
+    NSString *format = [params getValueAsString:@"_format" defaultValue:@"table"];
+    id<IFDataFormatter> formatter = [_listFormats objectForKey:format];
+    if (formatter) {
+        postData = [formatter formatData:postData];
+    }
+    return postData;
+}
+
+- (id)getPostChildren:(NSString *)postID withParams:(NSDictionary *)params {
+    IFDBFilter *filter = [[IFDBFilter alloc] init];
+    filter.table = @"posts";
+    filter.filters = @{ @"parent": postID };
+    filter.orderBy = @"menu_order";
+    return [filter applyTo:_postDB withParameters:@{}];
+}
+
+- (id)getPost:(NSString *)postID withParams:(NSDictionary *)params {
+    // Read the post data.
+    NSDictionary *postData = [_postDB readRecordWithID:postID fromTable:@"posts"];
+    // Load the client template for the post type.
+    NSString *postType = [postData objectForKey:@"type"];
+    NSString *templateName = [NSString stringWithFormat:@"template-%@.html", postType];
+    NSString *templatePath = [_baseContentPath stringByAppendingPathComponent:templateName];
+    if (![_fileManager fileExistsAtPath:templatePath isDirectory:nil]) {
+        templatePath = [_baseContentPath stringByAppendingString:@"template-single.html"];
+        if (![_fileManager fileExistsAtPath:templatePath isDirectory:nil]) {
+            [Logger warn:@"Client template for post type '%@' not found at %@", postType, _contentPath];
+            return nil;
+        }
+    }
+    // Assume at this point that the template file exists.
+    NSString *template = [NSString stringWithContentsOfFile:templatePath encoding:NSUTF8StringEncoding error:nil];
+    // Generate the full post HTML using the post data and the client template.
+    id context = [_clientTemplateContext templateContextForPostData:postData];
+    NSError *error;
+    NSString *postHTML = [GRMustacheTemplate renderObject:context fromString:template error:&error];
+    if (error) {
+        //[Logger error:@"Rendering template: %@", error];
+        postHTML = [NSString stringWithFormat:@"<h1>Template error</h1><pre>%@</pre>", error];
+    }
+    // Generate a content URL within the base content directory - this to ensure that references to base
+    // content can be resolved as relative references.
+    NSString *separator = [_contentPath hasSuffix:@"/"] ? @"" : @"/";
+    NSString *contentURL = [NSString stringWithFormat:@"file://%@%@%@-%@.html", _contentPath, separator, postType, postID ];
+    // Add the post content and URL to the post data.
+    postData = [postData extendWith:@{
+      @"content":     postHTML,
+      @"contentURL":  contentURL
+    }];
+    /* TODO: Review the need for this.
+     NSString *format = [params getValueAsString:@"_format" defaultValue:@"webview"];
+     // Format the data result.
+     id<IFDataFormatter> formatter = [_postFormats objectForKey:format];
+     if (formatter) {
+     postData = [formatter formatData:postData];
+     }
+     */
+    return postData;
 }
 
 #pragma mark - IFIOCConfigurable

@@ -8,9 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "IFURIHandling.h"
-#import "IFDB.h"
 
-@class IFWPClientTemplateContext;
+@class IFWPContentContainer;
 
 /**
  * Handler for URIs in the wp: scheme.
@@ -31,29 +30,9 @@
  *                          The result is sorted by the 'order' field value.
  */
 @interface IFWPSchemeHandler : NSObject <IFSchemeHandler> {
-    NSFileManager *_fileManager;
+    IFWPContentContainer *_contentContainer;
 }
 
-/** The WP post database. */
-@property (nonatomic, strong) IFDB *postDB;
-/** Map of pre-defined post filters, keyed by name. */
-@property (nonatomic, strong) NSDictionary *filters;
-/** Map of pre-defined post list formats, keyed by name. */
-@property (nonatomic, strong) NSDictionary *listFormats;
-/** Map of pre-defined post item formats, keyed by name. */
-@property (nonatomic, strong) NSDictionary *postFormats;
-/** Path to directory holding pre-packaged content. */
-@property (nonatomic, strong) NSString *packagedContentPath;
-/** Path to directory holding base content. */
-@property (nonatomic, strong) NSString *baseContentPath;
-/** Path to the content directory (i.e. location of downloaded images and other media resources). */
-@property (nonatomic, strong) NSString *contentPath;
-/** An object to use as the template context when rendering the client template for a post. */
-@property (nonatomic, strong) IFWPClientTemplateContext *clientTemplateContext;
-
-/** Return the child posts of a specified post. */
-- (id)getPostChildren:(NSString *)postID withParams:(NSDictionary *)params;
-/** Return data for a specified post. */
-- (id)getPost:(NSString *)postID withParams:(NSDictionary *)params;
+- (id)initWithContentContainer:(IFWPContentContainer *)contentContainer;
 
 @end

@@ -10,13 +10,23 @@
 
 @implementation IFWPChildPostRendering
 
+- (IFContainer *)iocContainer {
+    return _contentContainer;
+}
+
+- (void)setIocContainer:(IFContainer *)iocContainer {
+    if ([iocContainer isKindOfClass:[IFWPContentContainer class]]) {
+        _contentContainer = (IFWPContentContainer *)iocContainer;
+    }
+}
+
 - (NSString *)renderForMustacheTag:(GRMustacheTag *)tag context:(GRMustacheContext *)context HTMLSafe:(BOOL *)HTMLSafe error:(NSError *__autoreleasing *)error {
     NSString *result = @"";
     // Get the in-scope post ID.
     NSString *postID = [context valueForMustacheKey:@"id"];
     if (postID) {
         // Read the list of child posts.
-        NSArray *childPosts = [_schemeHandler getPostChildren:postID withParams:@{}];
+        NSArray *childPosts = [_contentContainer getPostChildren:postID withParams:@{}];
         // Iterate and render each child post.
         for (id childPost in childPosts) {
             GRMustacheContext *childContext = [context contextByAddingObject:childPost];
