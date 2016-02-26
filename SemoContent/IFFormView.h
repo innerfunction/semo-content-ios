@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "IFIOCContainerAware.h"
 #import "IFFormField.h"
-#import "IFActionDispatcher.h"
 #import "IFHTTPClient.h"
 
 typedef void (^IFFormViewDataEvent)(IFFormView *, id);
@@ -23,7 +23,7 @@ typedef void (^IFFormViewErrorEvent)(IFFormView *, NSError *);
 
 @end
 
-@interface IFFormView : UITableView <UITableViewDataSource, UITableViewDelegate> {
+@interface IFFormView : UITableView <UITableViewDataSource, UITableViewDelegate, IFIOCContainerAware> {
     NSInteger _focusedFieldIdx;
     UIEdgeInsets _defaultInsets;
     NSDictionary *_defaultValues;
@@ -42,7 +42,6 @@ typedef void (^IFFormViewErrorEvent)(IFFormView *, NSError *);
 /** Flag specifying whether the form is enabled or not. */
 @property (nonatomic, assign) BOOL isEnabled;
 
-@property (nonatomic, strong) id<IFActionDispatcher> actionDispatcher;
 @property (nonatomic, copy) IFFormViewErrorEvent onSubmitRequestError;
 @property (nonatomic, copy) IFFormViewDataEvent onSubmitError;
 @property (nonatomic, copy) IFFormViewDataEvent onSubmitOk;

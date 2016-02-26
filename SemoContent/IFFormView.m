@@ -13,6 +13,8 @@
 
 @implementation IFFormView
 
+@synthesize iocContainer = _iocContainer;
+
 - (id)init {
     self = [super init];
     if (self) {

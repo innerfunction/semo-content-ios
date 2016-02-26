@@ -23,8 +23,6 @@ static IFLogger *Logger;
 
 @implementation IFWPContentContainer
 
-@synthesize parentTargetContainer = _parentTargetContainer, namedTargets = _namedTargets, uriHandler = _uriHandler;
-
 + (void)initialize {
     Logger = [[IFLogger alloc] initWithTag:@"IFWPContentContainer"];
 }

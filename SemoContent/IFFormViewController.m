@@ -15,7 +15,6 @@
     if (self) {
         _form = [[IFFormView alloc] init];
         _form.backgroundColor = [UIColor clearColor];
-        _form.actionDispatcher = self;
         self.view = _form;
         self.view.autoresizesSubviews = YES;
         self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;

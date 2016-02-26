@@ -12,12 +12,11 @@
 #import "IFWPSchemeHandler.h"
 #import "IFCommandScheduler.h"
 #import "IFIOCConfigurable.h"
-#import "IFTargetContainer.h"
 #import "IFWPContentContainerFormFactory.h"
 
 @class IFWPClientTemplateContext;
 
-@interface IFWPContentContainer : IFContainer <IFIOCConfigurable, IFTargetContainer> {
+@interface IFWPContentContainer : IFContainer <IFIOCConfigurable> {
     // Container configuration template.
     IFConfiguration *_configTemplate;
     // Command scheduler for unpack and refresh operations.

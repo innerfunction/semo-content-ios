@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "IFTargetContainerViewController.h"
+#import "IFViewController.h"
 #import "IFFormView.h"
 
-@interface IFFormViewController : IFTargetContainerViewController
+@interface IFFormViewController : IFViewController
 
 @property (nonatomic, strong, readonly) IFFormView *form;
 @property (nonatomic, strong) UIColor *backgroundColor;

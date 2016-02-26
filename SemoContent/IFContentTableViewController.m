@@ -102,7 +102,7 @@
     }
     // If we have an action then dispatch it.
     if (action) {
-        [self dispatchURI:action];
+        [self postAction:action];
     }
 }
 

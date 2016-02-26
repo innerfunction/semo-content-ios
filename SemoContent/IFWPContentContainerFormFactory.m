@@ -12,8 +12,6 @@
 #import "NSDictionary+IF.h"
 #import "SFHFKeychainUtils.h"
 
-#define True    ([NSNumber numberWithBool:YES])
-
 @interface IFWPContentContainerFormFactory ()
 
 void storeUserCredentials(IFFormView *form, NSString *service);
@@ -52,20 +50,20 @@ void storeUserCredentials(IFFormView *form, NSString *service);
             @"UsernameField": @{
                 @"*ios-class":          @"IFFormTextField",
                 @"name":                @"user_login",
-                @"isRequired":          True,
+                @"isRequired":          @YES,
                 @"title":               @"Username"
             },
             @"PasswordField": @{
                 @"*ios-class":          @"IFFormTextField",
                 @"name":                @"user_pass",
-                @"isPassword":          True,
-                @"isRequired":          True,
+                @"isPassword":          @YES,
+                @"isRequired":          @YES,
                 @"title":               @"Password"
             },
             @"ConfirmPasswordField": @{
                 @"*ios-class":          @"IFFormTextField",
                 @"name":                @"confirm_pass",
-                @"isPassword":          True,
+                @"isPassword":          @YES,
                 @"title":               @"Confirm password",
                 @"hasSameValueAs":      @"user_pass"
             },
@@ -86,7 +84,6 @@ void storeUserCredentials(IFFormView *form, NSString *service);
 - (id)buildObjectWithConfiguration:(IFConfiguration *)configuration inContainer:(IFContainer *)container identifier:(NSString *)identifier {
     NSString *formType = [configuration getValueAsString:@"formType"];
     NSString *submitURL = @"";
-    _container.feedURL = @"http://thebuildingregulations.com/index.php/semo-api";
     BOOL isEnabled = YES;
     IFViewControllerEvent onShow;
     IFFormViewDataEvent onSubmitOk;
@@ -104,7 +101,7 @@ void storeUserCredentials(IFFormView *form, NSString *service);
         onSubmitOk = ^(IFFormView *form, id data) {
             // Store user credentials & user info
             storeUserCredentials(form, _container.feedURL);
-            [_userDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"semo/logged-in"];
+            [_userDefaults setValue:@YES forKey:@"semo/logged-in"];
             // Dispatch the specified event
         };
     }
@@ -113,7 +110,7 @@ void storeUserCredentials(IFFormView *form, NSString *service);
         onSubmitOk = ^(IFFormView *form, id data) {
             // Store user credentials & user info
             storeUserCredentials(form, _container.feedURL);
-            [_userDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"semo/logged-in"];
+            [_userDefaults setValue:@YES forKey:@"semo/logged-in"];
             // Dispatch the specified event
             NSLog(@"**** Loading main screen");
         };

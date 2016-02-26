@@ -74,7 +74,7 @@
 
 - (void)selected {
     if (_action) {
-        [_form.actionDispatcher dispatchURI:_action];
+        [_form.iocContainer postAction:_action sender:self];
     }
 }
 
