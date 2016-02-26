@@ -8,6 +8,7 @@
 
 #import "IFFormField.h"
 #import "IFFormView.h"
+#import "IFAppContainer.h"
 
 @implementation IFFormField
 
@@ -74,7 +75,7 @@
 
 - (void)selected {
     if (_action) {
-        [_form.iocContainer postAction:_action sender:self];
+        [[IFAppContainer getAppContainer] postAction:_action sender:self];
     }
 }
 

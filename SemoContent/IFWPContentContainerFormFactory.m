@@ -9,8 +9,11 @@
 #import "IFWPContentContainerFormFactory.h"
 #import "IFWPContentContainer.h"
 #import "IFFormViewController.h"
+#import "IFAppContainer.h"
 #import "NSDictionary+IF.h"
 #import "SFHFKeychainUtils.h"
+
+#define PostDispatcher  ([IFAppContainer getAppContainer])
 
 @interface IFWPContentContainerFormFactory ()
 
@@ -84,6 +87,7 @@ void storeUserCredentials(IFFormView *form, NSString *service);
 - (id)buildObjectWithConfiguration:(IFConfiguration *)configuration inContainer:(IFContainer *)container identifier:(NSString *)identifier {
     NSString *formType = [configuration getValueAsString:@"formType"];
     NSString *submitURL = @"";
+    NSString *loginAction = [configuration getValueAsString:@"loginAction"];
     BOOL isEnabled = YES;
     IFViewControllerEvent onShow;
     IFFormViewDataEvent onSubmitOk;
@@ -94,7 +98,7 @@ void storeUserCredentials(IFFormView *form, NSString *service);
         onShow = ^(IFViewController *view) {
             // Check if user already logged in, if so then dispatch a specified event.
             if ([_userDefaults boolForKey:@"semo/logged-in"]) {
-                NSLog(@"**** Loading main screen");
+                [PostDispatcher postAction:loginAction sender:view];
             }
             // Else change the form to enabled, populate with any existing credentials.
         };
@@ -103,6 +107,7 @@ void storeUserCredentials(IFFormView *form, NSString *service);
             storeUserCredentials(form, _container.feedURL);
             [_userDefaults setValue:@YES forKey:@"semo/logged-in"];
             // Dispatch the specified event
+            [PostDispatcher postAction:loginAction sender:form];
         };
     }
     else if ([@"new-account" isEqualToString:formType]) {
@@ -112,7 +117,7 @@ void storeUserCredentials(IFFormView *form, NSString *service);
             storeUserCredentials(form, _container.feedURL);
             [_userDefaults setValue:@YES forKey:@"semo/logged-in"];
             // Dispatch the specified event
-            NSLog(@"**** Loading main screen");
+            [PostDispatcher postAction:loginAction sender:form];
         };
     }
     else if ([@"profile" isEqualToString:formType]) {
@@ -136,7 +141,8 @@ void storeUserCredentials(IFFormView *form, NSString *service);
     formView.onShow = onShow;
     formView.form.onSubmitOk = onSubmitOk;
     formView.form.onSubmitError = ^(IFFormView *form, id data) {
-        // TODO: Display error notification
+        NSString *action = [NSString stringWithFormat:@"post:/ui#toast+message=%@", @"Login%20failure"];
+        [PostDispatcher postAction:action sender:form];
     };
     return formView;
 }
