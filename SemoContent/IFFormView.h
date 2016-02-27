@@ -93,5 +93,13 @@ typedef void (^IFFormViewErrorEvent)(IFFormView *, NSError *);
  * Display a notification of a form error.
  */
 - (void)notifyError:(NSString *)message;
+/**
+ * Notify the form of a field resize.
+ */
+- (void)notifyFormFieldResize:(IFFormField *)field;
+/**
+ * Return a list of the fields on this form within the same name group.
+ */
+- (NSArray *)getFieldsInNameGroup:(NSString *)name;
 
 @end

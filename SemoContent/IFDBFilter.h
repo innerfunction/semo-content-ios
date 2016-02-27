@@ -17,6 +17,7 @@
 @property (nonatomic, strong) NSString *table;
 @property (nonatomic, strong) NSDictionary *filters;
 @property (nonatomic, strong) NSString *orderBy;
+@property (nonatomic, strong) NSString *predicateOp;
 
 - (NSArray *)applyTo:(IFDB *)db withParameters:(NSDictionary *)params;
 

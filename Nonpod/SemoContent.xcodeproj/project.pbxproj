@@ -106,6 +106,8 @@
 		073E082B1C767A350031533F /* JRSwizzle.h in Headers */ = {isa = PBXBuildFile; fileRef = 073E08141C767A350031533F /* JRSwizzle.h */; };
 		073E082C1C767A350031533F /* JRSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 073E08151C767A350031533F /* JRSwizzle.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0746AAB11C5BB06B00641C9F /* SemoContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 0746AAB01C5BB06B00641C9F /* SemoContent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		075B8F1F1C825B5000E4B319 /* IFFormOptionField.h in Headers */ = {isa = PBXBuildFile; fileRef = 075B8F1D1C825B5000E4B319 /* IFFormOptionField.h */; };
+		075B8F201C825B5000E4B319 /* IFFormOptionField.m in Sources */ = {isa = PBXBuildFile; fileRef = 075B8F1E1C825B5000E4B319 /* IFFormOptionField.m */; };
 		0771CD8F1C7672A6004BA5BD /* SemoCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0771CD8E1C76726B004BA5BD /* SemoCore.framework */; };
 		07928FB41C5BB0B600EFA4F0 /* IFContentTableViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 07928F911C5BB0B600EFA4F0 /* IFContentTableViewController.h */; };
 		07928FB51C5BB0B600EFA4F0 /* IFContentTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07928F921C5BB0B600EFA4F0 /* IFContentTableViewController.m */; };
@@ -174,6 +176,8 @@
 		07A90EC11C7E0533008D3951 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 07A90EBF1C7E0533008D3951 /* SFHFKeychainUtils.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		07A981521C6BDD6300280F53 /* IFWPChildPostRendering.h in Headers */ = {isa = PBXBuildFile; fileRef = 07A981501C6BDD6300280F53 /* IFWPChildPostRendering.h */; };
 		07A981531C6BDD6300280F53 /* IFWPChildPostRendering.m in Sources */ = {isa = PBXBuildFile; fileRef = 07A981511C6BDD6300280F53 /* IFWPChildPostRendering.m */; };
+		07CDBA5E1C81D4CE004F6CA7 /* IFFormSelectField.h in Headers */ = {isa = PBXBuildFile; fileRef = 07CDBA5C1C81D4CE004F6CA7 /* IFFormSelectField.h */; };
+		07CDBA5F1C81D4CE004F6CA7 /* IFFormSelectField.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CDBA5D1C81D4CE004F6CA7 /* IFFormSelectField.m */; };
 		07CF15651C6E61A90000CCE6 /* IFFormField.h in Headers */ = {isa = PBXBuildFile; fileRef = 07CF15631C6E61A90000CCE6 /* IFFormField.h */; };
 		07CF15661C6E61A90000CCE6 /* IFFormField.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CF15641C6E61A90000CCE6 /* IFFormField.m */; };
 		07CF156D1C6E6A130000CCE6 /* IFFormTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = 07CF156B1C6E6A130000CCE6 /* IFFormTextField.h */; };
@@ -318,6 +322,8 @@
 		0746AAAD1C5BB06B00641C9F /* SemoContent.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SemoContent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0746AAB01C5BB06B00641C9F /* SemoContent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SemoContent.h; sourceTree = "<group>"; };
 		0746AAB21C5BB06B00641C9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		075B8F1D1C825B5000E4B319 /* IFFormOptionField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFFormOptionField.h; path = ../../SemoContent/IFFormOptionField.h; sourceTree = "<group>"; };
+		075B8F1E1C825B5000E4B319 /* IFFormOptionField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFFormOptionField.m; path = ../../SemoContent/IFFormOptionField.m; sourceTree = "<group>"; };
 		0771CD891C76726B004BA5BD /* SemoCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SemoCore.xcodeproj; path = "../../semo-core-ios/SemoCore/SemoCore.xcodeproj"; sourceTree = "<group>"; };
 		07928F911C5BB0B600EFA4F0 /* IFContentTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFContentTableViewController.h; path = ../../SemoContent/IFContentTableViewController.h; sourceTree = "<group>"; };
 		07928F921C5BB0B600EFA4F0 /* IFContentTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFContentTableViewController.m; path = ../../SemoContent/IFContentTableViewController.m; sourceTree = "<group>"; };
@@ -387,6 +393,8 @@
 		07A90EBF1C7E0533008D3951 /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
 		07A981501C6BDD6300280F53 /* IFWPChildPostRendering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFWPChildPostRendering.h; path = ../../SemoContent/IFWPChildPostRendering.h; sourceTree = "<group>"; };
 		07A981511C6BDD6300280F53 /* IFWPChildPostRendering.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFWPChildPostRendering.m; path = ../../SemoContent/IFWPChildPostRendering.m; sourceTree = "<group>"; };
+		07CDBA5C1C81D4CE004F6CA7 /* IFFormSelectField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFFormSelectField.h; path = ../../SemoContent/IFFormSelectField.h; sourceTree = "<group>"; };
+		07CDBA5D1C81D4CE004F6CA7 /* IFFormSelectField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFFormSelectField.m; path = ../../SemoContent/IFFormSelectField.m; sourceTree = "<group>"; };
 		07CF15631C6E61A90000CCE6 /* IFFormField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFFormField.h; path = ../../SemoContent/IFFormField.h; sourceTree = "<group>"; };
 		07CF15641C6E61A90000CCE6 /* IFFormField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFFormField.m; path = ../../SemoContent/IFFormField.m; sourceTree = "<group>"; };
 		07CF156B1C6E6A130000CCE6 /* IFFormTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFFormTextField.h; path = ../../SemoContent/IFFormTextField.h; sourceTree = "<group>"; };
@@ -830,6 +838,10 @@
 				07CF15641C6E61A90000CCE6 /* IFFormField.m */,
 				07CF156B1C6E6A130000CCE6 /* IFFormTextField.h */,
 				07CF156C1C6E6A130000CCE6 /* IFFormTextField.m */,
+				07CDBA5C1C81D4CE004F6CA7 /* IFFormSelectField.h */,
+				07CDBA5D1C81D4CE004F6CA7 /* IFFormSelectField.m */,
+				075B8F1D1C825B5000E4B319 /* IFFormOptionField.h */,
+				075B8F1E1C825B5000E4B319 /* IFFormOptionField.m */,
 				07CF15731C6E72FB0000CCE6 /* IFFormImageField.h */,
 				07CF15741C6E72FB0000CCE6 /* IFFormImageField.m */,
 				07F32B781C7D13A700B144D6 /* IFSubmitField.h */,
@@ -849,6 +861,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				075B8F1F1C825B5000E4B319 /* IFFormOptionField.h in Headers */,
 				07928FC71C5BB0B600EFA4F0 /* IFGetURLCommand.h in Headers */,
 				073E07D81C767A1C0031533F /* GRMustacheTemplateParser_private.h in Headers */,
 				073E07E71C767A1C0031533F /* GRMustacheRendering_private.h in Headers */,
@@ -913,6 +926,7 @@
 				073E07C81C767A1C0031533F /* GRMustacheTemplateASTNode_private.h in Headers */,
 				073E07C31C767A1C0031533F /* GRMustacheTag.h in Headers */,
 				073E080A1C767A1C0031533F /* GRMustacheTemplate_private.h in Headers */,
+				07CDBA5E1C81D4CE004F6CA7 /* IFFormSelectField.h in Headers */,
 				073E07DF1C767A1C0031533F /* GRMustacheExpressionInvocation_private.h in Headers */,
 				07928FCC1C5BB0B600EFA4F0 /* IFRmFileCommand.h in Headers */,
 				073E07F51C767A1C0031533F /* GRMustacheEachFilter_private.h in Headers */,
@@ -1105,6 +1119,7 @@
 				073E07B31C767A1C0031533F /* GRMustacheIdentifierExpression.m in Sources */,
 				07CF15761C6E72FB0000CCE6 /* IFFormImageField.m in Sources */,
 				073E07FB1C767A1C0031533F /* GRMustacheLocalizer.m in Sources */,
+				07CDBA5F1C81D4CE004F6CA7 /* IFFormSelectField.m in Sources */,
 				073E07AE1C767A1C0031533F /* GRMustacheExpression.m in Sources */,
 				07928FBA1C5BB0B600EFA4F0 /* IFWPDataWebviewFormatter.m in Sources */,
 				07CF156E1C6E6A130000CCE6 /* IFFormTextField.m in Sources */,
@@ -1121,6 +1136,7 @@
 				073E07DE1C767A1C0031533F /* GRMustacheExpressionInvocation.m in Sources */,
 				073E07D71C767A1C0031533F /* GRMustacheTemplateParser.m in Sources */,
 				07928FB91C5BB0B600EFA4F0 /* IFWPContentProtocol.m in Sources */,
+				075B8F201C825B5000E4B319 /* IFFormOptionField.m in Sources */,
 				073E07FC1C767A1C0031533F /* GRMustacheStandardLibrary.m in Sources */,
 				073E07F61C767A1C0031533F /* GRMustacheHTMLLibrary.m in Sources */,
 				073E07B71C767A1C0031533F /* GRMustacheScopedExpression.m in Sources */,

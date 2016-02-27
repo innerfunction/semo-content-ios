@@ -74,5 +74,7 @@
 - (id)getPost:(NSString *)postID withParams:(NSDictionary *)params;
 /** Query the post database using a predefined filter. */
 - (id)queryPostsUsingFilter:(NSString *)filterName params:(NSDictionary *)params;
+/** Search the post database for the specified text. */
+- (id)searchPostsForText:(NSString *)text searchMode:(NSString *)searchMode;
 
 @end

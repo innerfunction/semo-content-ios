@@ -31,24 +31,32 @@
     // filter will need to generate URIs referencing the post detail.
     NSString *path = uri.name;
     NSArray *pathComponents = [path split:@"/"];
+    NSString *firstComponent = [pathComponents firstObject];
     NSString *postID;
-    if ([pathComponents count] > 0 && [@"posts" isEqualToString:[pathComponents objectAtIndex:0]]) {
-        switch ([pathComponents count]) {
-            case 1:
-                return [_contentContainer queryPostsUsingFilter:nil params:params];
-            case 2:
-                postID = [pathComponents objectAtIndex:1];
-                return [_contentContainer getPost:postID withParams:params];
-            case 3:
-                postID = [pathComponents objectAtIndex:1];
-                if ([@"children" isEqualToString:[pathComponents objectAtIndex:2]]) {
-                    return [_contentContainer getPostChildren:postID withParams:params];
-                }
-                if ([@"filter" isEqualToString:[pathComponents objectAtIndex:1]]) {
-                    return [_contentContainer queryPostsUsingFilter:[pathComponents objectAtIndex:2] params:params];
-                }
-            default:
-                break;
+    if ([pathComponents count] > 0) {
+        if ([@"posts" isEqualToString:firstComponent]) {
+            switch ([pathComponents count]) {
+                case 1:
+                    return [_contentContainer queryPostsUsingFilter:nil params:params];
+                case 2:
+                    postID = [pathComponents objectAtIndex:1];
+                    return [_contentContainer getPost:postID withParams:params];
+                case 3:
+                    postID = [pathComponents objectAtIndex:1];
+                    if ([@"children" isEqualToString:[pathComponents objectAtIndex:2]]) {
+                        return [_contentContainer getPostChildren:postID withParams:params];
+                    }
+                    if ([@"filter" isEqualToString:[pathComponents objectAtIndex:1]]) {
+                        return [_contentContainer queryPostsUsingFilter:[pathComponents objectAtIndex:2] params:params];
+                    }
+                default:
+                    break;
+            }
+        }
+        else if ([@"search" isEqualToString:firstComponent]) {
+            NSString *text = [params objectForKey:@"text"];
+            NSString *mode = [params objectForKey:@"mode"];
+            return [_contentContainer searchPostsForText:text searchMode:mode];
         }
     }
     return nil;

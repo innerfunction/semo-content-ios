@@ -27,10 +27,11 @@
 @property (nonatomic, strong) UIImage *focusedBackgroundImage;
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) IFTextStyle *titleStyle;
+@property (nonatomic, strong) NSArray *fieldGroup;
 
 - (BOOL)takeFieldFocus;
 - (void)releaseFieldFocus;
 - (BOOL)validate;
-- (void)selected;
+- (void)selectField;
 
 @end

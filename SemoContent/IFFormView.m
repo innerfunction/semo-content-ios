@@ -29,11 +29,13 @@
 
 - (void)setFields:(NSArray *)fields {
     _fields = fields;
-    NSMutableDictionary *defaultValues = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *defaultValues = [NSMutableDictionary new];
     for (IFFormField *field in _fields) {
         field.form = self;
-        if (field.name && field.value != nil) {
-            [defaultValues setObject:field.value forKey:field.name];
+        if (field.name) {
+            if (field.value != nil) {
+                [defaultValues setObject:field.value forKey:field.name];
+            }
         }
         if ([field conformsToProtocol:@protocol(IFFormLoadingIndicator)]) {
             _loadingIndicator = (id<IFFormLoadingIndicator>)field;
@@ -63,7 +65,7 @@
 }
 
 - (NSDictionary *)inputValues {
-    NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *values = [NSMutableDictionary new];
     for (IFFormField *field in _fields) {
         if (field.isInput && field.name && field.value != nil) {
             [values setObject:field.value forKey:field.name];
@@ -195,6 +197,24 @@
     NSLog(@"%@", message );
 }
 
+- (void)notifyFormFieldResize:(IFFormField *)field {
+    NSInteger idx = [_fields indexOfObject:field];
+    if (idx != NSNotFound) {
+        NSArray *paths = @[ [NSIndexPath indexPathForRow:idx inSection:0] ];
+        [self reloadRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationNone];
+    }
+}
+
+- (NSArray *)getFieldsInNameGroup:(NSString *)name {
+    NSMutableArray *fields = [NSMutableArray new];
+    for (IFFormField *field in _fields) {
+        if ([field.name isEqualToString:name]) {
+            [fields addObject:field];
+        }
+    }
+    return fields;
+}
+
 #pragma mark - Overrides
 
 - (void)didMoveToSuperview {
@@ -263,7 +283,7 @@
     _focusedFieldIdx = indexPath.row;
     IFFormField *field = [_fields objectAtIndex:_focusedFieldIdx];
     [field takeFieldFocus];
-    [field selected];
+    [field selectField];
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {

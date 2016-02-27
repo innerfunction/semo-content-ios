@@ -12,6 +12,14 @@
 
 @implementation IFDBFilter
 
+- (id)init {
+    self = [super init];
+    if (self) {
+        _predicateOp = @"AND";
+    }
+    return self;
+}
+
 - (void)setSql:(NSString *)sql {
     // Extract parameter names from the SQL string. Parameter names appear as ?xxx in the SQL.
     NSMutableArray *paramNames = [[NSMutableArray alloc] init];
@@ -37,10 +45,10 @@
             [terms addObject:@"WHERE"];
             // Regex pattern for detecting filter values that contain a predicate.
             IFRegExp *predicatePattern = [[IFRegExp alloc] initWithPattern:@"^\\s*(=|<|>|LIKE\\s|NOT\\s)"];
-            BOOL and = NO;
+            BOOL insertPredicateOp = NO;
             for (NSString *filterName in [_filters keyEnumerator]) {
-                if (and) {
-                    [terms addObject:@"AND"];
+                if (insertPredicateOp) {
+                    [terms addObject:_predicateOp];
                 }
                 [terms addObject:filterName];
                 NSString *filterValue = [_filters valueForKey:filterName];
@@ -59,7 +67,7 @@
                     filterValue = [filterValue replaceAllOccurrences:@"'" with:@"\\'"];
                     [terms addObject:[NSString stringWithFormat:@"= '%@'", filterValue]];
                 }
-                and = YES;
+                insertPredicateOp = YES;
             }
         }
         if (_orderBy) {

@@ -73,7 +73,7 @@
     return YES;
 }
 
-- (void)selected {
+- (void)selectField {
     if (_action) {
         [[IFAppContainer getAppContainer] postAction:_action sender:self];
     }

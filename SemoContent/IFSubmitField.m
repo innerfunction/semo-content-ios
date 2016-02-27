@@ -14,7 +14,7 @@
 - (id)init {
     self = [super init];
     if (self) {
-        _loadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+        _loadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         _loadingIndicator.hidden = YES;
         [self.contentView addSubview:_loadingIndicator];
     }
@@ -30,7 +30,7 @@
     return YES;
 }
 
-- (void)selected {
+- (void)selectField {
     [self.form submit];
 }
 

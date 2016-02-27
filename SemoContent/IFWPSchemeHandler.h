@@ -28,6 +28,13 @@
  *
  *  wp:posts/{id}/children  Return a list of all posts with the specified post as their parent.
  *                          The result is sorted by the 'order' field value.
+ *
+ *  wp:search               Perform a full text search of the post database. The following URI parameters are available:
+ *                          - text: The text to search for. Can be a space separated list of word tokens.
+ *                          - mode: The text search mode; one of the following:
+ *                              - any: Return posts containing any of the words.
+ *                              - all: Return only posts containing all of the words.
+ *                              - exact: Return only posts containing the exact phrase.
  */
 @interface IFWPSchemeHandler : NSObject <IFSchemeHandler> {
     IFWPContentContainer *_contentContainer;

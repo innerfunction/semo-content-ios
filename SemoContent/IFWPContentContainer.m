@@ -277,6 +277,37 @@ static IFLogger *Logger;
     return postData;
 }
 
+- (id)searchPostsForText:(NSString *)text searchMode:(NSString *)searchMode {
+    id postData = nil;
+    NSString *where;
+    NSMutableArray *params = [NSMutableArray new];
+    if ([@"exact" isEqualToString:searchMode]) {
+        where = @"title LIKE '%?%' OR content LIKE '%?%'";
+        [params addObject:text];
+        [params addObject:text];
+    }
+    else {
+        NSMutableArray *terms = [NSMutableArray new];
+        NSArray *tokens = [text componentsSeparatedByString:@" "];
+        for (NSString *token in tokens) {
+            // TODO: Trim the token, check for empty tokens.
+            [terms addObject:@"(title LIKE '%?%' OR content LIKE '%?%')"];
+            [params addObject:token];
+            [params addObject:token];
+        }
+        if ([@"any" isEqualToString:searchMode]) {
+            where = [terms componentsJoinedByString:@" OR "];
+        }
+        else if ([@"all" isEqualToString:searchMode]) {
+            where = [terms componentsJoinedByString:@" AND "];
+        }
+    }
+    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM wp_posts WHERE %@", where];
+    postData = [_postDB performQuery:sql withParams:params];
+    // TODO: Filters?
+    return postData;
+}
+
 #pragma mark - IFIOCConfigurable
 
 - (void)beforeConfiguration:(IFConfiguration *)configuration inContainer:(IFContainer *)container {}
