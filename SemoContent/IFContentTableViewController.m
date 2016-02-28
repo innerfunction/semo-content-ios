@@ -102,7 +102,7 @@
     }
     // If we have an action then dispatch it.
     if (action) {
-        [self postAction:action];
+        [self postMessage:action];
     }
 }
 

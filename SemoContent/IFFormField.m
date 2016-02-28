@@ -75,7 +75,7 @@
 
 - (void)selectField {
     if (_action) {
-        [[IFAppContainer getAppContainer] postAction:_action sender:self];
+        [IFAppContainer postMessage:_action sender:self];
     }
 }
 
