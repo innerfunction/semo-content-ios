@@ -37,6 +37,8 @@ typedef void (^IFFormViewErrorEvent)(IFFormView *, NSError *);
 @property (nonatomic, strong) NSString *method;
 /** The URL to submit the form to. */
 @property (nonatomic, strong) NSString *submitURL;
+/** An internal URI to post when submitting the form. */
+@property (nonatomic, strong) NSString *submitURI;
 /** A dictionary containing values for all named input fields. */
 @property (nonatomic, strong) NSDictionary *inputValues;
 /** Flag specifying whether the form is enabled or not. */

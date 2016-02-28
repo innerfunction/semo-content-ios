@@ -10,6 +10,8 @@
 #import "IFFormField.h"
 #import "IFFormTextField.h"
 #import "IFFormImageField.h"
+#import "IFAppContainer.h"
+#import "IFStringTemplate.h"
 
 @implementation IFFormView
 
@@ -139,22 +141,33 @@
 - (BOOL)submit {
     BOOL ok = [self validate];
     if (ok) {
-        [self submitting:YES];
-        [IFHTTPClient submit:_method url:_submitURL data:self.inputValues]
-        .then((id)^(IFHTTPClientResponse *response) {
-            if ([self isSubmitErrorResponse:response]) {
-                [self submitError:response];
-            }
-            else {
-                [self submitOk:response];
-            }
+        if (_submitURL) {
+            [self submitting:YES];
+            [IFHTTPClient submit:_method url:_submitURL data:self.inputValues]
+            .then((id)^(IFHTTPClientResponse *response) {
+                if ([self isSubmitErrorResponse:response]) {
+                    [self submitError:response];
+                }
+                else {
+                    [self submitOk:response];
+                }
+                [self submitting:NO];
+                return nil;
+            })
+            .fail(^(id error) {
+                [self submitRequestError:error];
+                [self submitting:NO];
+            });
+        }
+        else if (_submitURI) {
+            [self submitting:YES];
+            // The submit URI is an internal URI which the form will post as a message.
+            // The URI property is treated as a template into which the form's values can be inserted.
+            NSDictionary *values = [self inputValues];
+            NSString *message = [IFStringTemplate render:_submitURI context:values uriEncode:YES];
+            [IFAppContainer postMessage:message sender:self];
             [self submitting:NO];
-            return nil;
-        })
-        .fail(^(id error) {
-            [self submitRequestError:error];
-            [self submitting:NO];
-        });
+        }
     }
     return ok;
 }

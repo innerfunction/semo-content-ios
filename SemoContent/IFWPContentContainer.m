@@ -277,12 +277,13 @@ static IFLogger *Logger;
     return postData;
 }
 
-- (id)searchPostsForText:(NSString *)text searchMode:(NSString *)searchMode {
+- (id)searchPostsForText:(NSString *)text searchMode:(NSString *)searchMode postTypes:(NSArray *)postTypes {
     id postData = nil;
     NSString *where;
     NSMutableArray *params = [NSMutableArray new];
+    text = [NSString stringWithFormat:@"%%%@%%", text];
     if ([@"exact" isEqualToString:searchMode]) {
-        where = @"title LIKE '%?%' OR content LIKE '%?%'";
+        where = @"title LIKE ? OR content LIKE ?";
         [params addObject:text];
         [params addObject:text];
     }
@@ -291,9 +292,10 @@ static IFLogger *Logger;
         NSArray *tokens = [text componentsSeparatedByString:@" "];
         for (NSString *token in tokens) {
             // TODO: Trim the token, check for empty tokens.
-            [terms addObject:@"(title LIKE '%?%' OR content LIKE '%?%')"];
-            [params addObject:token];
-            [params addObject:token];
+            NSString *param = [NSString stringWithFormat:@"%%%@%%", token];
+            [terms addObject:@"(title LIKE ? OR content LIKE ?)"];
+            [params addObject:param];
+            [params addObject:param];
         }
         if ([@"any" isEqualToString:searchMode]) {
             where = [terms componentsJoinedByString:@" OR "];
@@ -302,9 +304,21 @@ static IFLogger *Logger;
             where = [terms componentsJoinedByString:@" AND "];
         }
     }
-    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM wp_posts WHERE %@", where];
+    if (postTypes) {
+        if ([postTypes count] == 1) {
+            where = [NSString stringWithFormat:@"(%@) AND type='%@'", where, [postTypes firstObject]];
+        }
+        else {
+            where = [NSString stringWithFormat:@"(%@) AND type IN ('%@')", where, [postTypes componentsJoinedByString:@"','"]];
+        }
+    }
+    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM posts WHERE %@", where];
     postData = [_postDB performQuery:sql withParams:params];
     // TODO: Filters?
+    id<IFDataFormatter> formatter = [_listFormats objectForKey:@"table"];
+    if (formatter) {
+        postData = [formatter formatData:postData];
+    }
     return postData;
 }
 

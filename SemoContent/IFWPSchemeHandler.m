@@ -56,7 +56,12 @@
         else if ([@"search" isEqualToString:firstComponent]) {
             NSString *text = [params objectForKey:@"text"];
             NSString *mode = [params objectForKey:@"mode"];
-            return [_contentContainer searchPostsForText:text searchMode:mode];
+            NSArray *postTypes = nil;
+            NSString *types = [params objectForKey:@"types"];
+            if (types) {
+                postTypes = [types componentsSeparatedByString:@","];
+            }
+            return [_contentContainer searchPostsForText:text searchMode:mode postTypes:postTypes];
         }
     }
     return nil;

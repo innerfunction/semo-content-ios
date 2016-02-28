@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		072B39811C83A0330029CD6C /* IFFormHiddenField.h in Headers */ = {isa = PBXBuildFile; fileRef = 072B397F1C83A0330029CD6C /* IFFormHiddenField.h */; };
+		072B39821C83A0330029CD6C /* IFFormHiddenField.m in Sources */ = {isa = PBXBuildFile; fileRef = 072B39801C83A0330029CD6C /* IFFormHiddenField.m */; };
 		073E07AE1C767A1C0031533F /* GRMustacheExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 073E07461C767A1C0031533F /* GRMustacheExpression.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		073E07AF1C767A1C0031533F /* GRMustacheExpression_private.h in Headers */ = {isa = PBXBuildFile; fileRef = 073E07471C767A1C0031533F /* GRMustacheExpression_private.h */; };
 		073E07B01C767A1C0031533F /* GRMustacheExpressionVisitor_private.h in Headers */ = {isa = PBXBuildFile; fileRef = 073E07481C767A1C0031533F /* GRMustacheExpressionVisitor_private.h */; };
@@ -221,6 +223,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		072B397F1C83A0330029CD6C /* IFFormHiddenField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFFormHiddenField.h; path = ../../SemoContent/IFFormHiddenField.h; sourceTree = "<group>"; };
+		072B39801C83A0330029CD6C /* IFFormHiddenField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFFormHiddenField.m; path = ../../SemoContent/IFFormHiddenField.m; sourceTree = "<group>"; };
 		073E07461C767A1C0031533F /* GRMustacheExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustacheExpression.m; sourceTree = "<group>"; };
 		073E07471C767A1C0031533F /* GRMustacheExpression_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheExpression_private.h; sourceTree = "<group>"; };
 		073E07481C767A1C0031533F /* GRMustacheExpressionVisitor_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheExpressionVisitor_private.h; sourceTree = "<group>"; };
@@ -844,6 +848,8 @@
 				075B8F1E1C825B5000E4B319 /* IFFormOptionField.m */,
 				07CF15731C6E72FB0000CCE6 /* IFFormImageField.h */,
 				07CF15741C6E72FB0000CCE6 /* IFFormImageField.m */,
+				072B397F1C83A0330029CD6C /* IFFormHiddenField.h */,
+				072B39801C83A0330029CD6C /* IFFormHiddenField.m */,
 				07F32B781C7D13A700B144D6 /* IFSubmitField.h */,
 				07F32B791C7D13A700B144D6 /* IFSubmitField.m */,
 				07DAB78E1C73D35500697D92 /* IFFormViewController.h */,
@@ -947,6 +953,7 @@
 				073E07EA1C767A1C0031533F /* GRMustacheSafeKeyAccess.h in Headers */,
 				07928FD31C5BB0B600EFA4F0 /* IFWPContentProtocol.h in Headers */,
 				073E07CD1C767A1C0031533F /* GRMustacheVariableTag_private.h in Headers */,
+				072B39811C83A0330029CD6C /* IFFormHiddenField.h in Headers */,
 				073E07D01C767A1C0031533F /* GRMustacheConfiguration_private.h in Headers */,
 				07928FBD1C5BB0B600EFA4F0 /* IFCommand.h in Headers */,
 				073E07D61C767A1C0031533F /* GRMustacheExpressionParser_private.h in Headers */,
@@ -1113,6 +1120,7 @@
 				0792902E1C5BB1D200EFA4F0 /* PLSqlitePreparedStatement.m in Sources */,
 				073E07B11C767A1C0031533F /* GRMustacheFilteredExpression.m in Sources */,
 				07CF15661C6E61A90000CCE6 /* IFFormField.m in Sources */,
+				072B39821C83A0330029CD6C /* IFFormHiddenField.m in Sources */,
 				07928FCA1C5BB0B600EFA4F0 /* IFMvFileCommand.m in Sources */,
 				07928FB81C5BB0B600EFA4F0 /* IFWPContentContainer.m in Sources */,
 				079290281C5BB1D200EFA4F0 /* PLSqliteConnectionProvider.m in Sources */,

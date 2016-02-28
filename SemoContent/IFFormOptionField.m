@@ -11,11 +11,21 @@
 
 @implementation IFFormOptionField
 
+- (id)init {
+    self = [super init];
+    if (self) {
+        self.isInput = YES;
+    }
+    return self;
+}
+
 - (void)setOptionSelected:(BOOL)optionSelected {
     _optionSelected = optionSelected;
+    self.value = self.optionValue;
     dispatch_async(dispatch_get_main_queue(), ^{
          self.accessoryType = _optionSelected ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     });
+    
 }
 
 - (BOOL)isSelectable {
@@ -29,7 +39,6 @@
         field.value = nil;
     }
     self.optionSelected = YES;
-    self.value = self.optionValue;
 }
 
 @end
