@@ -15,6 +15,8 @@
 @property (nonatomic, strong) UIColor *textColor;
 @property (nonatomic, strong) UIColor *backgroundColor;
 @property (nonatomic, strong) NSString *textAlign;
+@property (nonatomic, assign) BOOL bold;
+@property (nonatomic, assign) BOOL italic;
 
 - (void)applyToLabel:(UILabel *)label;
 - (void)applyToTextField:(UITextField *)textField;

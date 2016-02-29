@@ -17,12 +17,27 @@
     if (_fontSize) {
         fontSize = [_fontSize floatValue];
     }
+    UIFont *font = label.font;
     if (_fontName) {
-        label.font = [UIFont fontWithName:_fontName size:fontSize];
+        font = [UIFont fontWithName:_fontName size:fontSize];
     }
     else {
-        label.font = [UIFont systemFontOfSize:fontSize];
+        font = [UIFont systemFontOfSize:fontSize];
     }
+    if (_bold || _italic) {
+        // See http://stackoverflow.com/a/21777132
+        UIFontDescriptorSymbolicTraits traits = 0x00;
+        if (_bold) {
+            traits |= UIFontDescriptorTraitBold;
+        }
+        if (_italic) {
+            traits |= UIFontDescriptorTraitItalic;
+        }
+        UIFontDescriptor *fontDesc = [font.fontDescriptor fontDescriptorWithSymbolicTraits:traits];
+        // Note, size: 0 below means keep current size.
+        font = [UIFont fontWithDescriptor:fontDesc size:0];
+    }
+    label.font = font;
     if (_textColor) {
         label.textColor = _textColor;
     }
@@ -45,12 +60,27 @@
     if (_fontSize) {
         fontSize = [_fontSize floatValue];
     }
+    UIFont *font;
     if (_fontName) {
-        textField.font = [UIFont fontWithName:_fontName size:fontSize];
+        font = [UIFont fontWithName:_fontName size:fontSize];
     }
     else {
-        textField.font = [UIFont systemFontOfSize:fontSize];
+        font = [UIFont systemFontOfSize:fontSize];
     }
+    if (_bold || _italic) {
+        // See http://stackoverflow.com/a/21777132
+        UIFontDescriptorSymbolicTraits traits = 0x00;
+        if (_bold) {
+            traits |= UIFontDescriptorTraitBold;
+        }
+        if (_italic) {
+            traits |= UIFontDescriptorTraitItalic;
+        }
+        UIFontDescriptor *fontDesc = [font.fontDescriptor fontDescriptorWithSymbolicTraits:traits];
+        // Note, size: 0 below means keep current size.
+        font = [UIFont fontWithDescriptor:fontDesc size:0];
+    }
+    textField.font = font;
     if (_textColor) {
         textField.textColor = _textColor;
     }
