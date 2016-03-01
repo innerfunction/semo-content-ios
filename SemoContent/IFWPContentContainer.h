@@ -76,5 +76,7 @@
 - (id)queryPostsUsingFilter:(NSString *)filterName params:(NSDictionary *)params;
 /** Search the post database for the specified text in the specified post types. */
 - (id)searchPostsForText:(NSString *)text searchMode:(NSString *)searchMode postTypes:(NSArray *)postTypes;
+/** Render a post's content by evaluating template reference's within the content field. */
+- (NSDictionary *)renderPostContent:(NSDictionary *)postData;
 
 @end

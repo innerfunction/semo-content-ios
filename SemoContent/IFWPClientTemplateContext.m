@@ -26,14 +26,17 @@
     _posts.container = _attachments.container;
 }
 
-- (id)templateContextForPostData:(id)postData {
+- (id)templateContext {
+    return @{
+        @"attachment":  _attachments,
+        @"post":        _posts,
+        @"ext":         _ext
+    };
+}
+- (id)templateContextForPostData:(NSDictionary *)postData {
     // Create the template context by extending the basic post data with additional extensions.
     // Note that post values are available as top level names.
-    return [postData extendWith:@{
-        @"attachments": _attachments,
-        @"posts":       _posts,
-        @"ext":         _ext
-    }];
+    return [postData extendWith:[self templateContext]];
 }
 
 @end
@@ -48,7 +51,8 @@
     return self;
 }
 
-- (id)valueForKey:(NSString *)key {
+//- (id)valueForKey:(NSString *)key {
+- (id)objectForKeyedSubscript:(NSString *)key {
     // The template placeholder is in the form {attachment.x}, where 'x' is an attachment post ID.
     // Read the attachment data from the posts DB and base on its 'location' value, return one of
     // the following:
@@ -59,9 +63,9 @@
     // * server:     Attachment file hasn't been downloaded and is still on the server; return its
     //               server URL.
     NSDictionary *attachment = [_postDB readRecordWithID:key fromTable:@"posts"];
-    NSString *location = [attachment valueForKey:@"location"];
-    NSString *filename = [attachment valueForKey:@"filename"];
-    NSString *url = [attachment valueForKey:@"url"];
+    NSString *location = attachment[@"location"];
+    NSString *filename = attachment[@"filename"];
+    NSString *url = attachment[@"url"];
     if ([@"packaged" isEqualToString:location]) {
         NSString *path = [_packagedContentPath stringByAppendingPathComponent:filename];
         url = [NSString stringWithFormat:@"file://%@", path];
@@ -89,12 +93,13 @@
 
 @implementation IFWPPostsProxy
 
-- (id)valueForKey:(NSString *)key {
+//- (id)valueForKey:(NSString *)key {
+- (id)objectForKeyedSubscript:(NSString *)key {
     NSDictionary *post = [_postDB readRecordWithID:key fromTable:@"posts"];
-    NSString *location = [post valueForKey:@"location"];
+    NSString *location = post[@"location"];
     NSString *uri;
     if ([@"server" isEqualToString:location]) {
-        uri = [post valueForKey:@"url"];
+        uri = post[@"url"];
     }
     else {
         uri = [_container uriForPostWithID:key];

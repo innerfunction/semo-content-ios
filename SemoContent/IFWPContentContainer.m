@@ -21,6 +21,13 @@
 
 static IFLogger *Logger;
 
+@interface IFWPContentContainer()
+
+/** Render a template with the specified data. */
+- (NSString *)renderTemplate:(NSString *)template withData:(id)data;
+
+@end
+
 @implementation IFWPContentContainer
 
 + (void)initialize {
@@ -230,12 +237,21 @@ static IFLogger *Logger;
     filter.table = @"posts";
     filter.filters = @{ @"parent": postID };
     filter.orderBy = @"menu_order";
-    return [filter applyTo:_postDB withParameters:@{}];
+    // Query the database.
+    NSArray *childPosts = [filter applyTo:_postDB withParameters:@{}];
+    // Render content for each child post.
+    NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:[childPosts count]];
+    for (NSDictionary *post in childPosts) {
+        [result addObject:[self renderPostContent:post]];
+    }
+    return result;
 }
 
 - (id)getPost:(NSString *)postID withParams:(NSDictionary *)params {
     // Read the post data.
     NSDictionary *postData = [_postDB readRecordWithID:postID fromTable:@"posts"];
+    // Render the post content.
+    postData = [self renderPostContent:postData];
     // Load the client template for the post type.
     NSString *postType = [postData objectForKey:@"type"];
     NSString *templateName = [NSString stringWithFormat:@"template-%@.html", postType];
@@ -251,12 +267,8 @@ static IFLogger *Logger;
     NSString *template = [NSString stringWithContentsOfFile:templatePath encoding:NSUTF8StringEncoding error:nil];
     // Generate the full post HTML using the post data and the client template.
     id context = [_clientTemplateContext templateContextForPostData:postData];
-    NSError *error;
-    NSString *postHTML = [GRMustacheTemplate renderObject:context fromString:template error:&error];
-    if (error) {
-        //[Logger error:@"Rendering template: %@", error];
-        postHTML = [NSString stringWithFormat:@"<h1>Template error</h1><pre>%@</pre>", error];
-    }
+    // Render the post template
+    NSString *postHTML = [self renderTemplate:template withData:context];
     // Generate a content URL within the base content directory - this to ensure that references to base
     // content can be resolved as relative references.
     NSString *separator = [_contentPath hasSuffix:@"/"] ? @"" : @"/";
@@ -320,6 +332,23 @@ static IFLogger *Logger;
         postData = [formatter formatData:postData];
     }
     return postData;
+}
+
+- (NSDictionary *)renderPostContent:(NSDictionary *)postData {
+    id context = [_clientTemplateContext templateContext];
+    NSString *contentHTML = [self renderTemplate:[postData objectForKey:@"content"] withData:context];
+    return [postData dictionaryWithAddedObject:contentHTML forKey:@"content"];
+}
+
+#pragma mark - Private methods
+
+- (NSString *)renderTemplate:(NSString *)template withData:(id)data {
+    NSError *error;
+    NSString *result = [GRMustacheTemplate renderObject:data fromString:template error:&error];
+    if (error) {
+        result = [NSString stringWithFormat:@"<h1>Template error</h1><pre>%@</pre>", error];
+    }
+    return result;
 }
 
 #pragma mark - IFIOCConfigurable

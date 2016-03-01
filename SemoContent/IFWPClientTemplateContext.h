@@ -44,6 +44,7 @@
 /** A dictionary of registered extensions. */
 @property (nonatomic, strong) NSDictionary *ext;
 
-- (id)templateContextForPostData:(id)postData;
+- (id)templateContext;
+- (id)templateContextForPostData:(NSDictionary *)postData;
 
 @end
