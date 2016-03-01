@@ -20,7 +20,11 @@
 
 @end
 
-@interface IFHTTPClient : NSObject
+@interface IFHTTPClientAuthenticationHandler : NSObject <NSURLSessionTaskDelegate>
+
+@end
+
+@interface IFHTTPClient : NSObject <NSURLSessionTaskDelegate>
 
 + (QPromise *)get:(NSString *)url;
 + (QPromise *)get:(NSString *)url data:(NSDictionary *)data;

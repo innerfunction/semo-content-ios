@@ -110,6 +110,10 @@
 		0746AAB11C5BB06B00641C9F /* SemoContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 0746AAB01C5BB06B00641C9F /* SemoContent.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		075B8F1F1C825B5000E4B319 /* IFFormOptionField.h in Headers */ = {isa = PBXBuildFile; fileRef = 075B8F1D1C825B5000E4B319 /* IFFormOptionField.h */; };
 		075B8F201C825B5000E4B319 /* IFFormOptionField.m in Sources */ = {isa = PBXBuildFile; fileRef = 075B8F1E1C825B5000E4B319 /* IFFormOptionField.m */; };
+		07717B721C86034B00087417 /* SSKeychain.h in Headers */ = {isa = PBXBuildFile; fileRef = 07717B6E1C86034B00087417 /* SSKeychain.h */; };
+		07717B731C86034B00087417 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 07717B6F1C86034B00087417 /* SSKeychain.m */; };
+		07717B741C86034B00087417 /* SSKeychainQuery.h in Headers */ = {isa = PBXBuildFile; fileRef = 07717B701C86034B00087417 /* SSKeychainQuery.h */; };
+		07717B751C86034B00087417 /* SSKeychainQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 07717B711C86034B00087417 /* SSKeychainQuery.m */; };
 		0771CD8F1C7672A6004BA5BD /* SemoCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0771CD8E1C76726B004BA5BD /* SemoCore.framework */; };
 		07928FB41C5BB0B600EFA4F0 /* IFContentTableViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 07928F911C5BB0B600EFA4F0 /* IFContentTableViewController.h */; };
 		07928FB51C5BB0B600EFA4F0 /* IFContentTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07928F921C5BB0B600EFA4F0 /* IFContentTableViewController.m */; };
@@ -174,8 +178,6 @@
 		0792905F1C5BB5C200EFA4F0 /* libQ.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0792905E1C5BB5C200EFA4F0 /* libQ.a */; };
 		07A90EB81C7DCA67008D3951 /* IFHTTPClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 07A90EB61C7DCA67008D3951 /* IFHTTPClient.h */; };
 		07A90EB91C7DCA67008D3951 /* IFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 07A90EB71C7DCA67008D3951 /* IFHTTPClient.m */; };
-		07A90EC01C7E0533008D3951 /* SFHFKeychainUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 07A90EBE1C7E0533008D3951 /* SFHFKeychainUtils.h */; };
-		07A90EC11C7E0533008D3951 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 07A90EBF1C7E0533008D3951 /* SFHFKeychainUtils.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		07A981521C6BDD6300280F53 /* IFWPChildPostRendering.h in Headers */ = {isa = PBXBuildFile; fileRef = 07A981501C6BDD6300280F53 /* IFWPChildPostRendering.h */; };
 		07A981531C6BDD6300280F53 /* IFWPChildPostRendering.m in Sources */ = {isa = PBXBuildFile; fileRef = 07A981511C6BDD6300280F53 /* IFWPChildPostRendering.m */; };
 		07CDBA5E1C81D4CE004F6CA7 /* IFFormSelectField.h in Headers */ = {isa = PBXBuildFile; fileRef = 07CDBA5C1C81D4CE004F6CA7 /* IFFormSelectField.h */; };
@@ -328,6 +330,10 @@
 		0746AAB21C5BB06B00641C9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		075B8F1D1C825B5000E4B319 /* IFFormOptionField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFFormOptionField.h; path = ../../SemoContent/IFFormOptionField.h; sourceTree = "<group>"; };
 		075B8F1E1C825B5000E4B319 /* IFFormOptionField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFFormOptionField.m; path = ../../SemoContent/IFFormOptionField.m; sourceTree = "<group>"; };
+		07717B6E1C86034B00087417 /* SSKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSKeychain.h; sourceTree = "<group>"; };
+		07717B6F1C86034B00087417 /* SSKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychain.m; sourceTree = "<group>"; };
+		07717B701C86034B00087417 /* SSKeychainQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSKeychainQuery.h; sourceTree = "<group>"; };
+		07717B711C86034B00087417 /* SSKeychainQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychainQuery.m; sourceTree = "<group>"; };
 		0771CD891C76726B004BA5BD /* SemoCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SemoCore.xcodeproj; path = "../../semo-core-ios/SemoCore/SemoCore.xcodeproj"; sourceTree = "<group>"; };
 		07928F911C5BB0B600EFA4F0 /* IFContentTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFContentTableViewController.h; path = ../../SemoContent/IFContentTableViewController.h; sourceTree = "<group>"; };
 		07928F921C5BB0B600EFA4F0 /* IFContentTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFContentTableViewController.m; path = ../../SemoContent/IFContentTableViewController.m; sourceTree = "<group>"; };
@@ -393,8 +399,6 @@
 		0792905E1C5BB5C200EFA4F0 /* libQ.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libQ.a; path = "../../Q-ios/Q/build/Debug-iphoneos/libQ.a"; sourceTree = "<group>"; };
 		07A90EB61C7DCA67008D3951 /* IFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFHTTPClient.h; path = ../../SemoContent/IFHTTPClient.h; sourceTree = "<group>"; };
 		07A90EB71C7DCA67008D3951 /* IFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFHTTPClient.m; path = ../../SemoContent/IFHTTPClient.m; sourceTree = "<group>"; };
-		07A90EBE1C7E0533008D3951 /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
-		07A90EBF1C7E0533008D3951 /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
 		07A981501C6BDD6300280F53 /* IFWPChildPostRendering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFWPChildPostRendering.h; path = ../../SemoContent/IFWPChildPostRendering.h; sourceTree = "<group>"; };
 		07A981511C6BDD6300280F53 /* IFWPChildPostRendering.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFWPChildPostRendering.m; path = ../../SemoContent/IFWPChildPostRendering.m; sourceTree = "<group>"; };
 		07CDBA5C1C81D4CE004F6CA7 /* IFFormSelectField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFFormSelectField.h; path = ../../SemoContent/IFFormSelectField.h; sourceTree = "<group>"; };
@@ -684,6 +688,17 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		07717B6D1C86034B00087417 /* SSKeychain */ = {
+			isa = PBXGroup;
+			children = (
+				07717B6E1C86034B00087417 /* SSKeychain.h */,
+				07717B6F1C86034B00087417 /* SSKeychain.m */,
+				07717B701C86034B00087417 /* SSKeychainQuery.h */,
+				07717B711C86034B00087417 /* SSKeychainQuery.m */,
+			);
+			path = SSKeychain;
+			sourceTree = "<group>";
+		};
 		0771CD8A1C76726B004BA5BD /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -778,7 +793,7 @@
 				0771CD891C76726B004BA5BD /* SemoCore.xcodeproj */,
 				07916B3E1C68A3370028AEA5 /* GRMustache */,
 				079290061C5BB1D100EFA4F0 /* PlausibleDatabase */,
-				07A90EBD1C7E0533008D3951 /* SFHFKeychainUtils */,
+				07717B6D1C86034B00087417 /* SSKeychain */,
 			);
 			name = Externals;
 			path = ../Externals;
@@ -822,15 +837,6 @@
 				079290311C5BB20F00EFA4F0 /* libz.tbd */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		07A90EBD1C7E0533008D3951 /* SFHFKeychainUtils */ = {
-			isa = PBXGroup;
-			children = (
-				07A90EBE1C7E0533008D3951 /* SFHFKeychainUtils.h */,
-				07A90EBF1C7E0533008D3951 /* SFHFKeychainUtils.m */,
-			);
-			path = SFHFKeychainUtils;
 			sourceTree = "<group>";
 		};
 		07CF155D1C6E61070000CCE6 /* com.innerfunction.semo.form */ = {
@@ -905,11 +911,11 @@
 				07928FD01C5BB0B600EFA4F0 /* IFWPClientTemplateContext.h in Headers */,
 				073E08011C767A1C0031533F /* GRMustacheAvailabilityMacros_private.h in Headers */,
 				073E07E21C767A1C0031533F /* GRMustacheFilter_private.h in Headers */,
-				07A90EC01C7E0533008D3951 /* SFHFKeychainUtils.h in Headers */,
 				073E07F71C767A1C0031533F /* GRMustacheHTMLLibrary_private.h in Headers */,
 				073E07FA1C767A1C0031533F /* GRMustacheLocalizer.h in Headers */,
 				07928FD61C5BB0B600EFA4F0 /* IFWPDataWebviewFormatter.h in Headers */,
 				073E07C71C767A1C0031533F /* GRMustacheTemplateAST_private.h in Headers */,
+				07717B741C86034B00087417 /* SSKeychainQuery.h in Headers */,
 				073E07DB1C767A1C0031533F /* GRMustacheContext.h in Headers */,
 				073E07FD1C767A1C0031533F /* GRMustacheStandardLibrary_private.h in Headers */,
 				073E08031C767A1C0031533F /* GRMustacheContentType.h in Headers */,
@@ -945,6 +951,7 @@
 				073E07E01C767A1C0031533F /* GRMustacheFilter.h in Headers */,
 				0792902D1C5BB1D200EFA4F0 /* PLSqlitePreparedStatement.h in Headers */,
 				073E07F91C767A1C0031533F /* GRMustacheJavascriptLibrary_private.h in Headers */,
+				07717B721C86034B00087417 /* SSKeychain.h in Headers */,
 				073E07B21C767A1C0031533F /* GRMustacheFilteredExpression_private.h in Headers */,
 				073E080B1C767A1C0031533F /* GRMustacheTemplateRepository.h in Headers */,
 				07928FCE1C5BB0B600EFA4F0 /* IFSemoContent.h in Headers */,
@@ -1082,6 +1089,7 @@
 				079290301C5BB1D200EFA4F0 /* PLSqliteResultSet.m in Sources */,
 				07928FC61C5BB0B600EFA4F0 /* IFDBHelper.m in Sources */,
 				07928FB51C5BB0B600EFA4F0 /* IFContentTableViewController.m in Sources */,
+				07717B731C86034B00087417 /* SSKeychain.m in Sources */,
 				07DAB7911C73D35500697D92 /* IFFormViewController.m in Sources */,
 				073E082C1C767A350031533F /* JRSwizzle.m in Sources */,
 				073E080C1C767A1C0031533F /* GRMustacheTemplateRepository.m in Sources */,
@@ -1106,6 +1114,7 @@
 				073E07F11C767A1C0031533F /* NSFormatter+GRMustache.m in Sources */,
 				073E07EC1C767A1C0031533F /* GRMustacheExpressionGenerator.m in Sources */,
 				07928FC41C5BB0B600EFA4F0 /* IFDBFilter.m in Sources */,
+				07717B751C86034B00087417 /* SSKeychainQuery.m in Sources */,
 				07928FCD1C5BB0B600EFA4F0 /* IFRmFileCommand.m in Sources */,
 				07CF15721C6E6EEC0000CCE6 /* IFFormView.m in Sources */,
 				07928FD11C5BB0B600EFA4F0 /* IFWPClientTemplateContext.m in Sources */,
@@ -1135,7 +1144,6 @@
 				07928FCF1C5BB0B600EFA4F0 /* IFUnzipCommand.m in Sources */,
 				07928FCB1C5BB0B600EFA4F0 /* IFProtocol.m in Sources */,
 				07A981531C6BDD6300280F53 /* IFWPChildPostRendering.m in Sources */,
-				07A90EC11C7E0533008D3951 /* SFHFKeychainUtils.m in Sources */,
 				073E07BB1C767A1C0031533F /* GRMustacheInheritablePartialNode.m in Sources */,
 				073E07EE1C767A1C0031533F /* GRMustacheTemplateGenerator.m in Sources */,
 				0792902A1C5BB1D200EFA4F0 /* PLSqliteDatabase.m in Sources */,

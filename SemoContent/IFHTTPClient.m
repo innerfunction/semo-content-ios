@@ -50,6 +50,19 @@
 
 @end
 
+@implementation IFHTTPClientAuthenticationHandler
+
+
+#pragma mark - NSURLSessionTaskDelegate
+
+- (void)URLSession:(NSURLSession *)session
+              task:(NSURLSessionTask *)task
+didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
+ completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable))completionHandler {
+}
+
+@end
+    
 @implementation IFHTTPClient
 
 + (QPromise *)get:(NSString *)url {
@@ -104,7 +117,13 @@
         NSString *body = [queryItems componentsJoinedByString:@"&"];
         request.HTTPBody = [body dataUsingEncoding:NSUTF8StringEncoding];
     }
-    NSURLSession *session = [NSURLSession sharedSession];
+    //NSURLSession *session = [NSURLSession sharedSession];
+    IFHTTPClientAuthenticationHandler *authHandler = [[IFHTTPClientAuthenticationHandler alloc] init];
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration
+                                                          delegate:authHandler
+                                                     delegateQueue:nil];
+    
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request
         completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
             if (error) {

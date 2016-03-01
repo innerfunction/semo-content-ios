@@ -11,11 +11,11 @@
 #import "IFFormViewController.h"
 #import "IFAppContainer.h"
 #import "NSDictionary+IF.h"
-#import "SFHFKeychainUtils.h"
+#import "SSKeyChain.h"
 
 @interface IFWPContentContainerFormFactory ()
 
-void storeUserCredentials(IFFormView *form, NSString *service);
+- (void)storeUserCredentials:(IFFormView *)form service:(NSString *)service;
 
 @end
     
@@ -102,8 +102,7 @@ void storeUserCredentials(IFFormView *form, NSString *service);
         };
         onSubmitOk = ^(IFFormView *form, id data) {
             // Store user credentials & user info
-            storeUserCredentials(form, _container.feedURL);
-            [_userDefaults setValue:@YES forKey:@"semo/logged-in"];
+            [self storeUserCredentials:form service:_container.feedURL];
             // Dispatch the specified event
             [IFAppContainer postMessage:loginAction sender:form];
         };
@@ -112,8 +111,7 @@ void storeUserCredentials(IFFormView *form, NSString *service);
         submitURL = [_container.feedURL stringByAppendingPathComponent:@"account/create"];
         onSubmitOk = ^(IFFormView *form, id data) {
             // Store user credentials & user info
-            storeUserCredentials(form, _container.feedURL);
-            [_userDefaults setValue:@YES forKey:@"semo/logged-in"];
+            [self storeUserCredentials:form service:_container.feedURL];
             // Dispatch the specified event
             [IFAppContainer postMessage:loginAction sender:form];
         };
@@ -122,8 +120,6 @@ void storeUserCredentials(IFFormView *form, NSString *service);
         submitURL = [_container.feedURL stringByAppendingPathComponent:@"account/profile"];
         onSubmitOk = ^(IFFormView *form, id data) {
             // Update stored user info
-            storeUserCredentials(form, _container.feedURL);
-
         };
     }
     NSDictionary *params = [_stdParams extendWith:@{
@@ -139,20 +135,23 @@ void storeUserCredentials(IFFormView *form, NSString *service);
     formView.onShow = onShow;
     formView.form.onSubmitOk = onSubmitOk;
     formView.form.onSubmitError = ^(IFFormView *form, id data) {
-        NSString *action = [NSString stringWithFormat:@"post:/ui#toast+message=%@", @"Login%20failure"];
+        NSString *action = [NSString stringWithFormat:@"post:toast+message=%@", @"Login%20failure"];
         [IFAppContainer postMessage:action sender:form];
     };
     return formView;
 }
 
-void storeUserCredentials(IFFormView *form, NSString *service) {
+- (void)storeUserCredentials:(IFFormView *)form service:(NSString *)service {
     NSDictionary *formValues = form.inputValues;
     NSString *username = [formValues objectForKey:@"user_login"];
     NSString *password = [formValues objectForKey:@"user_pass"];
     // NOTE this will work for all forms - login, create account + update profile. In the latter case, if the
     // password is not updated then password will be empty and the keystore won't be updated.
     if ([username length] > 0 && [password length] > 0) {
-        [SFHFKeychainUtils storeUsername:username andPassword:password forServiceName:service updateExisting:YES error:nil];
+        [SSKeychain setPassword:password forService:service account:username];
+        [_userDefaults setValue:@YES forKey:@"semo/logged-in"];
+        // TODO: Need to review whether this is best practice.
+        [_userDefaults setValue:username forKey:@"semo/username"];
     }
 }
 
