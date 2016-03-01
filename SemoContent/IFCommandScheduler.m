@@ -52,7 +52,7 @@ static dispatch_queue_t execQueue;
         _db.tables = @{
             @"queue": @{
                 @"columns": @{
-                    @"id":      @{ @"type": @"INTEGER PRIMARY KEY" },
+                    @"id":      @{ @"type": @"INTEGER PRIMARY KEY", @"tag": @"id" },
                     @"batch":   @{ @"type": @"INTEGER" },
                     @"command": @{ @"type": @"TEXT" },
                     @"args":    @{ @"type": @"TEXT" },
@@ -125,10 +125,12 @@ static dispatch_queue_t execQueue;
 - (void)executeNextCommand {
     if ([_execQueue count] == 0) {
         // Do nothing if nothing on the queue.
+        _execIdx = -1;
         return;
     }
     if (_execIdx > [_execQueue count] - 1) {
         // If moved past the end of the queue then try reading a new list of commands from the db.
+        _execIdx = -1;
         [self executeQueue];
         return;
     }

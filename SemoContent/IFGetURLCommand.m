@@ -73,9 +73,18 @@
                 }
             }
             else {
-                // Copy downloaded file to target location.
+                NSFileManager *fileManager = [NSFileManager defaultManager];
                 NSURL *fileURL = [NSURL fileURLWithPath:_filename];
-                [[NSFileManager defaultManager] moveItemAtURL:location toURL:fileURL error:nil];
+                // Check whether the target location exists, delete any file already at the target location.
+                NSString *dirPath = [fileURL.path stringByDeletingLastPathComponent];
+                if (![fileManager fileExistsAtPath:dirPath]) {
+                    [fileManager createDirectoryAtPath:dirPath withIntermediateDirectories:YES attributes:nil error:nil];
+                }
+                else if ([fileManager fileExistsAtPath:fileURL.path]) {
+                    [fileManager removeItemAtURL:fileURL error:nil];
+                }
+                // Copy downloaded file to target location.
+                [fileManager moveItemAtURL:location toURL:fileURL error:nil];
                 [_promise resolve:@[]];
             }
         }];
