@@ -11,6 +11,7 @@
 #import "IFWPClientTemplateContext.h"
 #import "IFWPDataTableFormatter.h"
 #import "IFWPDataWebviewFormatter.h"
+#import "IFGetURLCommand.h"
 #import "IFStringTemplate.h"
 #import "IFDBFilter.h"
 #import "IFDataFormatter.h"
@@ -138,6 +139,8 @@ static IFLogger *Logger;
         
         _fileManager = [NSFileManager defaultManager];
 
+        _httpClient = [[IFHTTPClient alloc] init];
+        
     }
     return self;
 }
@@ -386,6 +389,8 @@ static IFLogger *Logger;
     if (_contentProtocol) {
         _commandScheduler.commands = @{ @"content": _contentProtocol };
     }
+    _commandScheduler.commands = @{ @"get": [[IFGetURLCommand alloc] init] };
+
     
     // Register the URI scheme handler.
     if (_uriSchemeName && _uriScheme) {

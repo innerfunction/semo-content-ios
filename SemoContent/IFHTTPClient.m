@@ -7,13 +7,21 @@
 //
 
 #import "IFHTTPClient.h"
+#import "SSKeychain.h"
+
+@interface IFHTTPClient()
+
+- (BOOL)isAuthenticationErrorResponse:(NSURLResponse *)response;
+- (QPromise *)reauthenticate;
+
+@end
 
 @implementation IFHTTPClientResponse
 
 - (id)initWithHTTPResponse:(NSURLResponse *)response data:(NSData *)data {
     self = [super init];
     if (self) {
-        self.httpResponse = response;
+        self.httpResponse = (NSHTTPURLResponse *)response;
         self.data = data;
     }
     return self;
@@ -50,8 +58,8 @@
 
 @end
 
+/*
 @implementation IFHTTPClientAuthenticationHandler
-
 
 #pragma mark - NSURLSessionTaskDelegate
 
@@ -59,18 +67,30 @@
               task:(NSURLSessionTask *)task
 didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
  completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable))completionHandler {
+    // Taken from https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/URLLoadingSystem/Articles/AuthenticationChallenges.html#//apple_ref/doc/uid/TP40009507-SW1
+    if (challenge.previousFailureCount == 0) {
+        NSString *account = [[NSUserDefaults standardUserDefaults] stringForKey:@"semo/username"];
+        NSString *password = [SSKeychain passwordForService:@"<service>" account:account];
+        NSURLCredential *credential = [NSURLCredential credentialWithUser:account password:password persistence:NSURLCredentialPersistenceNone];
+        [challenge.sender useCredential:credential forAuthenticationChallenge:challenge];
+    }
+    else {
+        [challenge.sender cancelAuthenticationChallenge:challenge];
+        // Redisplay login screen, show toast
+    }
 }
 
 @end
-    
+*/
+
 @implementation IFHTTPClient
 
-+ (QPromise *)get:(NSString *)url {
-    return [IFHTTPClient get:url data:nil];
+- (QPromise *)get:(NSString *)url {
+    return [self get:url data:nil];
 }
 
-+ (QPromise *)get:(NSString *)url data:(NSDictionary *)data {
-    QPromise *promise = [[QPromise alloc] init];
+- (QPromise *)get:(NSString *)url data:(NSDictionary *)data {
+    QPromise *promise = [QPromise new];
     // Build URL.
     NSURLComponents *urlParts = [NSURLComponents componentsWithString:url];
     if (data) {
@@ -85,20 +105,56 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
     NSURLRequest *request = [NSURLRequest requestWithURL:urlParts.URL];
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request
-        completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            if (error) {
+        completionHandler:^(NSData * _Nullable responseData, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            if ([self isAuthenticationErrorResponse:response]) {
+                [self reauthenticate]
+                .then((id)^(id result) {
+                    [promise resolve:[self get:url data:data]];
+                    return nil;
+                });
+            }
+            else if (error) {
                 [promise reject:error];
             }
             else {
-                [promise resolve:[[IFHTTPClientResponse alloc] initWithHTTPResponse:response data:data]];
+                [promise resolve:[[IFHTTPClientResponse alloc] initWithHTTPResponse:response data:responseData]];
             }
         }];
     [task resume];
     return promise;
 }
 
-+ (QPromise *)post:(NSString *)url data:(NSDictionary *)data {
-    QPromise *promise = [[QPromise alloc] init];
+- (QPromise *)getFile:(NSString *)url {
+    QPromise *promise = [QPromise new];
+    NSURL *fileURL = [NSURL URLWithString:url];
+    // See note here about NSURLConnection cacheing: http://blackpixel.com/blog/2012/05/caching-and-nsurlconnection.html
+    NSURLRequest *request = [NSURLRequest requestWithURL:fileURL
+                                             cachePolicy:NSURLRequestReloadRevalidatingCacheData // NOTE
+                                         timeoutInterval:60];
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request
+                                                    completionHandler:
+    ^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if ([self isAuthenticationErrorResponse:response]) {
+            [self reauthenticate]
+            .then((id)^(id result) {
+                [promise resolve:[self getFile:url]];
+                return nil;
+            });
+        }
+        else if (error) {
+            [promise reject:error];
+        }
+        else {
+            [promise resolve:location];
+        }
+    }];
+    [task resume];
+    return promise;
+}
+
+- (QPromise *)post:(NSString *)url data:(NSDictionary *)data {
+    QPromise *promise = [QPromise new];
     // Build URL.
     NSURL *nsURL = [NSURL URLWithString:url];
     // Send request.
@@ -117,31 +173,52 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
         NSString *body = [queryItems componentsJoinedByString:@"&"];
         request.HTTPBody = [body dataUsingEncoding:NSUTF8StringEncoding];
     }
-    //NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSession *session = [NSURLSession sharedSession];
+    /*
     IFHTTPClientAuthenticationHandler *authHandler = [[IFHTTPClientAuthenticationHandler alloc] init];
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration
                                                           delegate:authHandler
                                                      delegateQueue:nil];
-    
+    */
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request
-        completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            if (error) {
+        completionHandler:^(NSData * _Nullable responseData, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            if ([self isAuthenticationErrorResponse:response]) {
+                [self reauthenticate]
+                .then((id)^(id result) {
+                    [promise resolve:[self post:url data:data]];
+                    return nil;
+                });
+            }
+            else if (error) {
                 [promise reject:error];
             }
             else {
-                [promise resolve:[[IFHTTPClientResponse alloc] initWithHTTPResponse:response data:data]];
+                [promise resolve:[[IFHTTPClientResponse alloc] initWithHTTPResponse:response data:responseData]];
             }
         }];
     [task resume];
     return promise;
 }
 
-+ (QPromise *)submit:(NSString *)method url:(NSString *)url data:(NSDictionary *)data {
+- (QPromise *)submit:(NSString *)method url:(NSString *)url data:(NSDictionary *)data {
     if ([@"POST" isEqualToString:method]) {
-        return [IFHTTPClient post:url data:data];
+        return [self post:url data:data];
     }
-    return [IFHTTPClient get:url data:data];
+    return [self get:url data:data];
+}
+
+#pragma mark - Private methods
+
+- (BOOL)isAuthenticationErrorResponse:(NSURLResponse *)response {
+    return ((NSHTTPURLResponse *)response).statusCode == 401;
+}
+
+- (QPromise *)reauthenticate {
+    if (_reauthenticationHandler) {
+        return _reauthenticationHandler(self);
+    }
+    return [Q reject:nil];
 }
 
 @end

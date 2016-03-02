@@ -13,6 +13,8 @@
 #import "IFCommandScheduler.h"
 #import "IFIOCConfigurable.h"
 #import "IFWPContentContainerFormFactory.h"
+#import "IFWPAuthenticationHandler.h"
+#import "IFHTTPClient.h"
 
 @class IFWPClientTemplateContext;
 
@@ -59,6 +61,10 @@
 @property (nonatomic, strong) NSDictionary *filters;
 /** An object to use as the template context when rendering the client template for a post. */
 @property (nonatomic, strong) IFWPClientTemplateContext *clientTemplateContext;
+/** An object used to manage WP server authentication. */
+@property (nonatomic, strong) IFWPAuthenticationHandler *authenticationHandler;
+/** A HTTP client. */
+@property (nonatomic, strong) IFHTTPClient *httpClient;
 
 /** Unpack packaged content. */
 - (void)unpackPackagedContent;

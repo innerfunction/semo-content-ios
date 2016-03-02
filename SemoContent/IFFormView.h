@@ -43,6 +43,8 @@ typedef void (^IFFormViewErrorEvent)(IFFormView *, NSError *);
 @property (nonatomic, strong) NSDictionary *inputValues;
 /** Flag specifying whether the form is enabled or not. */
 @property (nonatomic, assign) BOOL isEnabled;
+/** A HTTP client to use when submitting the form to a URL. */
+@property (nonatomic, strong) IFHTTPClient *httpClient;
 
 @property (nonatomic, copy) IFFormViewErrorEvent onSubmitRequestError;
 @property (nonatomic, copy) IFFormViewDataEvent onSubmitError;

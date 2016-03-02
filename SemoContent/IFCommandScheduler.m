@@ -13,7 +13,6 @@
 #import "NSString+IF.h"
 #import "NSArray+IF.h"
 #import "NSDictionary+IF.h"
-#import "IFGetURLCommand.h"
 #import "IFRmFileCommand.h"
 #import "IFMvFileCommand.h"
 #import "IFUnzipCommand.h"
@@ -64,7 +63,6 @@ static dispatch_queue_t execQueue;
         
         // Standard built-in command mappings.
         self.commands = @{
-            @"get":   [[IFGetURLCommand alloc] init],
             @"rm":    [[IFRmFileCommand alloc] init],
             @"mv":    [[IFMvFileCommand alloc] init],
             @"unzip": [[IFUnzipCommand alloc] init]

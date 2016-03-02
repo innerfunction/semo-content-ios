@@ -11,11 +11,10 @@
 #import "IFFormViewController.h"
 #import "IFAppContainer.h"
 #import "NSDictionary+IF.h"
-#import "SSKeyChain.h"
 
 @interface IFWPContentContainerFormFactory ()
 
-- (void)storeUserCredentials:(IFFormView *)form service:(NSString *)service;
+- (void)storeUserCredentials:(IFFormView *)form;
 
 @end
     
@@ -68,9 +67,15 @@
                 @"title":               @"Confirm password",
                 @"hasSameValueAs":      @"user_pass"
             },
+            // TODO: How does this field invoke functionality on the container?
             @"ForgotPasswordField": @{
                 @"*ios-class":          @"IFFormField",
                 @"title":               @"Password reminder"
+            },
+            // TODO: How does this field invoke functionality on the container to do logout, redisplay login form?
+            @"LogoutField:": @{
+                @"*ios-class":          @"IFFormField",
+                @"title":               @"Logout"
             },
             @"SubmitField": @{
                 @"*ios-class":          @"IFSubmitField",
@@ -102,7 +107,7 @@
         };
         onSubmitOk = ^(IFFormView *form, id data) {
             // Store user credentials & user info
-            [self storeUserCredentials:form service:_container.feedURL];
+            [self storeUserCredentials:form];
             // Dispatch the specified event
             [IFAppContainer postMessage:loginAction sender:form];
         };
@@ -111,7 +116,7 @@
         submitURL = [_container.feedURL stringByAppendingPathComponent:@"account/create"];
         onSubmitOk = ^(IFFormView *form, id data) {
             // Store user credentials & user info
-            [self storeUserCredentials:form service:_container.feedURL];
+            [self storeUserCredentials:form];
             // Dispatch the specified event
             [IFAppContainer postMessage:loginAction sender:form];
         };
@@ -138,21 +143,15 @@
         NSString *action = [NSString stringWithFormat:@"post:toast+message=%@", @"Login%20failure"];
         [IFAppContainer postMessage:action sender:form];
     };
+    formView.form.httpClient = _container.httpClient;
     return formView;
 }
 
-- (void)storeUserCredentials:(IFFormView *)form service:(NSString *)service {
+#pragma mark - Private methods
+
+- (void)storeUserCredentials:(IFFormView *)form {
     NSDictionary *formValues = form.inputValues;
-    NSString *username = [formValues objectForKey:@"user_login"];
-    NSString *password = [formValues objectForKey:@"user_pass"];
-    // NOTE this will work for all forms - login, create account + update profile. In the latter case, if the
-    // password is not updated then password will be empty and the keystore won't be updated.
-    if ([username length] > 0 && [password length] > 0) {
-        [SSKeychain setPassword:password forService:service account:username];
-        [_userDefaults setValue:@YES forKey:@"semo/logged-in"];
-        // TODO: Need to review whether this is best practice.
-        [_userDefaults setValue:username forKey:@"semo/username"];
-    }
+    [_container.authenticationHandler storeUserCredentials:formValues];
 }
 
 @end

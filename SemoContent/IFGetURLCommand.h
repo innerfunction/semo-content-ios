@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "IFCommand.h"
+#import "IFHTTPClient.h"
 
 /**
  * A command to get the contents of a URL and write it to a file.
@@ -17,14 +18,16 @@
  * - retries:   The number of retries left. If the command fails (e.g. due to a connection timeout)
  *              then it will automatically schedule a retry, up to a specified maximum number of retries.
  */
-@interface IFGetURLCommand : NSObject <IFCommand/*, NSURLConnectionDataDelegate*/>  {
+@interface IFGetURLCommand : NSObject <IFCommand> {
+    IFHTTPClient *_httpClient;
     QPromise *_promise;
     NSString *_commandName;
     NSString *_url;
     NSString *_filename;
     NSInteger _remainingRetries;
-    //NSFileHandle *_fileHandle;
 }
+
+- (id)initWithHTTPClient:(IFHTTPClient *)httpClient;
 
 @property (nonatomic, assign) NSInteger maxRetries;
 

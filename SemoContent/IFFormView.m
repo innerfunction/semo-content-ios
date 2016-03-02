@@ -143,7 +143,7 @@
     if (ok) {
         if (_submitURL) {
             [self submitting:YES];
-            [IFHTTPClient submit:_method url:_submitURL data:self.inputValues]
+            [_httpClient submit:_method url:_submitURL data:self.inputValues]
             .then((id)^(IFHTTPClientResponse *response) {
                 if ([self isSubmitErrorResponse:response]) {
                     [self submitError:response];

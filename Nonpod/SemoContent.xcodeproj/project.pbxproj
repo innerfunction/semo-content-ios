@@ -114,6 +114,8 @@
 		07717B731C86034B00087417 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 07717B6F1C86034B00087417 /* SSKeychain.m */; };
 		07717B741C86034B00087417 /* SSKeychainQuery.h in Headers */ = {isa = PBXBuildFile; fileRef = 07717B701C86034B00087417 /* SSKeychainQuery.h */; };
 		07717B751C86034B00087417 /* SSKeychainQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 07717B711C86034B00087417 /* SSKeychainQuery.m */; };
+		07717B7B1C865C4600087417 /* IFWPAuthenticationHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 07717B791C865C4600087417 /* IFWPAuthenticationHandler.h */; };
+		07717B7C1C865C4600087417 /* IFWPAuthenticationHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 07717B7A1C865C4600087417 /* IFWPAuthenticationHandler.m */; };
 		0771CD8F1C7672A6004BA5BD /* SemoCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0771CD8E1C76726B004BA5BD /* SemoCore.framework */; };
 		07928FB41C5BB0B600EFA4F0 /* IFContentTableViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 07928F911C5BB0B600EFA4F0 /* IFContentTableViewController.h */; };
 		07928FB51C5BB0B600EFA4F0 /* IFContentTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07928F921C5BB0B600EFA4F0 /* IFContentTableViewController.m */; };
@@ -334,6 +336,8 @@
 		07717B6F1C86034B00087417 /* SSKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychain.m; sourceTree = "<group>"; };
 		07717B701C86034B00087417 /* SSKeychainQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSKeychainQuery.h; sourceTree = "<group>"; };
 		07717B711C86034B00087417 /* SSKeychainQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychainQuery.m; sourceTree = "<group>"; };
+		07717B791C865C4600087417 /* IFWPAuthenticationHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFWPAuthenticationHandler.h; path = ../../SemoContent/IFWPAuthenticationHandler.h; sourceTree = "<group>"; };
+		07717B7A1C865C4600087417 /* IFWPAuthenticationHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFWPAuthenticationHandler.m; path = ../../SemoContent/IFWPAuthenticationHandler.m; sourceTree = "<group>"; };
 		0771CD891C76726B004BA5BD /* SemoCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SemoCore.xcodeproj; path = "../../semo-core-ios/SemoCore/SemoCore.xcodeproj"; sourceTree = "<group>"; };
 		07928F911C5BB0B600EFA4F0 /* IFContentTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFContentTableViewController.h; path = ../../SemoContent/IFContentTableViewController.h; sourceTree = "<group>"; };
 		07928F921C5BB0B600EFA4F0 /* IFContentTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFContentTableViewController.m; path = ../../SemoContent/IFContentTableViewController.m; sourceTree = "<group>"; };
@@ -741,6 +745,10 @@
 				07DAB78A1C7385C200697D92 /* IFWPContentContainerFormFactory.m */,
 				07928FB01C5BB0B600EFA4F0 /* IFWPContentProtocol.h */,
 				07928F961C5BB0B600EFA4F0 /* IFWPContentProtocol.m */,
+				07717B791C865C4600087417 /* IFWPAuthenticationHandler.h */,
+				07717B7A1C865C4600087417 /* IFWPAuthenticationHandler.m */,
+				07928FA41C5BB0B600EFA4F0 /* IFGetURLCommand.h */,
+				07928FA51C5BB0B600EFA4F0 /* IFGetURLCommand.m */,
 				07928FB11C5BB0B600EFA4F0 /* IFWPDataTableFormatter.h */,
 				07928FB21C5BB0B600EFA4F0 /* IFWPDataTableFormatter.m */,
 				07928FB31C5BB0B600EFA4F0 /* IFWPDataWebviewFormatter.h */,
@@ -759,8 +767,6 @@
 				07928F9A1C5BB0B600EFA4F0 /* IFCommand.h */,
 				07928F9B1C5BB0B600EFA4F0 /* IFCommandScheduler.h */,
 				07928F9C1C5BB0B600EFA4F0 /* IFCommandScheduler.m */,
-				07928FA41C5BB0B600EFA4F0 /* IFGetURLCommand.h */,
-				07928FA51C5BB0B600EFA4F0 /* IFGetURLCommand.m */,
 				07928FA61C5BB0B600EFA4F0 /* IFMvFileCommand.h */,
 				07928FA71C5BB0B600EFA4F0 /* IFMvFileCommand.m */,
 				07928F931C5BB0B600EFA4F0 /* IFProtocol.h */,
@@ -946,6 +952,7 @@
 				073E07FF1C767A1C0031533F /* GRMustacheURLLibrary_private.h in Headers */,
 				073E07DA1C767A1C0031533F /* GRMustacheToken_private.h in Headers */,
 				073E08001C767A1C0031533F /* GRMustacheAvailabilityMacros.h in Headers */,
+				07717B7B1C865C4600087417 /* IFWPAuthenticationHandler.h in Headers */,
 				07928FD21C5BB0B600EFA4F0 /* IFWPContentContainer.h in Headers */,
 				073E07E51C767A1C0031533F /* GRMustacheRendering.h in Headers */,
 				073E07E01C767A1C0031533F /* GRMustacheFilter.h in Headers */,
@@ -1085,6 +1092,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				073E08051C767A1C0031533F /* GRMustacheError.m in Sources */,
+				07717B7C1C865C4600087417 /* IFWPAuthenticationHandler.m in Sources */,
 				07928FBF1C5BB0B600EFA4F0 /* IFCommandScheduler.m in Sources */,
 				079290301C5BB1D200EFA4F0 /* PLSqliteResultSet.m in Sources */,
 				07928FC61C5BB0B600EFA4F0 /* IFDBHelper.m in Sources */,
