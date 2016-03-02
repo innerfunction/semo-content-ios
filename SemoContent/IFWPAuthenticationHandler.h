@@ -7,17 +7,21 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "IFHTTPClient.h"
 
 @class IFWPContentContainer;
 
-@interface IFWPAuthenticationHandler : NSObject {
+@interface IFWPAuthenticationHandler : NSObject <IFHTTPClientAuthenticationDelegate> {
     NSString *_service;
     NSUserDefaults *_userDefaults;
     __weak IFWPContentContainer *_container;
+    NSString *_loginURL;
 }
 
 - (id)initWithContainer:(IFWPContentContainer *)container;
 
 - (void)storeUserCredentials:(NSDictionary *)values;
+- (void)storeUserProfile:(NSDictionary *)values;
+- (NSDictionary *)getUserProfile;
 
 @end

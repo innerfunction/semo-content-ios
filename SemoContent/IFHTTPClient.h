@@ -11,7 +11,15 @@
 
 @class IFHTTPClient;
 
-typedef QPromise *(^IFHTTPClientHandler) (IFHTTPClient *);
+// Protocol to be implemented by class providing authentication related functionality.
+@protocol IFHTTPClientAuthenticationDelegate <NSObject>
+
+// Test whether a response represents an authentication error.
+- (BOOL)httpClient:(IFHTTPClient *)httpClient isAuthenticationErrorResponse:(NSHTTPURLResponse *)response;
+// Perform a reauthentication.
+- (QPromise *)reauthenticateUsingHttpClient:(IFHTTPClient *)httpClient;
+
+@end
 
 @interface IFHTTPClientResponse : NSObject
 
@@ -30,7 +38,7 @@ typedef QPromise *(^IFHTTPClientHandler) (IFHTTPClient *);
 */
 @interface IFHTTPClient : NSObject //<NSURLSessionTaskDelegate>
 
-@property (nonatomic, copy) IFHTTPClientHandler reauthenticationHandler;
+@property (nonatomic, weak) id<IFHTTPClientAuthenticationDelegate> authenticationDelegate;
 
 - (QPromise *)get:(NSString *)url;
 - (QPromise *)get:(NSString *)url data:(NSDictionary *)data;

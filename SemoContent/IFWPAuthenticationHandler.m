@@ -12,6 +12,7 @@
 #import "SSKeyChain.h"
 
 // TODO: The whole authentication mechanism needs to be reviewed.
+// TODO: Don't know yet how to display the login page if re-authentication fails.
 @implementation IFWPAuthenticationHandler
 
 - (id)initWithContainer:(IFWPContentContainer *)container {
@@ -20,42 +21,7 @@
         _container = container;
         _service = _container.feedURL;
         _userDefaults = [NSUserDefaults standardUserDefaults];
-        // TODO: This reauthentication code is getting unwieldy, and there is a risk of a recursive loop
-        // as the [httpClient post: data:] method will invoke the reauthentication handler if it thinks
-        // authentication is needed.
-        // TODO: Don't know yet how to display the login page if re-authentication fails.
-        _container.httpClient.reauthenticationHandler = ^(IFHTTPClient *client) {
-            QPromise *promise = [QPromise new];
-            NSString *username = [_userDefaults stringForKey:@"semo/username"];
-            NSString *password = nil;
-            if (username) {
-                password = [SSKeychain passwordForService:_service account:username];
-            }
-            if (username && password) {
-                NSString *url = [_container.feedURL stringByAppendingPathComponent:@"account/login"];
-                NSDictionary *data = @{
-                    @"user_login":   username,
-                    @"user_pass":    password
-                };
-                [_container.httpClient post:url data:data]
-                .then((id)^(IFHTTPClientResponse *response) {
-                    if (response.httpResponse.statusCode == 201) {
-                        [promise resolve:response];
-                    }
-                    else {
-                        [promise reject:response];
-                    }
-                    return nil;
-                })
-                .fail(^(id error) {
-                    [promise reject:error];
-                });
-            }
-            else {
-                [promise reject:nil];
-            }
-            return promise;
-        };
+        _loginURL = [_container.feedURL stringByAppendingPathComponent:@"account/login"];
     }
     return self;
 }
@@ -71,6 +37,65 @@
         // TODO: Need to review whether this is best practice.
         [_userDefaults setValue:username forKey:@"semo/username"];
     }
+}
+
+- (void)storeUserProfile:(NSDictionary *)values {
+    NSArray *fields = @[@"firstname", @"lastname", @"email"];
+    for (NSString *field in fields) {
+        // TODO Need some kind of realm to namespace values, should also apply to username + logged-in
+        NSString *fieldName = [NSString stringWithFormat:@"%@/%@", @"xxx", field];
+        id value = values[field];
+        [_userDefaults setValue:value forKey:fieldName];
+    }
+}
+
+- (NSDictionary *)getUserProfile {
+    return @{};
+}
+
+#pragma mark - IFHTTPClientAuthenticationDelegate
+
+- (BOOL)httpClient:(IFHTTPClient *)httpClient isAuthenticationErrorResponse:(NSHTTPURLResponse *)response {
+    NSString *requestURL = [response.URL description];
+    // Note that authentication failures returned by login don't count as authentication errors here.
+    return response.statusCode == 401 && ![requestURL isEqualToString:_loginURL];
+}
+
+- (QPromise *)reauthenticateUsingHttpClient:(IFHTTPClient *)httpClient {
+    QPromise *promise = [QPromise new];
+    // Read username and password from local storage and keychain.
+    NSString *username = [_userDefaults stringForKey:@"semo/username"];
+    NSString *password = nil;
+    if (username) {
+        password = [SSKeychain passwordForService:_service account:username];
+    }
+    if (username && password) {
+        // Submit a new login request.
+        NSDictionary *data = @{
+            @"user_login":   username,
+            @"user_pass":    password
+        };
+        [_container.httpClient post:_loginURL data:data]
+        .then((id)^(IFHTTPClientResponse *response) {
+            if (response.httpResponse.statusCode == 201) {
+                [promise resolve:response];
+            }
+            else {
+                // TODO: Reauthentication failed, so display login form.
+                [promise reject:response];
+            }
+            return nil;
+        })
+        .fail(^(id error) {
+            // TODO: Reauthentication failed, so display login form.
+            [promise reject:error];
+        });
+    }
+    else {
+        // TODO: Reauthentication failed, so display login form.
+        [promise reject:nil];
+    }
+    return promise;
 }
 
 @end
