@@ -11,17 +11,23 @@
 
 @class IFWPContentContainer;
 
-@interface IFWPAuthenticationHandler : NSObject <IFHTTPClientAuthenticationDelegate> {
-    NSString *_service;
+@interface IFWPAuthManager : NSObject <IFHTTPClientAuthenticationDelegate> {
     NSUserDefaults *_userDefaults;
     __weak IFWPContentContainer *_container;
-    NSString *_loginURL;
 }
+
+@property (nonatomic, readonly) NSString *loginURL;
+@property (nonatomic, readonly) NSString *createAccountURL;
+@property (nonatomic, readonly) NSString *profileURL;
+@property (nonatomic, strong) NSArray *profileFieldNames;
 
 - (id)initWithContainer:(IFWPContentContainer *)container;
 
+- (BOOL)isLoggedIn;
 - (void)storeUserCredentials:(NSDictionary *)values;
 - (void)storeUserProfile:(NSDictionary *)values;
 - (NSDictionary *)getUserProfile;
+- (void)logout;
+- (void)showPasswordReminder;
 
 @end

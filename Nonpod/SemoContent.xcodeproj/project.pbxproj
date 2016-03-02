@@ -16,8 +16,8 @@
 		07717B731C86034B00087417 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 07717B6F1C86034B00087417 /* SSKeychain.m */; };
 		07717B741C86034B00087417 /* SSKeychainQuery.h in Headers */ = {isa = PBXBuildFile; fileRef = 07717B701C86034B00087417 /* SSKeychainQuery.h */; };
 		07717B751C86034B00087417 /* SSKeychainQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 07717B711C86034B00087417 /* SSKeychainQuery.m */; };
-		07717B7B1C865C4600087417 /* IFWPAuthenticationHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 07717B791C865C4600087417 /* IFWPAuthenticationHandler.h */; };
-		07717B7C1C865C4600087417 /* IFWPAuthenticationHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 07717B7A1C865C4600087417 /* IFWPAuthenticationHandler.m */; };
+		07717B7B1C865C4600087417 /* IFWPAuthManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 07717B791C865C4600087417 /* IFWPAuthManager.h */; };
+		07717B7C1C865C4600087417 /* IFWPAuthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 07717B7A1C865C4600087417 /* IFWPAuthManager.m */; };
 		07717C021C87068500087417 /* GRMustacheExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 07717B801C87068400087417 /* GRMustacheExpression.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		07717C031C87068500087417 /* GRMustacheExpression_private.h in Headers */ = {isa = PBXBuildFile; fileRef = 07717B811C87068400087417 /* GRMustacheExpression_private.h */; };
 		07717C041C87068500087417 /* GRMustacheExpressionVisitor_private.h in Headers */ = {isa = PBXBuildFile; fileRef = 07717B821C87068400087417 /* GRMustacheExpressionVisitor_private.h */; };
@@ -238,8 +238,8 @@
 		07717B6F1C86034B00087417 /* SSKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychain.m; sourceTree = "<group>"; };
 		07717B701C86034B00087417 /* SSKeychainQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSKeychainQuery.h; sourceTree = "<group>"; };
 		07717B711C86034B00087417 /* SSKeychainQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychainQuery.m; sourceTree = "<group>"; };
-		07717B791C865C4600087417 /* IFWPAuthenticationHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFWPAuthenticationHandler.h; path = ../../SemoContent/IFWPAuthenticationHandler.h; sourceTree = "<group>"; };
-		07717B7A1C865C4600087417 /* IFWPAuthenticationHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFWPAuthenticationHandler.m; path = ../../SemoContent/IFWPAuthenticationHandler.m; sourceTree = "<group>"; };
+		07717B791C865C4600087417 /* IFWPAuthManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFWPAuthManager.h; path = ../../SemoContent/IFWPAuthManager.h; sourceTree = "<group>"; };
+		07717B7A1C865C4600087417 /* IFWPAuthManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFWPAuthManager.m; path = ../../SemoContent/IFWPAuthManager.m; sourceTree = "<group>"; };
 		07717B801C87068400087417 /* GRMustacheExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustacheExpression.m; sourceTree = "<group>"; };
 		07717B811C87068400087417 /* GRMustacheExpression_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheExpression_private.h; sourceTree = "<group>"; };
 		07717B821C87068400087417 /* GRMustacheExpressionVisitor_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheExpressionVisitor_private.h; sourceTree = "<group>"; };
@@ -743,8 +743,8 @@
 				07DAB78A1C7385C200697D92 /* IFWPContentContainerFormFactory.m */,
 				07928FB01C5BB0B600EFA4F0 /* IFWPContentProtocol.h */,
 				07928F961C5BB0B600EFA4F0 /* IFWPContentProtocol.m */,
-				07717B791C865C4600087417 /* IFWPAuthenticationHandler.h */,
-				07717B7A1C865C4600087417 /* IFWPAuthenticationHandler.m */,
+				07717B791C865C4600087417 /* IFWPAuthManager.h */,
+				07717B7A1C865C4600087417 /* IFWPAuthManager.m */,
 				07928FA41C5BB0B600EFA4F0 /* IFGetURLCommand.h */,
 				07928FA51C5BB0B600EFA4F0 /* IFGetURLCommand.m */,
 				07928FB11C5BB0B600EFA4F0 /* IFWPDataTableFormatter.h */,
@@ -937,7 +937,7 @@
 				07928FCC1C5BB0B600EFA4F0 /* IFRmFileCommand.h in Headers */,
 				07717C3F1C87068500087417 /* GRMustacheTagDelegate.h in Headers */,
 				07717C551C87068500087417 /* GRMustacheAvailabilityMacros_private.h in Headers */,
-				07717B7B1C865C4600087417 /* IFWPAuthenticationHandler.h in Headers */,
+				07717B7B1C865C4600087417 /* IFWPAuthManager.h in Headers */,
 				07928FD21C5BB0B600EFA4F0 /* IFWPContentContainer.h in Headers */,
 				0792902D1C5BB1D200EFA4F0 /* PLSqlitePreparedStatement.h in Headers */,
 				07717C3B1C87068500087417 /* GRMustacheRendering_private.h in Headers */,
@@ -1090,7 +1090,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				07717C071C87068500087417 /* GRMustacheIdentifierExpression.m in Sources */,
-				07717B7C1C865C4600087417 /* IFWPAuthenticationHandler.m in Sources */,
+				07717B7C1C865C4600087417 /* IFWPAuthManager.m in Sources */,
 				07928FBF1C5BB0B600EFA4F0 /* IFCommandScheduler.m in Sources */,
 				07717C631C87068500087417 /* JRSwizzle.m in Sources */,
 				079290301C5BB1D200EFA4F0 /* PLSqliteResultSet.m in Sources */,

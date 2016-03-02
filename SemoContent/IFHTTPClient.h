@@ -11,16 +11,6 @@
 
 @class IFHTTPClient;
 
-// Protocol to be implemented by class providing authentication related functionality.
-@protocol IFHTTPClientAuthenticationDelegate <NSObject>
-
-// Test whether a response represents an authentication error.
-- (BOOL)httpClient:(IFHTTPClient *)httpClient isAuthenticationErrorResponse:(NSHTTPURLResponse *)response;
-// Perform a reauthentication.
-- (QPromise *)reauthenticateUsingHttpClient:(IFHTTPClient *)httpClient;
-
-@end
-
 @interface IFHTTPClientResponse : NSObject
 
 - (id)initWithHTTPResponse:(NSURLResponse *)response data:(NSData *)data;
@@ -31,6 +21,17 @@
 - (id)parseData;
 
 @end
+
+// Protocol to be implemented by class providing authentication related functionality.
+@protocol IFHTTPClientAuthenticationDelegate <NSObject>
+
+// Test whether a response represents an authentication error.
+- (BOOL)httpClient:(IFHTTPClient *)httpClient isAuthenticationErrorResponse:(IFHTTPClientResponse *)response;
+// Perform a reauthentication.
+- (QPromise *)reauthenticateUsingHttpClient:(IFHTTPClient *)httpClient;
+
+@end
+
 /*
 @interface IFHTTPClientAuthenticationHandler : NSObject <NSURLSessionTaskDelegate>
 

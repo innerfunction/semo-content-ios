@@ -7,6 +7,7 @@
 //
 
 #import "IFWPContentContainer.h"
+#import "IFAppContainer.h"
 #import "IFSemoContent.h"
 #import "IFWPClientTemplateContext.h"
 #import "IFWPDataTableFormatter.h"
@@ -42,6 +43,7 @@ static IFLogger *Logger;
         _feedURL = @"";
         _packagedContentPath = @"";
         _uriSchemeName = @"wp";
+        _wpRealm = @"semo";
         _listFormats = @{
             @"table": [[IFWPDataTableFormatter alloc] init]
         };
@@ -141,6 +143,8 @@ static IFLogger *Logger;
 
         _httpClient = [[IFHTTPClient alloc] init];
         
+        _authManager = [[IFWPAuthManager alloc] initWithContainer:self];
+        _httpClient.authenticationDelegate = _authManager;
     }
     return self;
 }
@@ -343,6 +347,10 @@ static IFLogger *Logger;
     return [postData dictionaryWithAddedObject:contentHTML forKey:@"content"];
 }
 
+- (void)showLoginForm {
+    [IFAppContainer postMessage:_showLoginAction sender:self];
+}
+
 #pragma mark - Private methods
 
 - (NSString *)renderTemplate:(NSString *)template withData:(id)data {
@@ -397,6 +405,25 @@ static IFLogger *Logger;
         // Need to use the config's URI handler for wp: schemes to work within the config.
         [componentConfig.uriHandler addHandler:_uriScheme forScheme:_uriSchemeName];
     }
+}
+
+#pragma mark - IFMessageHandler
+
+- (BOOL)handleMessage:(IFMessage *)message sender:(id)sender {
+    if ([message hasName:@"logout"]) {
+        [_authManager logout];
+        [self showLoginForm];
+        return YES;
+    }
+    if ([message hasName:@"password-reminder"]) {
+        [_authManager showPasswordReminder];
+        return YES;
+    }
+    if ([message hasName:@"show-login"]) {
+        [self showLoginForm];
+        return YES;
+    }
+    return NO;
 }
 
 #pragma mark - IFService

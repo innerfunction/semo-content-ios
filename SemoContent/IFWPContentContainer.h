@@ -13,12 +13,13 @@
 #import "IFCommandScheduler.h"
 #import "IFIOCConfigurable.h"
 #import "IFWPContentContainerFormFactory.h"
-#import "IFWPAuthenticationHandler.h"
+#import "IFWPAuthManager.h"
+#import "IFMessageHandler.h"
 #import "IFHTTPClient.h"
 
 @class IFWPClientTemplateContext;
 
-@interface IFWPContentContainer : IFContainer <IFIOCConfigurable> {
+@interface IFWPContentContainer : IFContainer <IFIOCConfigurable, IFMessageHandler> {
     // Container configuration template.
     IFConfiguration *_configTemplate;
     // Command scheduler for unpack and refresh operations.
@@ -41,6 +42,10 @@
 @property (nonatomic, strong) NSString *contentPath;
 /** The scheme name the URI handler should be bound to; defaults to wp: */
 @property (nonatomic, strong) NSString *uriSchemeName;
+/** The WP realm name. Used for authentication, defaults to 'semo'. */
+@property (nonatomic, strong) NSString *wpRealm;
+/** Action to be posted when the container wants to show the login form. */
+@property (nonatomic, strong) NSString *showLoginAction;
 /** The posts DB instance. */
 @property (nonatomic, strong) IFDB *postDB;
 /** Whether to reset the post DB on start. (Useful for debug). */
@@ -62,7 +67,7 @@
 /** An object to use as the template context when rendering the client template for a post. */
 @property (nonatomic, strong) IFWPClientTemplateContext *clientTemplateContext;
 /** An object used to manage WP server authentication. */
-@property (nonatomic, strong) IFWPAuthenticationHandler *authenticationHandler;
+@property (nonatomic, strong) IFWPAuthManager *authManager;
 /** A HTTP client. */
 @property (nonatomic, strong) IFHTTPClient *httpClient;
 
@@ -84,5 +89,7 @@
 - (id)searchPostsForText:(NSString *)text searchMode:(NSString *)searchMode postTypes:(NSArray *)postTypes;
 /** Render a post's content by evaluating template reference's within the content field. */
 - (NSDictionary *)renderPostContent:(NSDictionary *)postData;
+/** Show the login form. */
+- (void)showLoginForm;
 
 @end

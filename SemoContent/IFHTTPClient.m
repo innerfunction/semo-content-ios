@@ -13,7 +13,7 @@ typedef QPromise *(^IFHTTPClientAction)();
 
 @interface IFHTTPClient()
 
-- (BOOL)isAuthenticationErrorResponse:(NSURLResponse *)response;
+- (BOOL)isAuthenticationErrorResponse:(IFHTTPClientResponse *)response;
 - (QPromise *)reauthenticate;
 - (QPromise *)submitAction:(IFHTTPClientAction)action;
 
@@ -110,14 +110,7 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
         NSURLSession *session = [NSURLSession sharedSession];
         NSURLSessionDataTask *task = [session dataTaskWithRequest:request
             completionHandler:^(NSData * _Nullable responseData, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-                if ([self isAuthenticationErrorResponse:response]) {
-                    [self reauthenticate]
-                    .then((id)^(id result) {
-                        [promise resolve:[self get:url data:data]];
-                        return nil;
-                    });
-                }
-                else if (error) {
+                if (error) {
                     [promise reject:error];
                 }
                 else {
@@ -141,14 +134,7 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
         NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request
                                                         completionHandler:
         ^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            if ([self isAuthenticationErrorResponse:response]) {
-                [self reauthenticate]
-                .then((id)^(id result) {
-                    [promise resolve:[self getFile:url]];
-                    return nil;
-                });
-            }
-            else if (error) {
+            if (error) {
                 [promise reject:error];
             }
             else {
@@ -191,14 +177,7 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
         */
         NSURLSessionDataTask *task = [session dataTaskWithRequest:request
             completionHandler:^(NSData * _Nullable responseData, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-                if ([self isAuthenticationErrorResponse:response]) {
-                    [self reauthenticate]
-                    .then((id)^(id result) {
-                        [promise resolve:[self post:url data:data]];
-                        return nil;
-                    });
-                }
-                else if (error) {
+                if (error) {
                     [promise reject:error];
                 }
                 else {
@@ -219,9 +198,9 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
 
 #pragma mark - Private methods
 
-- (BOOL)isAuthenticationErrorResponse:(NSURLResponse *)response {
+- (BOOL)isAuthenticationErrorResponse:(IFHTTPClientResponse *)response {
     if (_authenticationDelegate) {
-        return [_authenticationDelegate httpClient:self isAuthenticationErrorResponse:(NSHTTPURLResponse *)response];
+        return [_authenticationDelegate httpClient:self isAuthenticationErrorResponse:response];
     }
     return NO;
 }
@@ -236,7 +215,7 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
 - (QPromise *)submitAction:(IFHTTPClientAction)action {
     QPromise *promise = [QPromise new];
     action()
-    .then((id)^(id response) {
+    .then((id)^(IFHTTPClientResponse *response) {
         if ([self isAuthenticationErrorResponse:response]) {
             [self reauthenticate]
             .then((id)^(id response) {
@@ -245,6 +224,9 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
             .fail(^(id error) {
                 [promise reject:error];
             });
+        }
+        else {
+            [promise resolve:response];
         }
     })
     .fail(^(id error) {

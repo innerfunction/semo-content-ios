@@ -12,12 +12,6 @@
 #import "IFAppContainer.h"
 #import "NSDictionary+IF.h"
 
-@interface IFWPContentContainerFormFactory ()
-
-- (void)storeUserCredentials:(IFFormView *)form;
-
-@end
-    
 @implementation IFWPContentContainerFormFactory
 
 - (id)initWithContainer:(IFWPContentContainer *)container {
@@ -47,6 +41,12 @@
                 @"name":                @"last_name",
                 @"title":               @"Last name"
             },
+            @"EmailField": @{
+                @"*ios-class":          @"IFFormTextField",
+                @"name":                @"user_email",
+                @"isRequired":          @YES,
+                @"title":               @"Email"
+            },
             @"UsernameField": @{
                 @"*ios-class":          @"IFFormTextField",
                 @"name":                @"user_login",
@@ -67,16 +67,6 @@
                 @"title":               @"Confirm password",
                 @"hasSameValueAs":      @"user_pass"
             },
-            // TODO: How does this field invoke functionality on the container?
-            @"ForgotPasswordField": @{
-                @"*ios-class":          @"IFFormField",
-                @"title":               @"Password reminder"
-            },
-            // TODO: How does this field invoke functionality on the container to do logout, redisplay login form?
-            @"LogoutField:": @{
-                @"*ios-class":          @"IFFormField",
-                @"title":               @"Logout"
-            },
             @"SubmitField": @{
                 @"*ios-class":          @"IFSubmitField",
                 @"title":               @"Login"
@@ -96,35 +86,42 @@
     IFFormViewDataEvent onSubmitOk;
     // TODO: Following need to be filled in properly
     if ([@"login" isEqualToString:formType]) {
-        submitURL = [_container.feedURL stringByAppendingPathComponent:@"account/login"];
+        submitURL = _container.authManager.loginURL;
         //isEnabled = NO;
         onShow = ^(IFViewController *view) {
             // Check if user already logged in, if so then dispatch a specified event.
-            if ([_userDefaults boolForKey:@"semo/logged-in"]) {
+            if ([_container.authManager isLoggedIn]) {
                 [IFAppContainer postMessage:loginAction sender:view];
             }
             // Else change the form to enabled, populate with any existing credentials.
         };
         onSubmitOk = ^(IFFormView *form, id data) {
             // Store user credentials & user info
-            [self storeUserCredentials:form];
+            [_container.authManager storeUserCredentials:form.inputValues];
+            [_container.authManager storeUserProfile:(NSDictionary *)data];
             // Dispatch the specified event
             [IFAppContainer postMessage:loginAction sender:form];
         };
     }
     else if ([@"new-account" isEqualToString:formType]) {
-        submitURL = [_container.feedURL stringByAppendingPathComponent:@"account/create"];
+        submitURL = _container.authManager.createAccountURL;
         onSubmitOk = ^(IFFormView *form, id data) {
             // Store user credentials & user info
-            [self storeUserCredentials:form];
+            [_container.authManager storeUserCredentials:form.inputValues];
+            [_container.authManager storeUserProfile:(NSDictionary *)data];
             // Dispatch the specified event
             [IFAppContainer postMessage:loginAction sender:form];
         };
     }
     else if ([@"profile" isEqualToString:formType]) {
-        submitURL = [_container.feedURL stringByAppendingPathComponent:@"account/profile"];
+        submitURL = _container.authManager.profileURL;
+        onShow = ^(IFViewController *view) {
+            IFFormView *form = ((IFFormViewController *)view).form;
+            form.inputValues = [_container.authManager getUserProfile];
+        };
         onSubmitOk = ^(IFFormView *form, id data) {
             // Update stored user info
+            [_container.authManager storeUserProfile:(NSDictionary *)data];
         };
     }
     NSDictionary *params = [_stdParams extendWith:@{
@@ -145,13 +142,6 @@
     };
     formView.form.httpClient = _container.httpClient;
     return formView;
-}
-
-#pragma mark - Private methods
-
-- (void)storeUserCredentials:(IFFormView *)form {
-    NSDictionary *formValues = form.inputValues;
-    [_container.authenticationHandler storeUserCredentials:formValues];
 }
 
 @end
