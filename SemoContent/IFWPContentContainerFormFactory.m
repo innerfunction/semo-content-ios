@@ -95,33 +95,29 @@
             }
             // Else change the form to enabled, populate with any existing credentials.
         };
-        onSubmitOk = ^(IFFormView *form, id data) {
+        onSubmitOk = ^(IFFormView *form, NSDictionary *data) {
             // Store user credentials & user info
+            [_container.authManager storeUserProfile:data[@"profile"]];
             [_container.authManager storeUserCredentials:form.inputValues];
-            [_container.authManager storeUserProfile:(NSDictionary *)data];
             // Dispatch the specified event
             [IFAppContainer postMessage:loginAction sender:form];
         };
     }
     else if ([@"new-account" isEqualToString:formType]) {
         submitURL = _container.authManager.createAccountURL;
-        onSubmitOk = ^(IFFormView *form, id data) {
+        onSubmitOk = ^(IFFormView *form, NSDictionary *data) {
             // Store user credentials & user info
             [_container.authManager storeUserCredentials:form.inputValues];
-            [_container.authManager storeUserProfile:(NSDictionary *)data];
+            [_container.authManager storeUserProfile:data[@"profile"]];
             // Dispatch the specified event
             [IFAppContainer postMessage:loginAction sender:form];
         };
     }
     else if ([@"profile" isEqualToString:formType]) {
         submitURL = _container.authManager.profileURL;
-        onShow = ^(IFViewController *view) {
-            IFFormView *form = ((IFFormViewController *)view).form;
-            form.inputValues = [_container.authManager getUserProfile];
-        };
-        onSubmitOk = ^(IFFormView *form, id data) {
+        onSubmitOk = ^(IFFormView *form, NSDictionary *data) {
             // Update stored user info
-            [_container.authManager storeUserProfile:(NSDictionary *)data];
+            [_container.authManager storeUserProfile:data[@"profile"]];
         };
     }
     NSDictionary *params = [_stdParams extendWith:@{
@@ -141,6 +137,9 @@
         [IFAppContainer postMessage:action sender:form];
     };
     formView.form.httpClient = _container.httpClient;
+    if ([@"profile" isEqualToString:formType]) {
+        formView.form.inputValues = [_container.authManager getUserProfile];
+    }
     return formView;
 }
 

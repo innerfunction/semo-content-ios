@@ -58,7 +58,7 @@
     _inputValues = inputValues;
     for (IFFormField *field in _fields) {
         if (field.name) {
-            id value = [inputValues valueForKey:field.name];
+            id value = inputValues[field.name];
             if (value != nil) {
                 field.value = value == [NSNull null] ? nil : value;
             }
@@ -70,7 +70,7 @@
     NSMutableDictionary *values = [NSMutableDictionary new];
     for (IFFormField *field in _fields) {
         if (field.isInput && field.name && field.value != nil) {
-            [values setObject:field.value forKey:field.name];
+            values[field.name] = field.value;
         }
     }
     return values;
@@ -180,12 +180,8 @@
 }
 
 - (BOOL)isSubmitErrorResponse:(IFHTTPClientResponse *)response {
-    BOOL ok = YES;
-    if ([response.httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
-        NSInteger statusCode = ((NSHTTPURLResponse *)response.httpResponse).statusCode;
-        ok = statusCode < 400;
-    }
-    return !ok;
+    NSInteger statusCode = response.httpResponse.statusCode;
+    return statusCode >= 400;
 }
 
 - (void)submitRequestError:(NSError *)error {

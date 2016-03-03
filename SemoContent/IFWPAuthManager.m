@@ -61,26 +61,31 @@
         NSString *key = [NSString stringWithFormat:@"%@/%@", _container.wpRealm, @"logged-in"];
         [_userDefaults setValue:@YES forKey:key];
         // TODO: Need to review whether this is best practice.
-        key = [NSString stringWithFormat:@"%@/%@", _container.wpRealm, @"username"];
+        key = [NSString stringWithFormat:@"%@/%@", _container.wpRealm, @"user_login"];
         [_userDefaults setValue:username forKey:key];
     }
 }
 
 - (void)storeUserProfile:(NSDictionary *)values {
     for (NSString *field in _profileFieldNames) {
-        // TODO Need some kind of realm to namespace values, should also apply to username + logged-in
         NSString *key = [NSString stringWithFormat:@"%@/%@", _container.wpRealm, field];
         id value = values[field];
-        [_userDefaults setValue:value forKey:key];
+        if (value) {
+            [_userDefaults setValue:value forKey:key];
+        }
     }
 }
 
 - (NSDictionary *)getUserProfile {
     NSMutableDictionary *values = [NSMutableDictionary new];
+    NSString *key = [NSString stringWithFormat:@"%@/%@", _container.wpRealm, @"user_login"];
+    values[@"user_login"] = [_userDefaults stringForKey:key];
     for (NSString *field in _profileFieldNames) {
-        // TODO Need some kind of realm to namespace values, should also apply to username + logged-in
-        NSString *key = [NSString stringWithFormat:@"%@/%@", _container.wpRealm, field];
-        values[field] = [_userDefaults stringForKey:key];
+        key = [NSString stringWithFormat:@"%@/%@", _container.wpRealm, field];
+        id value = [_userDefaults stringForKey:key];
+        if (value) {
+            values[field] = value;
+        }
     }
     return values;
 }
@@ -124,7 +129,7 @@
 - (QPromise *)reauthenticateUsingHttpClient:(IFHTTPClient *)httpClient {
     QPromise *promise = [QPromise new];
     // Read username and password from local storage and keychain.
-    NSString *username = [_userDefaults stringForKey:@"semo/username"];
+    NSString *username = [_userDefaults stringForKey:@"semo/user_login"];
     NSString *password = nil;
     if (username) {
         password = [SSKeychain passwordForService:_container.wpRealm account:username];
