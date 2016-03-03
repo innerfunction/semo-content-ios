@@ -23,7 +23,7 @@
         self.dataSource = self;
         self.delegate = self;
         self.separatorStyle = UITableViewCellSeparatorStyleNone;
-
+        
         _isEnabled = YES;
     }
     return self;

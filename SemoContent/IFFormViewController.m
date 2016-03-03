@@ -18,6 +18,7 @@
         self.view = _form;
         self.view.autoresizesSubviews = YES;
         self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     return self;
 }
