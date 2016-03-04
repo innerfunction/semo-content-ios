@@ -31,7 +31,7 @@
     if (self) {
         _container = container;
         _userDefaults = [NSUserDefaults standardUserDefaults];
-        _profileFieldNames = @[@"first_name", @"last_name", @"user_email"];
+        _profileFieldNames = @[@"ID", @"first_name", @"last_name", @"user_email"];
     }
     return self;
 }

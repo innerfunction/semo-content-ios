@@ -24,7 +24,7 @@
         _inputContentView = [[UIView alloc] init];
         _input = [[UITextField alloc] init];
         _input.delegate = self;
-        
+
         [_inputContentView addSubview:_input];
 
         _inputContentView.hidden = YES;

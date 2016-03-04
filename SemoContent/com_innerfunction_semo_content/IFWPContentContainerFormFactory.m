@@ -67,6 +67,10 @@
                 @"title":               @"Confirm password",
                 @"hasSameValueAs":      @"user_pass"
             },
+            @"ProfileIDField": @{
+                @"*ios-class":          @"IFFormHiddenField",
+                @"name":                @"ID"
+            },
             @"SubmitField": @{
                 @"*ios-class":          @"IFSubmitField",
                 @"title":               @"Login"
@@ -84,6 +88,7 @@
     BOOL isEnabled = YES;
     IFViewControllerEvent onShow;
     IFFormViewDataEvent onSubmitOk;
+    IFFormViewErrorEvent onSubmitError;
     // TODO: Following need to be filled in properly
     if ([@"login" isEqualToString:formType]) {
         submitURL = _container.authManager.loginURL;
@@ -102,6 +107,10 @@
             // Dispatch the specified event
             [IFAppContainer postMessage:loginAction sender:form];
         };
+        onSubmitError = ^(IFFormView *form, id data) {
+            NSString *action = [NSString stringWithFormat:@"post:toast+message=%@", @"Login%20failure"];
+            [IFAppContainer postMessage:action sender:form];
+        };
     }
     else if ([@"new-account" isEqualToString:formType]) {
         submitURL = _container.authManager.createAccountURL;
@@ -112,12 +121,22 @@
             // Dispatch the specified event
             [IFAppContainer postMessage:loginAction sender:form];
         };
+        onSubmitError = ^(IFFormView *form, id data) {
+            NSString *action = [NSString stringWithFormat:@"post:toast+message=%@", @"Account%20creation%20failure"];
+            [IFAppContainer postMessage:action sender:form];
+        };
     }
     else if ([@"profile" isEqualToString:formType]) {
         submitURL = _container.authManager.profileURL;
         onSubmitOk = ^(IFFormView *form, NSDictionary *data) {
             // Update stored user info
             [_container.authManager storeUserProfile:data[@"profile"]];
+            NSString *action = [NSString stringWithFormat:@"post:toast+message=%@", @"Account%20updated"];
+            [IFAppContainer postMessage:action sender:form];
+        };
+        onSubmitError = ^(IFFormView *form, id data) {
+            NSString *action = [NSString stringWithFormat:@"post:toast+message=%@", @"Account%20update%20failure"];
+            [IFAppContainer postMessage:action sender:form];
         };
     }
     NSDictionary *params = [_stdParams extendWith:@{
@@ -132,10 +151,7 @@
                                                                                      identifier:identifier];
     formView.onShow = onShow;
     formView.form.onSubmitOk = onSubmitOk;
-    formView.form.onSubmitError = ^(IFFormView *form, id data) {
-        NSString *action = [NSString stringWithFormat:@"post:toast+message=%@", @"Login%20failure"];
-        [IFAppContainer postMessage:action sender:form];
-    };
+    formView.form.onSubmitError = onSubmitError;
     formView.form.httpClient = _container.httpClient;
     if ([@"profile" isEqualToString:formType]) {
         formView.form.inputValues = [_container.authManager getUserProfile];
