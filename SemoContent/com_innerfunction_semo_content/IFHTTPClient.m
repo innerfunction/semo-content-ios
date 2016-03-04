@@ -30,6 +30,15 @@ typedef QPromise *(^IFHTTPClientAction)();
     return self;
 }
 
+- (id)initWithHTTPResponse:(NSURLResponse *)response downloadLocation:(NSURL *)location {
+    self = [super init];
+    if (self) {
+        self.httpResponse = (NSHTTPURLResponse *)response;
+        self.downloadLocation = location;
+    }
+    return self;
+}
+
 - (id)parseData {
     id data = nil;
     NSString *contentType = _httpResponse.MIMEType;
@@ -138,7 +147,7 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
                 [promise reject:error];
             }
             else {
-                [promise resolve:location];
+                [promise resolve:[[IFHTTPClientResponse alloc] initWithHTTPResponse:response downloadLocation:location]];
             }
         }];
         [task resume];

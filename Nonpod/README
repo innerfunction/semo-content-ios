@@ -1,2 +1,0 @@
-This directory contains a version of the semo-content-ios XCode project file with no Pod dependencies.
-It's purpose is to aid debugging of the framework when imported into an app project.

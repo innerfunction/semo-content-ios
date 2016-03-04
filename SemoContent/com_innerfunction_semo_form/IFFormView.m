@@ -255,7 +255,7 @@
     // Following taken from http://stackoverflow.com/a/12125261
     self.contentInset = UIEdgeInsetsMake(_defaultInsets.top, _defaultInsets.left, keyboardRect.size.height, _defaultInsets.right);
     self.scrollIndicatorInsets = self.contentInset;
-    NSIndexPath *indexPath = [NSIndexPath indexPathWithIndex:_focusedFieldIdx];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:_focusedFieldIdx inSection:0];
     [self scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 }
 

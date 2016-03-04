@@ -4,11 +4,13 @@
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "540C910E42B95F98B95753FE4D6FBD1E5262CE38" : 0,
     "14B458305D9FAFD052AA77FB414A5FCA3958A213" : 0,
     "17028A5F28D761F17062CA1783A15DEDBB8E4D2B" : 0
   },
-  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "C6AA5B4F-715C-4427-88C9-29FF281A960B",
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "F601B527-373A-4300-8F33-4718467E854B",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "540C910E42B95F98B95753FE4D6FBD1E5262CE38" : "Q-ios\/",
     "14B458305D9FAFD052AA77FB414A5FCA3958A213" : "semo-content-ios\/",
     "17028A5F28D761F17062CA1783A15DEDBB8E4D2B" : "semo-core-ios\/"
   },
@@ -25,6 +27,11 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:innerfunction\/semo-core-ios.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "17028A5F28D761F17062CA1783A15DEDBB8E4D2B"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:innerfunction\/Q-ios.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "540C910E42B95F98B95753FE4D6FBD1E5262CE38"
     }
   ]
 }

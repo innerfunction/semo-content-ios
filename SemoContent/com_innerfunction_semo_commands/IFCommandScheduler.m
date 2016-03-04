@@ -10,8 +10,6 @@
 #import "IFCommand.h"
 #import "IFProtocol.h"
 #import "IFSemoContent.h"
-#import "NSString+IF.h"
-#import "NSArray+IF.h"
 #import "NSDictionary+IF.h"
 #import "IFRmFileCommand.h"
 #import "IFMvFileCommand.h"
@@ -136,13 +134,13 @@ static dispatch_queue_t execQueue;
     // Iterate command pointer.
     _execIdx++;
     // Read command fields from record.
-    NSString *rowid = [commandItem valueForKey:@"id"];
-    NSString *name = [commandItem valueForKey:@"command"];
-    NSArray *args = [[commandItem valueForKey:@"args"] split:@" "];
-    _currentBatch = [(NSNumber *)[commandItem valueForKey:@"batch"] integerValue];
+    NSString *rowid = commandItem[@"id"];
+    NSString *name = commandItem[@"command"];
+    NSArray *args = [commandItem[@"args"] componentsSeparatedByString:@" "];
+    _currentBatch = [(NSNumber *)commandItem [@"batch"] integerValue];
     // Find and execute the command.
     [Logger debug:@"Executing %@ %@", name, args];
-    id<IFCommand> command = [_commands objectForKey:name];
+    id<IFCommand> command = _commands[name];
     if (!command) {
         [Logger error:@"Command not found: %@", name];
         [self purgeQueue];
@@ -158,7 +156,7 @@ static dispatch_queue_t execQueue;
                 // Indicates an unparseable command line string; just continue to the next command.
                 continue;
             }
-            NSString *newName = [newCommand valueForKey:@"name"];
+            NSString *newName = newCommand[@"name"];
             // Check for system commands.
             if ([@"control.purge-queue" isEqualToString:newName]) {
                 [self purgeQueue];
@@ -169,7 +167,7 @@ static dispatch_queue_t execQueue;
                 continue;
             }
             NSInteger batch = _currentBatch;
-            NSNumber *priority = [newCommand valueForKey:@"priority"];
+            NSNumber *priority = newCommand[@"priority"];
             if (priority) {
                 batch += [priority integerValue];
                 // Negative priorities can place new commands at the head of the queue; reset the exec queue
@@ -178,7 +176,7 @@ static dispatch_queue_t execQueue;
                     _execQueue = @[];
                 }
             }
-            NSString *newArgs = [(NSArray *)[newCommand valueForKey:@"args"] joinWithSeparator:@" "];
+            NSString *newArgs = newCommand[@"args"];
             [Logger debug:@"Appending %@ %@", newName, newArgs];
             NSDictionary *values = @{
                 @"batch":   [NSNumber numberWithInteger:batch],
@@ -217,7 +215,7 @@ static dispatch_queue_t execQueue;
         return (NSDictionary *)item;
     }
     NSString *line = [item description];
-    NSArray *parts = [line split:@" "];
+    NSArray *parts = [line componentsSeparatedByString:@" "];
     if ([parts count] > 0) {
         NSString *name = [parts objectAtIndex:0];
         NSArray *args = @[];
@@ -233,7 +231,7 @@ static dispatch_queue_t execQueue;
 - (void)appendCommand:(NSString *)name withArgs:(NSArray *)args {
     [Logger debug:@"Appending %@ %@", name, args];
     NSNumber *batch = [NSNumber numberWithInteger:_currentBatch];
-    NSString *joinedArgs = [args joinWithSeparator:@" "];
+    NSString *joinedArgs = [args componentsJoinedByString:@" "];
     NSDictionary *values = @{
         @"batch":   batch,
         @"command": name,

@@ -14,9 +14,11 @@
 @interface IFHTTPClientResponse : NSObject
 
 - (id)initWithHTTPResponse:(NSURLResponse *)response data:(NSData *)data;
+- (id)initWithHTTPResponse:(NSURLResponse *)response downloadLocation:(NSURL *)location;
 
 @property (nonatomic, strong) NSHTTPURLResponse *httpResponse;
 @property (nonatomic, strong) NSData *data;
+@property (nonatomic, strong) NSURL *downloadLocation;
 
 - (id)parseData;
 

@@ -12,6 +12,8 @@
 #import "Q.h"
 #import "SSKeyChain.h"
 
+#define AppendPathToURL(url,path)   ([url stringByAppendingString:[([url hasSuffix:@"/"] ? @"" : @"/") stringByAppendingString:path]])
+
 @interface IFWPAuthManager()
 
 - (void)handleReauthenticationFailure;
@@ -35,15 +37,15 @@
 }
 
 - (NSString *)loginURL {
-    return [_container.feedURL stringByAppendingPathComponent:@"account/login"];
+    return AppendPathToURL(_container.feedURL, @"account/login");
 }
 
 - (NSString *)createAccountURL {
-    return [_container.feedURL stringByAppendingPathComponent:@"account/create"];
+    return AppendPathToURL(_container.feedURL, @"account/create");
 }
 
 - (NSString *)profileURL {
-    return [_container.feedURL stringByAppendingPathComponent:@"account/profile"];
+    return AppendPathToURL(_container.feedURL, @"account/profile");
 }
 
 - (BOOL)isLoggedIn {

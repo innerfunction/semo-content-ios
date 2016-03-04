@@ -35,9 +35,8 @@
         _remainingRetries = _maxRetries - retry;
         
         [_httpClient getFile:_url]
-        .then((id)^(id location) {
+        .then((id)^(IFHTTPClientResponse *response) {
             // Copy downloaded file to target location.
-            
             NSFileManager *fileManager = [NSFileManager defaultManager];
             NSURL *fileURL = [NSURL fileURLWithPath:_filename];
             
@@ -51,7 +50,7 @@
             }
             
             // Copy downloaded file to target location.
-            [fileManager moveItemAtURL:(NSURL *)location toURL:fileURL error:nil];
+            [fileManager moveItemAtURL:response.downloadLocation toURL:fileURL error:nil];
             [_promise resolve:@[]];
         })
         .fail(^(id error) {

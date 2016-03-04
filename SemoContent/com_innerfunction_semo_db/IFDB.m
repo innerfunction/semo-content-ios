@@ -341,6 +341,9 @@ static IFLogger *Logger;
     NSMutableArray *fields = [[NSMutableArray alloc] initWithCapacity:[keys count]];
     NSMutableArray *params = [[NSMutableArray alloc] initWithCapacity:[keys count] + 1];
     for (id key in keys) {
+        if ([idColumn isEqualToString:key]) {
+            continue; // Don't update the ID column.
+        }
         [fields addObject:[NSString stringWithFormat:@"%@=?", key]];
         [params addObject:[values valueForKey:key]];
     }
@@ -479,7 +482,7 @@ static IFLogger *Logger;
         }
         for (NSString *sql in sqls) {
             if (![db executeUpdate:sql]) {
-                [Logger warn:@"%@ Failed to execute update %@", sql];
+                [Logger warn:@"Failed to execute update %@", sql];
             }
         }
     }
@@ -489,7 +492,7 @@ static IFLogger *Logger;
 #pragma mark - IFDB (IFDBHelperDelegate)
 
 - (void)dbInitialize:(id<PLDatabase>)db {
-    [Logger info:@"%@ Initializing database..."];
+    [Logger info:@"Initializing database..."];
     for (NSString *tableName in [_initialData allKeys]) {
         NSArray *data = [_initialData objectForKey:tableName];
         for (NSDictionary *values in data) {
@@ -501,7 +504,7 @@ static IFLogger *Logger;
             count = [rs intForColumnIndex:0];
         }
         [rs close];
-        [Logger info:@"%@ Initializing %@, inserted %d rows", tableName, count];
+        [Logger info:@"Initializing %@, inserted %d rows", tableName, count];
     }
     // Remove initial data from memory.
     _initialData = nil;

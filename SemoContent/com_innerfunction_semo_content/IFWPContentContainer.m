@@ -397,7 +397,7 @@ static IFLogger *Logger;
     if (_contentProtocol) {
         _commandScheduler.commands = @{ @"content": _contentProtocol };
     }
-    _commandScheduler.commands = @{ @"get": [[IFGetURLCommand alloc] init] };
+    _commandScheduler.commands = @{ @"get": [[IFGetURLCommand alloc] initWithHTTPClient:_httpClient] };
 
     
     // Register the URI scheme handler.
