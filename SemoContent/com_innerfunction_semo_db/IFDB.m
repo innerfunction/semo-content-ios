@@ -528,7 +528,7 @@ static IFLogger *Logger;
         [cols appendString:@" "];
         [cols appendString:[colSchema getValueAsString:@"type"]];
     }
-    NSString *sql = [NSString stringWithFormat:@"CREATE TABLE %@ (%@)", tableName, cols ];
+    NSString *sql = [NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ (%@)", tableName, cols ];
     return sql;
 }
 
