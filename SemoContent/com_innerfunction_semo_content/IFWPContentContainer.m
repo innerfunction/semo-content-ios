@@ -242,7 +242,7 @@ static IFLogger *Logger;
 - (id)getPostChildren:(NSString *)postID withParams:(NSDictionary *)params {
     IFDBFilter *filter = [[IFDBFilter alloc] init];
     filter.table = @"posts";
-    filter.filters = @{ @"parent": postID };
+    filter.filters = [params extendWith:@{ @"parent": postID }];
     filter.orderBy = @"menu_order";
     // Query the database.
     NSArray *childPosts = [filter applyTo:_postDB withParameters:@{}];
