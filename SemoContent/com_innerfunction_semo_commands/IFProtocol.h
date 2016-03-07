@@ -29,10 +29,10 @@ typedef QPromise *(^IFProtocolCommandBlock) (NSArray *args);
 - (NSString *)qualifiedCommandName:(NSString *)name;
 /**
  * Parse a command argument list.
- * Transforms a list of switch name/values (e.g. -name value) pairs into a dictionary
- * of { name: value } pairs. Name only switches are given the value @1. A dictionary
- * of default switch values can optionally be provided.
+ * Transforms an array of command arguments into a dictionary of name/value pairs.
+ * Arguments can be defined by position, or by using named switches (e.g. -name value).
+ * The names of positional arguments are specified using the argOrder list.
  */
-- (NSDictionary *)parseArgArray:(NSArray *)args defaults:(NSDictionary *)defaults;
+- (NSDictionary *)parseArgArray:(NSArray *)args argOrder:(NSArray *)argOrder defaults:(NSDictionary *)defaults;
 
 @end

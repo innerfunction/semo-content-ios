@@ -32,23 +32,40 @@
     return [NSString stringWithFormat:@"%@.%@", _commandPrefix, name ];
 }
 
-- (NSDictionary *)parseArgArray:(NSArray *)args defaults:(NSDictionary *)defaults {
-    NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
+- (NSDictionary *)parseArgArray:(NSArray *)args argOrder:(NSArray *)argOrder defaults:(NSDictionary *)defaults {
+    NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithDictionary:defaults];
     NSString *name = nil;
     id value = nil;
-    for (NSString *arg in args) {
-        if ([arg hasPrefix:@"-"]) {
-            name = [arg substringFromIndex:1];
-            value = [defaults objectForKey:name];
-            if (value == nil) {
-                value = @1;
-            }
+    NSInteger position = 0;
+    // Iterate over each argument.
+    for (id arg in args) {
+        NSString *strarg = nil;
+        if ([arg isKindOfClass:[NSString class]]) {
+            strarg = (NSString *)arg;
         }
-        else {
+        // If argument starts with - then it is a switch.
+        if ([strarg hasPrefix:@"-"]) {
+            // If we already have a name then it indicates a valueless switch; map the switch name to binary true.
+            if (name) {
+                result[name] = @1;
+            }
+            // Subtract the - prefix from the switch name.
+            name = [strarg substringFromIndex:1];
+        }
+        // We have switch name so next argument is the value.
+        else if (name) {
             value = arg;
         }
-        if (name && value) {
-            [result setObject:value forKey:name];
+        // No switch specified so use argument position to read name.
+        else if (position < [argOrder count]) {
+            name = argOrder[position++];
+            value = arg;
+        }
+        // If we have a name and value then map them into the result.
+        if (name && value != nil) {
+            result[name] = value;
+            name = nil;
+            value = nil;
         }
     }
     return result;

@@ -50,6 +50,8 @@
 @property (nonatomic, strong) IFDB *postDB;
 /** Whether to reset the post DB on start. (Useful for debug). */
 @property (nonatomic, assign) BOOL resetPostDB;
+/** Interval in minutes between checks for content updates. */
+@property (nonatomic, assign) NSInteger updateCheckInterval;
 /** The content protocol instance; manages feed downloads. */
 @property (nonatomic, strong) IFWPContentProtocol *contentProtocol;
 /** The wp: URI scheme. */

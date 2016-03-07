@@ -355,6 +355,11 @@ static IFLogger *Logger;
 
 - (NSString *)renderTemplate:(NSString *)template withData:(id)data {
     NSError *error;
+    // TODO: Investigate using template repositories to load templates
+    // https://github.com/groue/GRMustache/blob/master/Guides/template_repositories.md
+    // as they should allow partials to be used within templates, whilst supporting the two
+    // use cases of loading templates from file (i.e. for full post html) or evaluating
+    // a template from a string (i.e. for post content only).
     NSString *result = [GRMustacheTemplate renderObject:data fromString:template error:&error];
     if (error) {
         result = [NSString stringWithFormat:@"<h1>Template error</h1><pre>%@</pre>", error];
@@ -431,6 +436,16 @@ static IFLogger *Logger;
 - (void)startService {
     [super startService];
     [self unpackPackagedContent];
+    // Schedule content updates.
+    if (_updateCheckInterval > 0) {
+        [_commandScheduler appendCommand:@"content.refresh"];
+        [NSTimer scheduledTimerWithTimeInterval:(_updateCheckInterval * 60.0f)
+                                         target:self
+                                       selector:@selector(refreshContent)
+                                       userInfo:nil
+                                        repeats:YES];
+    }
+    // Start command queue execution.
     [_commandScheduler executeQueue];
 }
 
