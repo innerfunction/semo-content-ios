@@ -8,7 +8,21 @@
 
 #import "IFMvFileCommand.h"
 
+@interface IFMvFileCommand()
+
+- (NSError *)moveFileAtPath:(NSString *)fromPath toPath:(NSString *)toPath;
+
+@end
+
 @implementation IFMvFileCommand
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        _fileManager = [NSFileManager defaultManager];
+    }
+    return self;
+}
 
 - (QPromise *)execute:(NSString *)name withArgs:(NSArray *)args {
     if ([args count] < 2) {
@@ -16,11 +30,48 @@
     }
     NSString *fromPath = [args objectAtIndex:0];
     NSString *toPath = [args objectAtIndex:1];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    if ([fileManager copyItemAtPath:fromPath toPath:toPath error:nil]) {
-        [fileManager removeItemAtPath:fromPath error:nil];
+    BOOL fromIsDirectory;
+    NSError *error = nil;
+    // Check from location exists.
+    if ([_fileManager fileExistsAtPath:fromPath isDirectory:&fromIsDirectory]) {
+        if (fromIsDirectory) {
+            // Check target location exists.
+            if (![_fileManager fileExistsAtPath:toPath]) {
+                [_fileManager createDirectoryAtPath:toPath withIntermediateDirectories:YES attributes:nil error:&error];
+            }
+            if (!error) {
+                // If from location is a directory then list its contents and move each one to the
+                // target location.
+                NSArray *files = [_fileManager contentsOfDirectoryAtPath:fromPath error:&error];
+                for (NSInteger idx = 0; idx < [files count] && !error; idx++) {
+                    NSString *filename = files[idx];
+                    NSString *fromFile = [fromPath stringByAppendingPathComponent:filename];
+                    NSString *toFile = [toPath stringByAppendingPathComponent:filename];
+                    error = [self moveFileAtPath:fromFile toPath:toFile];
+                }
+            }
+        }
+        else {
+            error = [self moveFileAtPath:fromPath toPath:toPath];
+        }
+    }
+    if (error) {
+        [Q reject:error];
     }
     return [Q resolve:@[]];
+}
+
+#pragma mark - Private methods
+
+- (NSError *)moveFileAtPath:(NSString *)fromPath toPath:(NSString *)toPath {
+    NSError *error = nil;
+    if ([_fileManager fileExistsAtPath:toPath]) {
+        [_fileManager removeItemAtPath:toPath error:&error];
+    }
+    if (!error) {
+        [_fileManager moveItemAtPath:fromPath toPath:toPath error:&error];
+    }
+    return error;
 }
 
 @end

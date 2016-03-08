@@ -60,11 +60,17 @@ static dispatch_queue_t execQueue;
 
 @end
 
+// Macro to test whether a method is called on the scheduler's execution queue.
+#define RunningOnExecQueue  (dispatch_get_specific(execQueueKey) != NULL)
+
 @implementation IFCommandScheduler
+
+static void *execQueueKey = "IFCommandScheduler.execQueue";
 
 + (void)initialize {
     Logger = [[IFLogger alloc] initWithTag:@"IFCommandScheduler"];
     execQueue = dispatch_queue_create("com.innerfunction.semo.commands.CommandScheduler", 0);
+    dispatch_queue_set_specific(execQueue, execQueueKey, execQueueKey, NULL);
 }
 
 - (id)init {
@@ -139,100 +145,100 @@ static dispatch_queue_t execQueue;
         // Commands currently being executed from queue, leave these to be completed.
         return;
     }
-    _execQueue = [_db performQuery:@"SELECT * FROM queue WHERE status='P' ORDER BY batch, id ASC" withParams:@[]];
-    _execIdx = 0;
     dispatch_async(execQueue, ^{
+        _execQueue = [_db performQuery:@"SELECT * FROM queue WHERE status='P' ORDER BY batch, id ASC" withParams:@[]];
+        _execIdx = 0;
         [self executeNextCommand];
     });
 }
 
 - (void)executeNextCommand {
-    if ([_execQueue count] == 0) {
-        // Do nothing if nothing on the queue.
-        _execIdx = -1;
-        return;
-    }
-    if (_execIdx > [_execQueue count] - 1) {
-        // If moved past the end of the queue then try reading a new list of commands from the db.
-        _execIdx = -1;
-        [self executeQueue];
-        return;
-    }
-    NSDictionary *commandItem = [_execQueue objectAtIndex:_execIdx];
-    // Iterate command pointer.
-    _execIdx++;
-    // Read command fields from record.
-    NSString *rowid = commandItem[@"id"];
-    NSString *name = commandItem[@"command"];
-    NSString *argsJSON = commandItem[@"args"];
-    NSArray *args = [argsJSON parseJSON:nil];
-    _currentBatch = [(NSNumber *)commandItem [@"batch"] integerValue];
-    // Find and execute the command.
-    [Logger debug:@"Executing %@ %@", name, args];
-    id<IFCommand> command = _commands[name];
-    if (!command) {
-        [Logger error:@"Command not found: %@", name];
-        [self purgeQueue];
-        return;
-    }
-    [command execute:name withArgs:args]
-    .then((id)^(NSArray *commands) {
-        // Queue any new commands, delete current command from db.
-        [_db beginTransaction];
-        for (id item in commands) {
-            IFCommandItem *command = [self parseCommandItem:item];
-            if (!command) {
-                // Indicates an unparseable command line string; just continue to the next command.
-                continue;
-            }
-            // Check for system commands.
-            if ([@"control.purge-queue" isEqualToString:command.name]) {
-                [self purgeQueue];
-                continue;
-            }
-            if ([@"control.purge-current-batch" isEqualToString:command.name]) {
-                [self purgeCurrentBatch];
-                continue;
-            }
-            NSInteger batch = _currentBatch;
-            if (command.priority) {
-                batch += [command.priority integerValue];
-                // Negative priorities can place new commands at the head of the queue; reset the exec queue
-                // to force a db read, so that these commands are read into the head of the exec queue.
-                if (batch < _currentBatch) {
-                    _execQueue = @[];
+    dispatch_async(execQueue, ^{
+        if ([_execQueue count] == 0) {
+            // Do nothing if nothing on the queue.
+            _execIdx = -1;
+            return;
+        }
+        if (_execIdx > [_execQueue count] - 1) {
+            // If moved past the end of the queue then try reading a new list of commands from the db.
+            _execIdx = -1;
+            [self executeQueue];
+            return;
+        }
+        NSDictionary *commandItem = [_execQueue objectAtIndex:_execIdx];
+        // Iterate command pointer.
+        _execIdx++;
+        // Read command fields from record.
+        NSString *rowid = commandItem[@"id"];
+        NSString *name = commandItem[@"command"];
+        NSString *argsJSON = commandItem[@"args"];
+        NSArray *args = [argsJSON parseJSON:nil];
+        _currentBatch = [(NSNumber *)commandItem [@"batch"] integerValue];
+        // Find and execute the command.
+        [Logger debug:@"Executing %@ %@", name, [args componentsJoinedByString:@" "]];
+        id<IFCommand> command = _commands[name];
+        if (!command) {
+            [Logger error:@"Command not found: %@", name];
+            [self purgeQueue];
+            return;
+        }
+        [command execute:name withArgs:args]
+        .then((id)^(NSArray *commands) {
+            // Queue any new commands, delete current command from db.
+            [_db beginTransaction];
+            for (id item in commands) {
+                IFCommandItem *command = [self parseCommandItem:item];
+                if (!command) {
+                    // Indicates an unparseable command line string; just continue to the next command.
+                    continue;
                 }
+                // Check for system commands.
+                if ([@"control.purge-queue" isEqualToString:command.name]) {
+                    [self purgeQueue];
+                    continue;
+                }
+                if ([@"control.purge-current-batch" isEqualToString:command.name]) {
+                    [self purgeCurrentBatch];
+                    continue;
+                }
+                NSInteger batch = _currentBatch;
+                if (command.priority) {
+                    batch += [command.priority integerValue];
+                    // Negative priorities can place new commands at the head of the queue; reset the exec queue
+                    // to force a db read, so that these commands are read into the head of the exec queue.
+                    if (batch < _currentBatch) {
+                        _execQueue = @[];
+                    }
+                }
+                [Logger debug:@"Appending %@ %@", command.name, command.args];
+                NSDictionary *values = @{
+                    @"batch":   [NSNumber numberWithInteger:batch],
+                    @"command": command.name,
+                    @"args":    [command.args toJSON],
+                    @"status":  @"P"
+                };
+                [_db insertValues:values intoTable:@"queue"];
             }
-            [Logger debug:@"Appending %@ %@", command.name, command.args];
-            NSDictionary *values = @{
-                @"batch":   [NSNumber numberWithInteger:batch],
-                @"command": command.name,
-                @"args":    [command.args toJSON],
-                @"status":  @"P"
-            };
-            [_db insertValues:values intoTable:@"queue"];
-        }
-        // Delete the command record from the queue.
-        if (_deleteExecutedQueueRecords) {
-            [_db deleteIDs:@[ rowid ] fromTable:@"queue"];
-        }
-        else {
-            NSDictionary *values = @{
-                @"id":      rowid,
-                @"status":  @"X"
-            };
-            [_db updateValues:values inTable:@"queue"];
-        }
-        [_db commitTransaction];
-        // Continue to next queued command.
-        dispatch_async(execQueue, ^{
+            // Delete the command record from the queue.
+            if (_deleteExecutedQueueRecords) {
+                [_db deleteIDs:@[ rowid ] fromTable:@"queue"];
+            }
+            else {
+                NSDictionary *values = @{
+                    @"id":      rowid,
+                    @"status":  @"X"
+                };
+                [_db updateValues:values inTable:@"queue"];
+            }
+            [_db commitTransaction];
+            // Continue to next queued command.
             [self executeNextCommand];
+            return nil;
+        })
+        .fail(^(id error) {
+            [Logger error:@"Error executing command %@ %@: %@", name, args, error];
+            [self purgeQueue];
         });
-        return nil;
-    })
-    .fail(^(id error) {
-        [Logger error:@"Error executing command %@ %@: %@", name, args, error];
-        [self purgeQueue];
     });
 }
 
@@ -282,13 +288,15 @@ static dispatch_queue_t execQueue;
         @"args":    argsJSON,
         @"status":  @"P"
     };
-    // Only one pending command with the same name and args should exist for the same batch
-    // at any time, so only insert record if no matching record found.
-    NSArray *params = @[ batch, name, argsJSON, @"P" ];
-    NSInteger count = [_db countInTable:@"queue" where:@"batch=? AND command=? AND args=? AND status=?" withParams:params];
-    if (count == 0) {
-        [_db upsertValues:values intoTable:@"queue"];
-    }
+    dispatch_async(execQueue, ^{
+        // Only one pending command with the same name and args should exist for the same batch
+        // at any time, so only insert record if no matching record found.
+        NSArray *params = @[ batch, name, argsJSON, @"P" ];
+        NSInteger count = [_db countInTable:@"queue" where:@"batch=? AND command=? AND args=? AND status=?" withParams:params];
+        if (count == 0) {
+            [_db upsertValues:values intoTable:@"queue"];
+        }
+    });
 }
 
 - (void)appendCommand:(NSString *)command, ... {
@@ -311,23 +319,41 @@ static dispatch_queue_t execQueue;
     _execQueue = @[];
     _execIdx = 0;
     _currentBatch = 0;
-    if (_deleteExecutedQueueRecords) {
-        [_db deleteFromTable:@"queue" where:@"1 = 1"];
+    void (^purge)() = ^() {
+        if (_deleteExecutedQueueRecords) {
+            [_db deleteFromTable:@"queue" where:@"1 = 1"];
+        }
+        else {
+            [_db performUpdate:@"UPDATE queue SET status='X' WHERE status='P'" withParams:@[]];
+        }
+    };
+    // If already running on the exec queue the run the purge synchronously; else add to end of queue.
+    if (RunningOnExecQueue) {
+        purge();
     }
     else {
-        [_db performUpdate:@"UPDATE queue SET status='X' WHERE status='P'" withParams:@[]];
+        dispatch_async(execQueue, purge);
     }
 }
 
 - (void)purgeCurrentBatch {
     _execQueue = @[];
     _execIdx = 0;
-    if (_deleteExecutedQueueRecords) {
-        [_db deleteFromTable:@"queue" where:[NSString stringWithFormat:@"batch=%ld", _currentBatch]];
+    void (^purge)() = ^() {
+        if (_deleteExecutedQueueRecords) {
+            [_db deleteFromTable:@"queue" where:[NSString stringWithFormat:@"batch=%ld", _currentBatch]];
+        }
+        else {
+            NSNumber *batch = [NSNumber numberWithInteger:_currentBatch];
+            [_db performUpdate:@"UPDATE queue SET status='X' WHERE status='P' AND batch=?" withParams:@[ batch ]];
+        }
+    };
+    // If already running on the exec queue the run the purge synchronously; else add to end of queue.
+    if (RunningOnExecQueue) {
+        purge();
     }
     else {
-        NSNumber *batch = [NSNumber numberWithInteger:_currentBatch];
-        [_db performUpdate:@"UPDATE queue SET status='X' WHERE status='P' AND batch=?" withParams:@[ batch ]];
+        dispatch_async(execQueue, purge);
     }
 }
 

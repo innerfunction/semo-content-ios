@@ -15,8 +15,8 @@
  * Arguments: <url> <filename> <retries>
  * - url:       The URL to fetch.
  * - filename:  The name of the file to write the result to.
- * - retries:   The number of retries left. If the command fails (e.g. due to a connection timeout)
- *              then it will automatically schedule a retry, up to a specified maximum number of retries.
+ * - attempt:   The number of attempts made to fetch the URL. Defaults to 0 and is incremented after
+ *              each failed attempt. The command fails once maxRetries number of attempts has been made.
  */
 @interface IFGetURLCommand : NSObject <IFCommand> {
     IFHTTPClient *_httpClient;
@@ -24,7 +24,6 @@
     NSString *_commandName;
     NSString *_url;
     NSString *_filename;
-    NSInteger _remainingRetries;
 }
 
 - (id)initWithHTTPClient:(IFHTTPClient *)httpClient;

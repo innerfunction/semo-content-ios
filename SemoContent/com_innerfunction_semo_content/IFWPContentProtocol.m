@@ -60,9 +60,10 @@
     // A follow-up refresh with 'since' and 'page' args is generated for multi-page feed results.
     // NOTE: It is important that the 'since' parameter is passed here so that each page of
     // the feed response is requested with the same starting position.
-    id page = _args[@"page"];
-    id since = _args[@"since"];
+    NSString *page = _args[@"page"];
+    NSString *since = _args[@"since"];
     if (page && since) {
+        since = [since stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
         refreshURL = [NSString stringWithFormat:@"%@?since=%@&page=%@", refreshURL, since, page];
     }
     else {
@@ -169,7 +170,7 @@
     NSInteger pageCount = [[feedData getValueAsNumber:@"page.pageCount"] integerValue];
     NSInteger pageNumber = [[feedData getValueAsNumber:@"page.pageNumber"] integerValue];
     if (pageNumber < pageCount) {
-        NSArray *args = @[ @"-page", [NSNumber numberWithInteger:pageCount + 1] ];
+        NSArray *args = @[ @"-page", [NSNumber numberWithInteger:pageNumber + 1] ];
         NSString *since = [feedData getValueAsString:@"parameters.since"];
         if (since) {
             args = [args arrayByAddingObjectsFromArray:@[ @"-since", since ]];

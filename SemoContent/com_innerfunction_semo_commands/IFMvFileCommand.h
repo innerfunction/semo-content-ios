@@ -15,6 +15,8 @@
  * - from:  The file path to move.
  * - to:    Where to move the file or directory to.
  */
-@interface IFMvFileCommand : NSObject <IFCommand>
+@interface IFMvFileCommand : NSObject <IFCommand> {
+    NSFileManager *_fileManager;
+}
 
 @end

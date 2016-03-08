@@ -25,14 +25,13 @@
     _commandName = name;
     _promise = [[QPromise alloc] init];
     if ([args count] > 1) {
-        _url = [args objectAtIndex:0];
-        _filename = [args objectAtIndex:1];
+        _url = args[0];
+        _filename = args[1];
         
-        NSInteger retry = 0;
+        NSInteger previousAttempts = 0;
         if ([args count] > 2) {
-            retry = [(NSString *)[args objectAtIndex:2] integerValue];
+            previousAttempts = [(NSString *)args[2] integerValue];
         }
-        _remainingRetries = _maxRetries - retry;
         
         [_httpClient getFile:_url]
         .then((id)^(IFHTTPClientResponse *response) {
@@ -55,8 +54,9 @@
         })
         .fail(^(id error) {
             // Check for retries.
-            if (_remainingRetries > 0) {
-                NSString *args = [NSString stringWithFormat:@"%@ %ld", _url, _remainingRetries - 1 ];
+            NSInteger attempts = previousAttempts + 1;
+            if (attempts < _maxRetries) {
+                NSString *args = [NSString stringWithFormat:@"%@ %ld", _url, attempts ];
                 NSDictionary *retryCommand = @{
                     @"name": _commandName,
                     @"args": args
