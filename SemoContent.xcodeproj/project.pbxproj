@@ -36,7 +36,6 @@
 		074CFB491C8873AE0025F5A9 /* IFFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = 074CFB281C8873AE0025F5A9 /* IFFormView.m */; };
 		074CFB4A1C8873AE0025F5A9 /* IFFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 074CFB2A1C8873AE0025F5A9 /* IFFormViewController.m */; };
 		074CFB4B1C8873AE0025F5A9 /* IFSubmitField.m in Sources */ = {isa = PBXBuildFile; fileRef = 074CFB2C1C8873AE0025F5A9 /* IFSubmitField.m */; };
-		074CFB4C1C8873AE0025F5A9 /* IFTextStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 074CFB2E1C8873AE0025F5A9 /* IFTextStyle.m */; };
 		074CFBDC1C8873D30025F5A9 /* GRMustacheExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 074CFB521C8873D30025F5A9 /* GRMustacheExpression.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		074CFBDD1C8873D30025F5A9 /* GRMustacheFilteredExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 074CFB551C8873D30025F5A9 /* GRMustacheFilteredExpression.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		074CFBDE1C8873D30025F5A9 /* GRMustacheIdentifierExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 074CFB571C8873D30025F5A9 /* GRMustacheIdentifierExpression.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -190,8 +189,6 @@
 		074CFB2A1C8873AE0025F5A9 /* IFFormViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFFormViewController.m; sourceTree = "<group>"; };
 		074CFB2B1C8873AE0025F5A9 /* IFSubmitField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFSubmitField.h; sourceTree = "<group>"; };
 		074CFB2C1C8873AE0025F5A9 /* IFSubmitField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFSubmitField.m; sourceTree = "<group>"; };
-		074CFB2D1C8873AE0025F5A9 /* IFTextStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTextStyle.h; sourceTree = "<group>"; };
-		074CFB2E1C8873AE0025F5A9 /* IFTextStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTextStyle.m; sourceTree = "<group>"; };
 		074CFB521C8873D30025F5A9 /* GRMustacheExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMustacheExpression.m; sourceTree = "<group>"; };
 		074CFB531C8873D30025F5A9 /* GRMustacheExpression_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheExpression_private.h; sourceTree = "<group>"; };
 		074CFB541C8873D30025F5A9 /* GRMustacheExpressionVisitor_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMustacheExpressionVisitor_private.h; sourceTree = "<group>"; };
@@ -459,8 +456,6 @@
 				074CFB2A1C8873AE0025F5A9 /* IFFormViewController.m */,
 				074CFB2B1C8873AE0025F5A9 /* IFSubmitField.h */,
 				074CFB2C1C8873AE0025F5A9 /* IFSubmitField.m */,
-				074CFB2D1C8873AE0025F5A9 /* IFTextStyle.h */,
-				074CFB2E1C8873AE0025F5A9 /* IFTextStyle.m */,
 			);
 			path = com_innerfunction_semo_form;
 			sourceTree = "<group>";
@@ -890,7 +885,6 @@
 				074CFB4B1C8873AE0025F5A9 /* IFSubmitField.m in Sources */,
 				074CFB3E1C8873AE0025F5A9 /* IFWPSchemeHandler.m in Sources */,
 				074CFC0C1C8873D30025F5A9 /* SSKeychainQuery.m in Sources */,
-				074CFB4C1C8873AE0025F5A9 /* IFTextStyle.m in Sources */,
 				074CFBDE1C8873D30025F5A9 /* GRMustacheIdentifierExpression.m in Sources */,
 				074CFBFE1C8873D30025F5A9 /* GRMustacheURLLibrary.m in Sources */,
 				074CFB301C8873AE0025F5A9 /* IFMvFileCommand.m in Sources */,
