@@ -7,11 +7,9 @@
 //
 
 #import "IFFormField.h"
-#import "IFTextStyle.h"
 
 @interface IFFormTextField : IFFormField <UITextFieldDelegate> {
     UIView *_inputContentView;
-    UITextField *_input;
     UILabel *_invalidWarning;
     NSTextAlignment _defaultTitleAlignment;
     BOOL _valid;
@@ -21,6 +19,6 @@
 @property (nonatomic, assign) BOOL isEditable;
 @property (nonatomic, assign) BOOL isRequired;
 @property (nonatomic, strong) NSString *hasSameValueAs;
-@property (nonatomic, strong) IFTextStyle *inputStyle;
+@property (nonatomic, readonly) UITextField *input;
 
 @end

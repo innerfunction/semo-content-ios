@@ -37,6 +37,8 @@
         [self addSubview:_invalidWarning];
         
         _valid = YES;
+        
+        _defaultTitleAlignment = -1;
     }
     return self;
 }
@@ -45,16 +47,6 @@
     super.title = title;
     self.textLabel.text = title;
     _input.placeholder = title;
-}
-
-- (void)setTitleStyle:(IFTextStyle *)titleStyle {
-    [super setTitleStyle:titleStyle];
-    _defaultTitleAlignment = self.textLabel.textAlignment;
-}
-
-- (void)setInputStyle:(IFTextStyle *)inputStyle {
-    _inputStyle = inputStyle;
-    [_inputStyle applyToTextField:_input];
 }
 
 - (void)setIsPassword:(BOOL)isPassword {
@@ -76,15 +68,19 @@
     _input.frame = frame;
 }
 
-// TODO Set input's keyboard, capitalization, spell checking and keyboard types.
-
 - (void)setValue:(id)value {
+    // Record the title label's default text alignement if not already recorded.
+    if (_defaultTitleAlignment < 0) {
+        _defaultTitleAlignment = self.textLabel.textAlignment;
+    }
+    // Ensure the value is a string.
     if (![value isKindOfClass:[NSString class]]) {
         value = [value description];
     }
     super.value = value;
     NSString *valueLabel = value;
     BOOL hasValue = [value length] > 0;
+    // Mark value if field is a password input.
     if (_isPassword) {
         NSMutableString *password = [[NSMutableString alloc] initWithCapacity:[value length]];
         for (NSInteger i = 0; i < [value length]; i++) {
@@ -92,6 +88,7 @@
         }
         valueLabel = password;
     }
+    // Display the value.
     dispatch_async(dispatch_get_main_queue(), ^{
         _input.text = value;
         self.textLabel.textAlignment = hasValue ? NSTextAlignmentLeft : _defaultTitleAlignment;

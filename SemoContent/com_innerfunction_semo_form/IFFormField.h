@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "IFTextStyle.h"
 
 @class IFFormView;
 
@@ -26,7 +25,7 @@
 @property (nonatomic, strong) UIImage *backgroundImage;
 @property (nonatomic, strong) UIImage *focusedBackgroundImage;
 @property (nonatomic, strong) NSString *title;
-@property (nonatomic, strong) IFTextStyle *titleStyle;
+@property (nonatomic, readonly) UILabel *titleLabel;
 @property (nonatomic, strong) NSArray *fieldGroup;
 
 - (BOOL)takeFieldFocus;

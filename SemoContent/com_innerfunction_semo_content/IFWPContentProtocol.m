@@ -46,6 +46,11 @@
     return self;
 }
 
+- (void)setPostDB:(IFDB *)postDB {
+    // Use a new copy of the post DB. This it to ensure thread-safe access to the db.
+    _postDB = [postDB newInstance];
+}
+
 - (void)setStagingPath:(NSString *)stagingPath {
     _stagingPath = stagingPath;
     _feedFile = [stagingPath stringByAppendingPathComponent:@"feed.json"];
@@ -198,12 +203,9 @@
         NSArray *feedItems = [IFFileIO readJSONFromFileAtPath:feedFile encoding:NSUTF8StringEncoding];
         if (feedItems) {
             // Iterate over items and update post database.
-            // IFDB instances aren't threadsafe (i.e. because the underlying plausible db instances aren't
-            // threadsafe) so create a new instance of the db before applying the updates.
-            IFDB *db = [_postDB newInstance];
-            [db beginTransaction];
-            [db upsertValueList:feedItems intoTable:@"posts"];
-            [db commitTransaction];
+            [_postDB beginTransaction];
+            [_postDB upsertValueList:feedItems intoTable:@"posts"];
+            [_postDB commitTransaction];
         }
         // Schedule command to unzip base content if the base content zip exists.
         if ([[NSFileManager defaultManager] fileExistsAtPath:baseContentFile]) {

@@ -44,9 +44,8 @@
     return self.textLabel.text;
 }
 
-- (void)setTitleStyle:(IFTextStyle *)titleStyle {
-    _titleStyle = titleStyle;
-    [_titleStyle applyToLabel:self.textLabel];
+- (UILabel *)titleLabel {
+    return self.textLabel;
 }
 
 - (BOOL)isSelectable {

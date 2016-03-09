@@ -12,6 +12,8 @@
 #import "IFAppContainer.h"
 #import "NSDictionary+IF.h"
 
+#define ValueOrNSNull(value)    (value == nil ? [NSNull null] : value)
+
 @implementation IFWPContentContainerFormFactory
 
 - (id)initWithContainer:(IFWPContentContainer *)container {
@@ -29,51 +31,93 @@
         _container = container;
         _stdParams = @{
             @"ImageField": @{
-                @"*ios-class":          @"IFFormImageField"
+                @"*ios-class":              @"IFFormImageField"
             },
             @"FirstnameField": @{
-                @"*ios-class":          @"IFFormTextField",
-                @"name":                @"first_name",
-                @"title":               @"First name"
+                @"*ios-class":              @"IFFormTextField",
+                @"name":                    @"first_name",
+                @"title":                   @"First name",
+                @"titleLabel": @{
+                    @"style":               @"$TitleStyle"
+                },
+                @"input": @{
+                    @"autocapitalization":  @"words",
+                    @"autocorrection":      @NO,
+                    @"style":               @"$InputStyle"
+                }
             },
             @"LastnameField": @{
-                @"*ios-class":          @"IFFormTextField",
-                @"name":                @"last_name",
-                @"title":               @"Last name"
+                @"*ios-class":              @"IFFormTextField",
+                @"name":                    @"last_name",
+                @"title":                   @"Last name",
+                @"titleLabel": @{
+                    @"style":               @"$TitleStyle"
+                },
+                @"input": @{
+                    @"autocapitalization":  @"words",
+                    @"autocorrection":      @NO,
+                    @"style":               @"$InputStyle"
+                }
             },
             @"EmailField": @{
-                @"*ios-class":          @"IFFormTextField",
-                @"name":                @"user_email",
-                @"isRequired":          @YES,
-                @"title":               @"Email"
+                @"*ios-class":              @"IFFormTextField",
+                @"name":                    @"user_email",
+                @"isRequired":              @YES,
+                @"title":                   @"Email",
+                @"titleLabel": @{
+                    @"style":               @"$TitleStyle"
+                },
+                @"input": @{
+                    @"keyboard":            @"email",
+                    @"autocapitalization":  @"none",
+                    @"autocorrection":      @NO,
+                    @"style":               @"$InputStyle"
+                }
             },
             @"UsernameField": @{
-                @"*ios-class":          @"IFFormTextField",
-                @"name":                @"user_login",
-                @"isRequired":          @YES,
-                @"title":               @"Username"
+                @"*ios-class":              @"IFFormTextField",
+                @"name":                    @"user_login",
+                @"isRequired":              @YES,
+                @"title":                   @"Username",
+                @"titleLabel": @{
+                    @"style":               @"$TitleStyle"
+                },
+                @"input": @{
+                    @"autocapitalization":  @"none",
+                    @"autocorrection":      @NO,
+                    @"style":               @"$InputStyle"
+                }
             },
             @"PasswordField": @{
-                @"*ios-class":          @"IFFormTextField",
-                @"name":                @"user_pass",
-                @"isPassword":          @YES,
-                @"isRequired":          @YES,
-                @"title":               @"Password"
+                @"*ios-class":              @"IFFormTextField",
+                @"name":                    @"user_pass",
+                @"isPassword":              @YES,
+                @"isRequired":              @YES,
+                @"title":                   @"Password",
+                @"titleLabel": @{
+                    @"style":               @"$TitleStyle"
+                }
             },
             @"ConfirmPasswordField": @{
-                @"*ios-class":          @"IFFormTextField",
-                @"name":                @"confirm_pass",
-                @"isPassword":          @YES,
-                @"title":               @"Confirm password",
-                @"hasSameValueAs":      @"user_pass"
+                @"*ios-class":              @"IFFormTextField",
+                @"name":                    @"confirm_pass",
+                @"isPassword":              @YES,
+                @"title":                   @"Confirm password",
+                @"hasSameValueAs":          @"user_pass",
+                @"titleLabel": @{
+                    @"style":               @"$TitleStyle"
+                }
             },
             @"ProfileIDField": @{
-                @"*ios-class":          @"IFFormHiddenField",
-                @"name":                @"ID"
+                @"*ios-class":              @"IFFormHiddenField",
+                @"name":                    @"ID"
             },
             @"SubmitField": @{
-                @"*ios-class":          @"IFSubmitField",
-                @"title":               @"Login"
+                @"*ios-class":              @"IFSubmitField",
+                @"title":                   @"Login",
+                @"titleLabel": @{
+                    @"style":               @"$TitleStyle"
+                }
             }
         };
         _userDefaults = [NSUserDefaults standardUserDefaults];
@@ -142,7 +186,9 @@
     NSDictionary *params = [_stdParams extendWith:@{
         @"SubmitURL":   submitURL,
         @"IsEnabled":   [NSNumber numberWithBool:isEnabled],
-        @"Fields":      [configuration getValue:@"fields"]
+        @"Fields":      ValueOrNSNull([configuration getValue:@"fields"]),
+        @"TitleStyle":  ValueOrNSNull([configuration getValue:@"titleStyle"]),
+        @"InputStyle":  ValueOrNSNull([configuration getValue:@"inputStyle"])
     }];
     configuration = [configuration configurationWithKeysExcluded:@[ @"*factory", @"formType", @"fields" ]];
     IFFormViewController *formView = (IFFormViewController *)[self buildObjectWithConfiguration:configuration
