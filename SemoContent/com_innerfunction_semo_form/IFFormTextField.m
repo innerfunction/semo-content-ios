@@ -145,7 +145,12 @@
     }
     else if (_hasSameValueAs) {
         id otherValue = [self.form getFieldValue:_hasSameValueAs];
-        _valid = [self.value isEqual:otherValue];
+        if (otherValue == nil) {
+            _valid = self.value == nil;
+        }
+        else {
+            _valid = [self.value isEqual:otherValue];
+        }
     }
     _invalidWarning.hidden = _valid;
     return _valid;
