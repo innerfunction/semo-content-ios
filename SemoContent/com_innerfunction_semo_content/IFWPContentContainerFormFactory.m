@@ -166,7 +166,12 @@
             [IFAppContainer postMessage:loginAction sender:form];
         };
         onSubmitError = ^(IFFormView *form, id data) {
-            NSString *action = [NSString stringWithFormat:@"post:toast+message=%@", @"Account%20creation%20failure"];
+            NSString *message = [data objectForKey:@"error"];
+            if (!message) {
+                message = @"Account creation failure";
+            }
+            message = [message stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+            NSString *action = [NSString stringWithFormat:@"post:toast+message=%@", message];
             [IFAppContainer postMessage:action sender:form];
         };
     }
@@ -179,7 +184,12 @@
             [IFAppContainer postMessage:action sender:form];
         };
         onSubmitError = ^(IFFormView *form, id data) {
-            NSString *action = [NSString stringWithFormat:@"post:toast+message=%@", @"Account%20update%20failure"];
+            NSString *message = [data objectForKey:@"error"];
+            if (!message) {
+                message = @"Account update failure";
+            }
+            message = [message stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+            NSString *action = [NSString stringWithFormat:@"post:toast+message=%@", message];
             [IFAppContainer postMessage:action sender:form];
         };
     }

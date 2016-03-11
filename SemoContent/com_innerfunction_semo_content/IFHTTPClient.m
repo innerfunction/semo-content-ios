@@ -166,10 +166,9 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
         [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
         if (data) {
             NSMutableArray *queryItems = [[NSMutableArray alloc] init];
-            NSCharacterSet *alphanum = [NSCharacterSet alphanumericCharacterSet];
             for (NSString *name in data) {
-                NSString *pname = [name stringByAddingPercentEncodingWithAllowedCharacters:alphanum];
-                NSString *pvalue = [[[data objectForKey:name] description] stringByAddingPercentEncodingWithAllowedCharacters:alphanum];
+                NSString *pname = [name stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+                NSString *pvalue = [[[data objectForKey:name] description] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
                 NSString *param = [NSString stringWithFormat:@"%@=%@", pname, pvalue];
                 [queryItems addObject:param];
             }

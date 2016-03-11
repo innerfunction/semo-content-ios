@@ -19,7 +19,7 @@
 @property (nonatomic, readonly) BOOL isSelectable;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) id value;
-@property (nonatomic, strong) NSString *action;
+@property (nonatomic, strong) NSString *selectAction;
 @property (nonatomic, strong) NSNumber *height;
 @property (nonatomic, strong) UIColor *backgroundColor;
 @property (nonatomic, strong) UIImage *backgroundImage;

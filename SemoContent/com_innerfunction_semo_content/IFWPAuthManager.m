@@ -69,6 +69,7 @@
 }
 
 - (void)storeUserProfile:(NSDictionary *)values {
+    // Store standard profile values.
     for (NSString *field in _profileFieldNames) {
         NSString *key = [NSString stringWithFormat:@"%@/%@", _container.wpRealm, field];
         id value = values[field];
@@ -76,19 +77,50 @@
             [_userDefaults setValue:value forKey:key];
         }
     }
+    // Search for and store any meta data values.
+    NSMutableArray *metaKeys = [NSMutableArray new];
+    for (NSString *key in [values keyEnumerator]) {
+        if ([key hasPrefix:@"meta_"]) {
+            id value = values[key];
+            NSString *storageKey = [NSString stringWithFormat:@"%@/%@", _container.wpRealm, key];
+            if (value != [NSNull null]) {
+                [_userDefaults setValue:value forKey:storageKey];
+            }
+            else {
+                [_userDefaults removeObjectForKey:storageKey];
+            }
+            [metaKeys addObject:key];
+        }
+    }
+    // Store list of meta-data keys.
+    NSString *metaDataKeys = [metaKeys componentsJoinedByString:@","];
+    NSString *storageKey = [NSString stringWithFormat:@"%@/metaDataKeys", _container.wpRealm];
+    [_userDefaults setValue:metaDataKeys forKey:storageKey];
 }
 
 - (NSDictionary *)getUserProfile {
     NSMutableDictionary *values = [NSMutableDictionary new];
-    NSString *key = [NSString stringWithFormat:@"%@/%@", _container.wpRealm, @"user_login"];
-    values[@"user_login"] = [_userDefaults stringForKey:key];
+    NSString *storageKey = [NSString stringWithFormat:@"%@/%@", _container.wpRealm, @"user_login"];
+    values[@"user_login"] = [_userDefaults stringForKey:storageKey];
+    // Read standard profile fields.
     for (NSString *field in _profileFieldNames) {
-        key = [NSString stringWithFormat:@"%@/%@", _container.wpRealm, field];
-        id value = [_userDefaults stringForKey:key];
+        storageKey = [NSString stringWithFormat:@"%@/%@", _container.wpRealm, field];
+        id value = [_userDefaults stringForKey:storageKey];
         if (value) {
             values[field] = value;
         }
     }
+    // Read profile meta-data.
+    storageKey = [NSString stringWithFormat:@"%@/metaDataKeys", _container.wpRealm];
+    NSArray *metaDataKeys = [[_userDefaults stringForKey:storageKey] componentsSeparatedByString:@","];
+    for (NSString *metaKey in metaDataKeys) {
+        storageKey = [NSString stringWithFormat:@"%@/%@", _container.wpRealm, metaKey];
+        id value = [_userDefaults stringForKey:storageKey];
+        if (value) {
+            values[metaKey] = value;
+        }
+    }
+    // Return result.
     return values;
 }
 

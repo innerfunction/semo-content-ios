@@ -49,7 +49,7 @@
 }
 
 - (BOOL)isSelectable {
-    return self.isInput || self.action != nil;
+    return self.isInput || self.selectAction != nil;
 }
 
 // TODO: The UITableViewCell class does have a backgroundColor property, but this isn't being detected by
@@ -73,8 +73,8 @@
 }
 
 - (void)selectField {
-    if (_action) {
-        [IFAppContainer postMessage:_action sender:self];
+    if (_selectAction) {
+        [IFAppContainer postMessage:_selectAction sender:self];
     }
 }
 
