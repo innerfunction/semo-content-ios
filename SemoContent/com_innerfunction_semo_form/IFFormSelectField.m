@@ -9,23 +9,57 @@
 #import "IFFormSelectField.h"
 #import "IFFormView.h"
 
-#define PickerHeight        (100.0f)
-#define AnimationDuration   (0.5f)
+@implementation IFFormSelectItemsViewController
 
-@implementation IFFormSelectFieldItem
+- (id)init {
+    IFConfiguration *config = [[IFConfiguration alloc] initWithData:@{}];
+    self = [self initWithConfiguration:config];
+    if (self) {
+        [self afterConfiguration:config inContainer:nil];
+        _selectedIndex = -1;
+        _cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                                      target:self
+                                                                      action:@selector(cancel)];
+    }
+    return self;
+}
 
-- (void)setTitle:(NSString *)title {
-    _title = title;
-    if (_value == nil) {
-        _value = title;
+- (void)setSelectedIndex:(NSInteger)selectedIndex {
+    _selectedIndex = selectedIndex;
+    if (selectedIndex > -1) {
+        NSIndexPath *selectedIndexPath = [NSIndexPath indexPathForRow:selectedIndex inSection:0];
+        [self.tableView selectRowAtIndexPath:selectedIndexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
     }
 }
 
-- (void)setValue:(id)value {
-    _value = value;
-    if (_title == nil) {
-        _title = value;
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationItem.title = _parentField.title;
+    self.navigationItem.rightBarButtonItem = _cancelButton;
+    // Copy navigation bar style from the form's view controller.
+    UINavigationBar *parentNavBar = _parentField.form.viewController.navigationController.navigationBar;
+    UINavigationBar *ownNavBar = self.navigationController.navigationBar;
+    ownNavBar.tintColor = parentNavBar.tintColor;
+    ownNavBar.barTintColor = parentNavBar.barTintColor;
+    ownNavBar.titleTextAttributes = parentNavBar.titleTextAttributes;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSDictionary *item = [self.tableData rowDataForIndexPath:indexPath];
+    _parentField.value = item[@"value"];
+    [_parentField releaseFieldFocus];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    if (indexPath.row == _selectedIndex) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
     }
+    return cell;
+}
+
+- (void)cancel {
+    [_parentField releaseFieldFocus];
 }
 
 @end
@@ -35,31 +69,39 @@
 - (id)init {
     self = [super init];
     if (self) {
-        _picker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, 320, PickerHeight)];
-        _picker.dataSource = self;
-        _picker.delegate = self;
-        
-        _picker.hidden = YES;
-        _picker.backgroundColor = [UIColor whiteColor];
-        //_picker.layer.opacity = 0.0f;
-        _picker.userInteractionEnabled = NO;
-        
-        self.backgroundColor = [UIColor yellowColor];
-        [self addSubview:_picker];
+        self.isEditable = NO; // Disable text field editing.
+        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        _itemsListConfig = [[IFConfiguration alloc] initWithData:@{}];
     }
     return self;
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    CGRect bounds = self.contentView.bounds;
-    CGFloat height = _picker.hidden ? 60.0f : PickerHeight;
-    self.contentView.frame = CGRectMake(0, 0, bounds.size.width, height);
-    self.textLabel.frame = self.contentView.bounds;
-    bounds = self.bounds;
-    _picker.frame = CGRectMake(0, 0, bounds.size.width, PickerHeight);
-    NSLog(@"%f",height);
-    self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, height);
+- (void)setItems:(NSArray *)items {
+    // Ensure that each select item has a title and value. If either property is missing
+    // then use the other to provide a value. Promote strings to title + values. If title
+    // or value can't be resolved then don't add the item to the list.
+    NSMutableArray *mitems = [[NSMutableArray alloc] initWithCapacity:[items count]];
+    for (id item in items) {
+        if ([item isKindOfClass:[NSString class]]) {
+            [mitems addObject:@{ @"title": item, @"value": item }];
+        }
+        if (item[@"title"]) {
+            if (item[@"value"]) {
+                [mitems addObject:item];
+            }
+            else {
+                NSMutableDictionary *mitem = [item mutableCopy];
+                mitem[@"value"] = mitem[@"title"];
+                [mitems addObject:mitem];
+            }
+        }
+        else if (item[@"value"]) {
+            NSMutableDictionary *mitem = [item mutableCopy];
+            mitem[@"title"] = mitem[@"value"];
+            [mitems addObject:mitem];
+        }
+    }
+    _items = mitems;
 }
 
 - (BOOL)isSelectable {
@@ -67,44 +109,36 @@
 }
 
 - (BOOL)takeFieldFocus {
-    self.height = @PickerHeight;
-    [self.form notifyFormFieldResize:self];
-    [UIView animateWithDuration:AnimationDuration
-                          delay:0
-                        options:UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         _picker.hidden = NO;
-                     }
-                     completion:^(BOOL finished) {
-                         [self bringSubviewToFront:_picker];
-                         [_picker becomeFirstResponder];
-                     }];
+    // Try to find index of selected list item.
+    NSInteger selectedIndex = -1;
+    for (NSInteger i = 0; i < [_items count]; i++) {
+        id item = [_items objectAtIndex:i];
+        if ([item[@"value"] isEqual:self.value]) {
+            selectedIndex = i;
+            break;
+        }
+    }
+    
+    // Create the select list.
+    _itemsList = [IFFormSelectItemsViewController new];
+    _itemsList.parentField = self;
+    _itemsList.content = _items;
+    _itemsList.selectedIndex = selectedIndex;
+
+    // Present the select list in a modal pop-over with a navigation bar.
+    _itemsListContainer = [[UINavigationController alloc] initWithRootViewController:_itemsList];
+    _itemsListContainer.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    _itemsListContainer.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self.form.viewController presentViewController:_itemsListContainer animated:YES completion:^{}];
     return YES;
 }
 
 - (void)releaseFieldFocus {
-    [_picker resignFirstResponder];
-    // Animate the picker disappearing from the bottom of the screen.
-    [UIView animateWithDuration:AnimationDuration
-                          delay:0
-                        options:UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         _picker.hidden = YES;
-                     }
-                     completion:^(BOOL finished) {
-                         self.height = @60.0f;
-                         [self.form notifyFormFieldResize:self];
-                     }];
-}
-
-#pragma mark - IFIOCTypeInspectable
-
-- (Class)memberClassForCollection:(NSString *)propertyName {
-    if ([@"items" isEqualToString:propertyName]) {
-        // Return the type class of the 'items' array members.
-        return [IFFormSelectFieldItem class];
+    if (_itemsList) {
+        [self.form.viewController dismissViewControllerAnimated:_itemsListContainer completion:^{
+            _itemsList = nil;
+        }];
     }
-    return nil;
 }
 
 #pragma mark - IFIOCConfigurable
@@ -114,45 +148,22 @@
 - (void)afterConfiguration:(IFConfiguration *)configuration inContainer:(IFContainer *)container {
     // Check for default/initial value, set the field title accordingly.
     if (self.value == nil) {
-        for (IFFormSelectFieldItem *item in _items) {
-            if (item.defaultValue) {
-                self.value = item.value;
-                self.title = item.title;
+        for (NSDictionary *item in _items) {
+            if (item[@"defaultValue"]) {
+                self.title = item[@"title"];
+                self.value = item[@"value"];
                 break;
             }
         }
     }
     else {
-        for (IFFormSelectFieldItem *item in _items) {
-            if ([item.value isEqualToString:self.value]) {
-                self.title = item.title;
+        for (NSDictionary *item in _items) {
+            if ([item[@"value"] isEqualToString:self.value]) {
+                self.title = item[@"title"];
                 break;
             }
         }
     }
-}
-
-#pragma mark - UIPickerViewDataSource
-
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-    return 1;
-}
-
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    return [_items count];
-}
-
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    IFFormSelectFieldItem *item = [_items objectAtIndex:row];
-    return item.title;
-}
-
-#pragma mark - UIPickerViewDelegate
-
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    IFFormSelectFieldItem *item = [_items objectAtIndex:row];
-    self.value = item.value;
-    self.title = item.title;
 }
 
 @end

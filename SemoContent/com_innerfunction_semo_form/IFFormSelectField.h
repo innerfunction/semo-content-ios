@@ -6,20 +6,26 @@
 //  Copyright © 2016 InnerFunction. All rights reserved.
 //
 
-#import "IFFormField.h"
-#import "IFIOCTypeInspectable.h"
-#import "IFIOCConfigurable.h"
+#import "IFFormTextField.h"
+#import "IFTableViewController.h"
 
-@interface IFFormSelectFieldItem : NSObject
+@class IFFormSelectField;
 
-@property (nonatomic, strong) NSString *title;
-@property (nonatomic, strong) NSString *value;
-@property (nonatomic, assign) BOOL defaultValue;
+@interface IFFormSelectItemsViewController : IFTableViewController {
+    UIBarButtonItem *_cancelButton;
+}
+
+@property (nonatomic, weak) IFFormSelectField *parentField;
+@property (nonatomic, assign) NSInteger selectedIndex;
+
+- (void)cancel;
 
 @end
 
-@interface IFFormSelectField : IFFormField <IFIOCTypeInspectable, IFIOCConfigurable, UIPickerViewDataSource, UIPickerViewDelegate> {
-    UIPickerView *_picker;
+@interface IFFormSelectField : IFFormTextField <IFIOCConfigurable> {
+    IFConfiguration *_itemsListConfig;
+    IFFormSelectItemsViewController *_itemsList;
+    UINavigationController *_itemsListContainer;
 }
 
 @property (nonatomic, strong) NSArray *items;

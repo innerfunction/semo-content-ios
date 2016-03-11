@@ -50,6 +50,10 @@ typedef void (^IFFormViewErrorEvent)(IFFormView *, NSError *);
 @property (nonatomic, copy) IFFormViewDataEvent onSubmitError;
 @property (nonatomic, copy) IFFormViewDataEvent onSubmitOk;
 
+// The view controller the form is displayed within. This is needed by some field types to
+// e.g. present modal dialogs.
+@property (nonatomic, weak) UIViewController *viewController;
+
 /** Get the current value of a named field. */
 - (id)getFieldValue:(NSString *)name;
 /** Get the currently focused field. */
