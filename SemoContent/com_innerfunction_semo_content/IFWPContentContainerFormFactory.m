@@ -14,6 +14,26 @@
 
 #define ValueOrNSNull(value)    (value == nil ? [NSNull null] : value)
 
+@implementation IFWPContentLoginBehaviour
+
+- (id)initWithContainer:(IFWPContentContainer *)container loginAction:(NSString *)loginAction {
+    self = [super init];
+    if (self) {
+        _container = container;
+        _loginAction = loginAction;
+    }
+    return self;
+}
+
+- (void)viewDidAppear {
+    // Check if user already logged in, if so then dispatch a specified event.
+    if ([_container.authManager isLoggedIn]) {
+        [IFAppContainer postMessage:_loginAction sender:self.viewController];
+    }
+}
+
+@end
+
 @implementation IFWPContentContainerFormFactory
 
 - (id)initWithContainer:(IFWPContentContainer *)container {
@@ -130,20 +150,14 @@
     NSString *submitURL = @"";
     NSString *loginAction = [configuration getValueAsString:@"loginAction"];
     BOOL isEnabled = YES;
-    IFViewControllerEvent onShow;
+    id<IFViewBehaviour> viewBehaviour = nil;
     IFFormViewDataEvent onSubmitOk;
     IFFormViewErrorEvent onSubmitError;
     // TODO: Following need to be filled in properly
     if ([@"login" isEqualToString:formType]) {
         submitURL = _container.authManager.loginURL;
+        viewBehaviour = [[IFWPContentLoginBehaviour alloc] initWithContainer:_container loginAction:loginAction];
         //isEnabled = NO;
-        onShow = ^(IFViewController *view) {
-            // Check if user already logged in, if so then dispatch a specified event.
-            if ([_container.authManager isLoggedIn]) {
-                [IFAppContainer postMessage:loginAction sender:view];
-            }
-            // Else change the form to enabled, populate with any existing credentials.
-        };
         onSubmitOk = ^(IFFormView *form, NSDictionary *data) {
             // Store user credentials & user info
             [_container.authManager storeUserProfile:data[@"profile"]];
@@ -205,7 +219,7 @@
                                                                                     inContainer:container
                                                                                  withParameters:params
                                                                                      identifier:identifier];
-    formView.onShow = onShow;
+    formView.behaviour = viewBehaviour;
     formView.form.onSubmitOk = onSubmitOk;
     formView.form.onSubmitError = onSubmitError;
     formView.form.httpClient = _container.httpClient;

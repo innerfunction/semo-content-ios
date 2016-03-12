@@ -9,15 +9,25 @@
 #import <Foundation/Foundation.h>
 #import "IFIOCObjectFactoryBase.h"
 #import "IFURIHandling.h"
+#import "IFViewBehaviourObject.h"
 
 @class IFWPContentContainer;
 
 @interface IFWPContentContainerFormFactory : IFIOCObjectFactoryBase {
-    IFWPContentContainer *_container;
+    __weak IFWPContentContainer *_container;
     NSDictionary *_stdParams;
     NSUserDefaults *_userDefaults;
 }
 
 - (id)initWithContainer:(IFWPContentContainer *)container;
+
+@end
+
+@interface IFWPContentLoginBehaviour : IFViewBehaviourObject {
+    __weak IFWPContentContainer *_container;
+    NSString *_loginAction;
+}
+
+- (id)initWithContainer:(IFWPContentContainer *)container loginAction:(NSString *)loginAction;
 
 @end
