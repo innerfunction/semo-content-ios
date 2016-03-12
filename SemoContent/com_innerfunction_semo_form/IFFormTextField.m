@@ -12,6 +12,7 @@
 #define Padding             (10.0f)
 #define AnimationDuration   (0.33f)
 #define InvalidWarningWidth (25.0f)
+#define HasValue            ([self.value length] > 0)
 
 @implementation IFFormTextField
 
@@ -32,9 +33,7 @@
         
         _invalidWarning = [[UILabel alloc] init];
         _invalidWarning.text = @"\u26A0";
-        _invalidWarning.textAlignment = NSTextAlignmentRight;
-        _invalidWarning.hidden = YES;
-        [self addSubview:_invalidWarning];
+        _invalidWarning.textAlignment = NSTextAlignmentCenter;
         
         _valid = YES;
         
@@ -56,14 +55,27 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    CGRect frame = CGRectInset( self.contentView.bounds, Padding, Padding);
+    // Work out which display width to use for the title and value labels.
+    // The following is to ensure that labels center and/or align property with or without the presence of
+    // accessory views (i.e. disclosure indicators OR invalid field indicators).
+    CGRect bounds = self.bounds; // By default, use the full available width.
+    if (self.accessoryView != nil && HasValue) {
+        // If there is an accessory view and a value then subtract the accessory view's width from the display width.
+        CGSize accessorySize = self.accessoryView.frame.size;
+        bounds = CGRectMake( bounds.origin.x, bounds.origin.y, bounds.size.width - accessorySize.width, bounds.size.height);
+    }
+    else if (self.accessoryType != UITableViewCellAccessoryNone && HasValue) {
+        // Else if there is an accessory type and a value then just use the content view width.
+        bounds = self.contentView.bounds;
+    }
+    CGRect frame = CGRectInset( bounds, Padding, Padding);
     
     self.textLabel.frame = frame;
-    
-    CGFloat detailTextLabelWidth = frame.size.width - InvalidWarningWidth;
-    self.detailTextLabel.frame = CGRectMake(frame.origin.x, frame.origin.y, detailTextLabelWidth, frame.size.height);
-    _invalidWarning.frame = CGRectMake(frame.origin.x + detailTextLabelWidth, frame.origin.y, InvalidWarningWidth, frame.size.height);
+    self.detailTextLabel.frame = frame;
 
+    CGFloat x = self.frame.size.width - InvalidWarningWidth;
+    _invalidWarning.frame = CGRectMake(x, frame.origin.y, InvalidWarningWidth, frame.size.height);
+    
     _inputContentView.frame = self.contentView.bounds;
     _input.frame = frame;
 }
@@ -79,7 +91,6 @@
     }
     super.value = value;
     NSString *valueLabel = value;
-    BOOL hasValue = [value length] > 0;
     // Mark value if field is a password input.
     if (_isPassword) {
         NSMutableString *password = [[NSMutableString alloc] initWithCapacity:[value length]];
@@ -91,7 +102,7 @@
     // Display the value.
     dispatch_async(dispatch_get_main_queue(), ^{
         _input.text = value;
-        self.textLabel.textAlignment = hasValue ? NSTextAlignmentLeft : _defaultTitleAlignment;
+        self.textLabel.textAlignment = HasValue ? NSTextAlignmentLeft : _defaultTitleAlignment;
         self.detailTextLabel.text = valueLabel;
         // Check whether sufficient room to display both detail and text labels, hide the text label if not.
         CGFloat textWidth = [self.textLabel.text sizeWithAttributes:@{ NSFontAttributeName: self.textLabel.font }].width;
@@ -152,7 +163,12 @@
             _valid = [self.value isEqual:otherValue];
         }
     }
-    _invalidWarning.hidden = _valid;
+    if (_valid) {
+        self.accessoryView = nil;
+    }
+    else {
+        self.accessoryView = _invalidWarning;
+    }
     return _valid;
 }
 
