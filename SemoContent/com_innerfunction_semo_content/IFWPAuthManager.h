@@ -27,6 +27,7 @@
 - (void)storeUserCredentials:(NSDictionary *)values;
 - (void)storeUserProfile:(NSDictionary *)values;
 - (NSDictionary *)getUserProfile;
+- (NSString *)getUsername;
 - (void)logout;
 - (void)showPasswordReminder;
 

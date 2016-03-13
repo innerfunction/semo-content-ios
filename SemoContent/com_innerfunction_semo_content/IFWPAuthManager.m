@@ -124,6 +124,11 @@
     return values;
 }
 
+- (NSString *)getUsername {
+    NSString *storageKey = [NSString stringWithFormat:@"%@/%@", _container.wpRealm, @"user_login"];
+    return [_userDefaults stringForKey:storageKey];
+}
+
 - (void)logout {
     NSString *key = [NSString stringWithFormat:@"%@/%@", _container.wpRealm, @"logged-in"];
     [_userDefaults setValue:@NO forKey:key];

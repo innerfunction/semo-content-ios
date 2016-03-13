@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		074C3DCA1C945F79009BBEEF /* IFWPPrivacyPolicyBehaviour.m in Sources */ = {isa = PBXBuildFile; fileRef = 074C3DC91C945F79009BBEEF /* IFWPPrivacyPolicyBehaviour.m */; };
+		074C3DCA1C945F79009BBEEF /* IFWPLicenceBehaviour.m in Sources */ = {isa = PBXBuildFile; fileRef = 074C3DC91C945F79009BBEEF /* IFWPLicenceBehaviour.m */; };
 		074CFB2F1C8873AE0025F5A9 /* IFCommandScheduler.m in Sources */ = {isa = PBXBuildFile; fileRef = 074CFAED1C8873AE0025F5A9 /* IFCommandScheduler.m */; };
 		074CFB301C8873AE0025F5A9 /* IFMvFileCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 074CFAEF1C8873AE0025F5A9 /* IFMvFileCommand.m */; };
 		074CFB311C8873AE0025F5A9 /* IFProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 074CFAF11C8873AE0025F5A9 /* IFProtocol.m */; };
@@ -128,8 +128,8 @@
 
 /* Begin PBXFileReference section */
 		07071AEF1C88734000DAF32D /* libSemoContent.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSemoContent.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		074C3DC81C945F79009BBEEF /* IFWPPrivacyPolicyBehaviour.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFWPPrivacyPolicyBehaviour.h; path = SemoContent/com_innerfunction_semo_content_ui/IFWPPrivacyPolicyBehaviour.h; sourceTree = SOURCE_ROOT; };
-		074C3DC91C945F79009BBEEF /* IFWPPrivacyPolicyBehaviour.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFWPPrivacyPolicyBehaviour.m; path = SemoContent/com_innerfunction_semo_content_ui/IFWPPrivacyPolicyBehaviour.m; sourceTree = SOURCE_ROOT; };
+		074C3DC81C945F79009BBEEF /* IFWPLicenceBehaviour.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFWPLicenceBehaviour.h; path = SemoContent/com_innerfunction_semo_content_ui/IFWPLicenceBehaviour.h; sourceTree = SOURCE_ROOT; };
+		074C3DC91C945F79009BBEEF /* IFWPLicenceBehaviour.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFWPLicenceBehaviour.m; path = SemoContent/com_innerfunction_semo_content_ui/IFWPLicenceBehaviour.m; sourceTree = SOURCE_ROOT; };
 		074CFAEB1C8873AE0025F5A9 /* IFCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFCommand.h; sourceTree = "<group>"; };
 		074CFAEC1C8873AE0025F5A9 /* IFCommandScheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFCommandScheduler.h; sourceTree = "<group>"; };
 		074CFAED1C8873AE0025F5A9 /* IFCommandScheduler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFCommandScheduler.m; sourceTree = "<group>"; };
@@ -419,8 +419,8 @@
 		074CFB101C8873AE0025F5A9 /* com_innerfunction_semo_content_ui */ = {
 			isa = PBXGroup;
 			children = (
-				074C3DC81C945F79009BBEEF /* IFWPPrivacyPolicyBehaviour.h */,
-				074C3DC91C945F79009BBEEF /* IFWPPrivacyPolicyBehaviour.m */,
+				074C3DC81C945F79009BBEEF /* IFWPLicenceBehaviour.h */,
+				074C3DC91C945F79009BBEEF /* IFWPLicenceBehaviour.m */,
 				074CFB111C8873AE0025F5A9 /* IFContentTableViewController.h */,
 				074CFB121C8873AE0025F5A9 /* IFContentTableViewController.m */,
 			);
@@ -893,7 +893,7 @@
 				074CFBDE1C8873D30025F5A9 /* GRMustacheIdentifierExpression.m in Sources */,
 				074CFBFE1C8873D30025F5A9 /* GRMustacheURLLibrary.m in Sources */,
 				074CFB301C8873AE0025F5A9 /* IFMvFileCommand.m in Sources */,
-				074C3DCA1C945F79009BBEEF /* IFWPPrivacyPolicyBehaviour.m in Sources */,
+				074C3DCA1C945F79009BBEEF /* IFWPLicenceBehaviour.m in Sources */,
 				074CFBF71C8873D30025F5A9 /* NSFormatter+GRMustache.m in Sources */,
 				074CFB451C8873AE0025F5A9 /* IFFormImageField.m in Sources */,
 				074CFB341C8873AE0025F5A9 /* IFGetURLCommand.m in Sources */,
