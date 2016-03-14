@@ -32,7 +32,7 @@
     self = [super initWithConfiguration:configuration];
     if (self) {
         [self.tableView registerClass:[IFContentTableViewCell class] forCellReuseIdentifier:@"content"];
-        _showContent = YES;
+        _showRowContent = YES;
     }
     return self;
 }
@@ -50,9 +50,9 @@
 
 - (void)configureCell:(IFContentTableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
     NSDictionary *data = [self.tableData rowDataForIndexPath:indexPath];
-    cell.title = [data getValueAsString:@"title"];
-    if (_showContent) {
-        cell.content = [data getValueAsString:@"content"];
+    cell.title = data[@"title"];
+    if (_showRowContent) {
+        cell.content = data[@"content"];
     }
     
     CGFloat imageHeight = [[data getValueAsNumber:@"imageHeight" defaultValue:_rowImageHeight] floatValue];

@@ -72,6 +72,8 @@
 @property (nonatomic, strong) IFWPAuthManager *authManager;
 /** A HTTP client. */
 @property (nonatomic, strong) IFHTTPClient *httpClient;
+/** The maximum number of rows to return for wp:search results. */
+@property (nonatomic, assign) NSInteger searchResultLimit;
 
 /** Unpack packaged content. */
 - (void)unpackPackagedContent;

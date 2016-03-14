@@ -145,6 +145,8 @@ static IFLogger *Logger;
         
         _authManager = [[IFWPAuthManager alloc] initWithContainer:self];
         _httpClient.authenticationDelegate = _authManager;
+        
+        _searchResultLimit = 100;
     }
     return self;
 }
@@ -331,10 +333,13 @@ static IFLogger *Logger;
             where = [NSString stringWithFormat:@"(%@) AND type IN ('%@')", where, [postTypes componentsJoinedByString:@"','"]];
         }
     }
-    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM posts WHERE %@", where];
+    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM posts WHERE %@ LIMIT %ld", where, _searchResultLimit];
     postData = [_postDB performQuery:sql withParams:params];
     // TODO: Filters?
-    id<IFDataFormatter> formatter = [_listFormats objectForKey:@"table"];
+    id<IFDataFormatter> formatter = [_listFormats objectForKey:@"search"];
+    if (!formatter) {
+        formatter = [_listFormats objectForKey:@"table"];
+    }
     if (formatter) {
         postData = [formatter formatData:postData];
     }
