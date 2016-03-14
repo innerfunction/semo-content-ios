@@ -13,6 +13,7 @@
 @interface IFContentTableViewController ()
 
 - (void)configureCell:(IFContentTableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath;
+- (NSString *)reuseIdentifier;
 
 @end
 
@@ -32,7 +33,8 @@
     self = [super initWithConfiguration:configuration];
     if (self) {
         [self.tableView registerClass:[IFContentTableViewCell class] forCellReuseIdentifier:@"content"];
-        _showRowContent = YES;
+        [self.tableView registerClass:[IFContentTableViewCell class] forCellReuseIdentifier:@"title"];
+        _showRowContent = NO;
     }
     return self;
 }
@@ -82,11 +84,16 @@
     }
 }
 
+- (NSString *)reuseIdentifier {
+    return _showRowContent ? @"content" : @"title";
+}
+
 #pragma mark - Table view delegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (!_layoutCell) {
-        _layoutCell = (IFContentTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"content"];
+        NSString *reuseIdentifier = [self reuseIdentifier];
+        _layoutCell = (IFContentTableViewCell *)[tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
     }
     [self configureCell:_layoutCell forIndexPath:indexPath];
     return _layoutCell.height;
@@ -109,7 +116,8 @@
 #pragma mark - Table view data source
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    IFContentTableViewCell *cell = (IFContentTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"content"];
+    NSString *reuseIdentifier = [self reuseIdentifier];
+    IFContentTableViewCell *cell = (IFContentTableViewCell *)[tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
     [self configureCell:cell forIndexPath:indexPath];
     return cell;
 }
@@ -118,9 +126,11 @@
 
 @implementation IFContentTableViewCell
 
-- (id)init {
-    self = [super initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"content"];
-    self.imageView.hidden = YES;
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    BOOL contentMode = [@"content" isEqualToString:reuseIdentifier];
+    style = contentMode ? UITableViewCellStyleSubtitle : UITableViewCellStyleDefault;
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    self.imageView.hidden = contentMode;
     self.detailTextLabel.numberOfLines = 0;
     return self;
 }
@@ -144,16 +154,25 @@
 
 - (CGFloat)height {
     [self layoutIfNeeded];
-    CGSize titleSize = self.textLabel.bounds.size;
-    CGFloat width = self.detailTextLabel.bounds.size.width;
-    CGSize contentSize = [self.detailTextLabel sizeThatFits:CGSizeMake(width, CGFLOAT_MAX)];
-    return titleSize.height + contentSize.height;
+    CGFloat height;
+    if (self.detailTextLabel) {
+        CGRect detailFrame = self.detailTextLabel.frame;
+        // NOTE height is calculated here as the vertical offset of the detail label + its height + a small
+        // vertical padding constant.
+        height = detailFrame.origin.y + detailFrame.size.height + 10.0f;
+    }
+    else {
+        height = self.textLabel.bounds.size.height;
+    }
+    return height;
 }
 
 #pragma mark - overloads
 
 - (void)layoutSubviews {
-    self.detailTextLabel.bounds = CGRectMake(0.0f, 0.0f, self.detailTextLabel.bounds.size.width, self.height);
+    CGRect titleFrame = self.textLabel.frame;
+    CGSize contentSize = [self.detailTextLabel sizeThatFits:CGSizeMake(titleFrame.size.width, CGFLOAT_MAX)];
+    self.detailTextLabel.bounds = CGRectMake(0.0f, 0.0f, self.detailTextLabel.bounds.size.width, contentSize.height);
     [super layoutSubviews];
 }
 
