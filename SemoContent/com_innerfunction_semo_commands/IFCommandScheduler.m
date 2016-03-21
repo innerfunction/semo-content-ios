@@ -184,55 +184,57 @@ static void *execQueueKey = "IFCommandScheduler.execQueue";
         }
         [command execute:name withArgs:args]
         .then((id)^(NSArray *commands) {
-            // Queue any new commands, delete current command from db.
-            [_db beginTransaction];
-            for (id item in commands) {
-                IFCommandItem *command = [self parseCommandItem:item];
-                if (!command) {
-                    // Indicates an unparseable command line string; just continue to the next command.
-                    continue;
-                }
-                // Check for system commands.
-                if ([@"control.purge-queue" isEqualToString:command.name]) {
-                    [self purgeQueue];
-                    continue;
-                }
-                if ([@"control.purge-current-batch" isEqualToString:command.name]) {
-                    [self purgeCurrentBatch];
-                    continue;
-                }
-                NSInteger batch = _currentBatch;
-                if (command.priority) {
-                    batch += [command.priority integerValue];
-                    // Negative priorities can place new commands at the head of the queue; reset the exec queue
-                    // to force a db read, so that these commands are read into the head of the exec queue.
-                    if (batch < _currentBatch) {
-                        _execQueue = @[];
+            dispatch_async(execQueue, ^{
+                // Queue any new commands, delete current command from db.
+                [_db beginTransaction];
+                for (id item in commands) {
+                    IFCommandItem *command = [self parseCommandItem:item];
+                    if (!command) {
+                        // Indicates an unparseable command line string; just continue to the next command.
+                        continue;
                     }
+                    // Check for system commands.
+                    if ([@"control.purge-queue" isEqualToString:command.name]) {
+                        [self purgeQueue];
+                        continue;
+                    }
+                    if ([@"control.purge-current-batch" isEqualToString:command.name]) {
+                        [self purgeCurrentBatch];
+                        continue;
+                    }
+                    NSInteger batch = _currentBatch;
+                    if (command.priority) {
+                        batch += [command.priority integerValue];
+                        // Negative priorities can place new commands at the head of the queue; reset the exec queue
+                        // to force a db read, so that these commands are read into the head of the exec queue.
+                        if (batch < _currentBatch) {
+                            _execQueue = @[];
+                        }
+                    }
+                    [Logger debug:@"Appending %@ %@", command.name, command.args];
+                    NSDictionary *values = @{
+                        @"batch":   [NSNumber numberWithInteger:batch],
+                        @"command": command.name,
+                        @"args":    [command.args toJSON],
+                        @"status":  @"P"
+                    };
+                    [_db insertValues:values intoTable:@"queue"];
                 }
-                [Logger debug:@"Appending %@ %@", command.name, command.args];
-                NSDictionary *values = @{
-                    @"batch":   [NSNumber numberWithInteger:batch],
-                    @"command": command.name,
-                    @"args":    [command.args toJSON],
-                    @"status":  @"P"
-                };
-                [_db insertValues:values intoTable:@"queue"];
-            }
-            // Delete the command record from the queue.
-            if (_deleteExecutedQueueRecords) {
-                [_db deleteIDs:@[ rowid ] fromTable:@"queue"];
-            }
-            else {
-                NSDictionary *values = @{
-                    @"id":      rowid,
-                    @"status":  @"X"
-                };
-                [_db updateValues:values inTable:@"queue"];
-            }
-            [_db commitTransaction];
-            // Continue to next queued command.
-            [self executeNextCommand];
+                // Delete the command record from the queue.
+                if (_deleteExecutedQueueRecords) {
+                    [_db deleteIDs:@[ rowid ] fromTable:@"queue"];
+                }
+                else {
+                    NSDictionary *values = @{
+                        @"id":      rowid,
+                        @"status":  @"X"
+                    };
+                    [_db updateValues:values inTable:@"queue"];
+                }
+                [_db commitTransaction];
+                // Continue to next queued command.
+                [self executeNextCommand];
+            });
             return nil;
         })
         .fail(^(id error) {
