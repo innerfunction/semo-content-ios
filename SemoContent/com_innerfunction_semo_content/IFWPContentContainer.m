@@ -417,9 +417,9 @@ static IFLogger *Logger;
     }
 }
 
-#pragma mark - IFMessageHandler
+#pragma mark - IFMessageTarget
 
-- (BOOL)handleMessage:(IFMessage *)message sender:(id)sender {
+- (BOOL)receiveMessage:(IFMessage *)message sender:(id)sender {
     if ([message hasName:@"logout"]) {
         [_authManager logout];
         [self showLoginForm];

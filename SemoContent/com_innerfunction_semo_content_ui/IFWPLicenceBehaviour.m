@@ -54,7 +54,7 @@
     }
 }
 
-- (BOOL)handleMessage:(IFMessage *)message sender:(id)sender {
+- (BOOL)receiveMessage:(IFMessage *)message sender:(id)sender {
     if ([message hasName:@"licence/accept"]) {
         NSString *username = [self getUsername];
         [_locals setObject:username forKey:_localsKey];
@@ -92,8 +92,8 @@
     return self;
 }
 
-- (BOOL)handleMessage:(IFMessage *)message sender:(id)sender {
-    return [_parentBehaviour handleMessage:message sender:sender];
+- (BOOL)receiveMessage:(IFMessage *)message sender:(id)sender {
+    return [_parentBehaviour receiveMessage:message sender:sender];
 }
 
 @end
