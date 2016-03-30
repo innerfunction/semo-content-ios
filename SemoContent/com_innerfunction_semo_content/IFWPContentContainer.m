@@ -32,6 +32,8 @@ static IFLogger *Logger;
 
 @implementation IFWPContentContainer
 
+@synthesize iocContainer=_iocContainer;
+
 + (void)initialize {
     Logger = [[IFLogger alloc] initWithTag:@"IFWPContentContainer"];
 }
@@ -372,11 +374,11 @@ static IFLogger *Logger;
     return result;
 }
 
-#pragma mark - IFIOCConfigurable
+#pragma mark - IFIOCContainerAware
 
-- (void)beforeConfiguration:(IFConfiguration *)configuration inContainer:(IFContainer *)container {}
+- (void)beforeIOCConfiguration:(IFConfiguration *)configuration {}
 
-- (void)afterConfiguration:(IFConfiguration *)configuration inContainer:(IFContainer *)container {
+- (void)afterIOCConfiguration:(IFConfiguration *)configuration {
     
     // Packaged content is packaged with the app executable.
     NSString *packagedContentPath = [MainBundlePath stringByAppendingPathComponent:_packagedContentPath];

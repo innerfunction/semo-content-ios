@@ -15,7 +15,7 @@
     IFConfiguration *config = [[IFConfiguration alloc] initWithData:@{}];
     self = [self initWithConfiguration:config];
     if (self) {
-        [self afterConfiguration:config inContainer:nil];
+        [self afterIOCConfiguration:config];
         _selectedIndex = -1;
         _cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
                                                                       target:self
@@ -65,6 +65,8 @@
 @end
 
 @implementation IFFormSelectField
+
+@synthesize iocContainer=_iocContainer;
 
 - (id)init {
     self = [super init];
@@ -141,11 +143,11 @@
     }
 }
 
-#pragma mark - IFIOCConfigurable
+#pragma mark - IFIOCContainerAware
 
-- (void)beforeConfiguration:(IFConfiguration *)configuration inContainer:(IFContainer *)container {}
+- (void)beforeIOCConfiguration:(IFConfiguration *)configuration {}
 
-- (void)afterConfiguration:(IFConfiguration *)configuration inContainer:(IFContainer *)container {
+- (void)afterIOCConfiguration:(IFConfiguration *)configuration {
     // Check for default/initial value, set the field title accordingly.
     if (self.value == nil) {
         for (NSDictionary *item in _items) {

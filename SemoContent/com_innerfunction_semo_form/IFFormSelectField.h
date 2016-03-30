@@ -22,7 +22,7 @@
 
 @end
 
-@interface IFFormSelectField : IFFormTextField <IFIOCConfigurable> {
+@interface IFFormSelectField : IFFormTextField <IFIOCContainerAware> {
     IFConfiguration *_itemsListConfig;
     IFFormSelectItemsViewController *_itemsList;
     UINavigationController *_itemsListContainer;
