@@ -87,20 +87,22 @@
         if ([item isKindOfClass:[NSString class]]) {
             [mitems addObject:@{ @"title": item, @"value": item }];
         }
-        if (item[@"title"]) {
-            if (item[@"value"]) {
-                [mitems addObject:item];
+        else if ([item isKindOfClass:[NSDictionary class]]) {
+            if (item[@"title"]) {
+                if (item[@"value"]) {
+                    [mitems addObject:item];
+                }
+                else {
+                    NSMutableDictionary *mitem = [item mutableCopy];
+                    mitem[@"value"] = mitem[@"title"];
+                    [mitems addObject:mitem];
+                }
             }
-            else {
+            else if (item[@"value"]) {
                 NSMutableDictionary *mitem = [item mutableCopy];
-                mitem[@"value"] = mitem[@"title"];
+                mitem[@"title"] = mitem[@"value"];
                 [mitems addObject:mitem];
             }
-        }
-        else if (item[@"value"]) {
-            NSMutableDictionary *mitem = [item mutableCopy];
-            mitem[@"title"] = mitem[@"value"];
-            [mitems addObject:mitem];
         }
     }
     _items = mitems;

@@ -55,18 +55,16 @@ static IFLogger *Logger;
         self.version = @0;
         self.tables = @{};
         self.resetDatabase = NO;
-        _initialData = [[NSMutableDictionary alloc] init];
+        _initialData = [NSMutableDictionary new];
     }
     return self;
 }
 
 - (id)initWithDB:(IFDB *)db {
     self = [super init];
-    if (self) {
-        self.name = db.name;
-        self.version = db.version;
-        self.tables = db.tables;
-    }
+    self.name = db.name;
+    self.version = db.version;
+    self.tables = db.tables;
     return self;
 }
 
@@ -87,24 +85,24 @@ static IFLogger *Logger;
 - (void)setTables:(NSDictionary *)tables {
     _tables = tables;
     // Build lookup of table column tags.
-    NSMutableDictionary *taggedTableColumns = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *taggedTableColumns = [NSMutableDictionary new];
     // Build lookup of table column names.
-    NSMutableDictionary *tableColumnNames = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *tableColumnNames = [NSMutableDictionary new];
     for (id tableName in [tables allKeys]) {
-        NSDictionary *tableSchema = [tables objectForKey:tableName];
-        NSMutableDictionary *columnTags = [[NSMutableDictionary alloc] init];
-        NSMutableSet *columnNames = [[NSMutableSet alloc] init];
-        NSDictionary *columns = [tableSchema objectForKey:@"columns"];
+        NSDictionary *tableSchema = tables[tableName];
+        NSMutableDictionary *columnTags = [NSMutableDictionary new];
+        NSMutableSet *columnNames = [NSMutableSet new];
+        NSDictionary *columns = tableSchema[@"columns"];
         for (id columnName in [columns allKeys]) {
-            NSDictionary *columnSchema = [columns objectForKey:columnName];
+            NSDictionary *columnSchema = columns[columnName];
             NSString *tag = [columnSchema getValueAsString:@"tag"];
             if (tag) {
-                [columnTags setObject:columnName forKey:tag];
+                columnTags[tag] = columnName;
             }
             [columnNames addObject:columnName];
         }
-        [taggedTableColumns setObject:columnTags forKey:tableName];
-        [tableColumnNames setObject:columnNames forKey:tableName];
+        taggedTableColumns[tableName] = columnTags;
+        tableColumnNames[tableName] = columnNames;
     }
     _taggedTableColumns = taggedTableColumns;
     _tableColumnNames = tableColumnNames;

@@ -20,6 +20,10 @@
     }
 }
 
+- (void)beforeIOCConfiguration:(IFConfiguration *)configuration {}
+
+- (void)afterIOCConfiguration:(IFConfiguration *)configuration {}
+
 - (NSString *)renderForMustacheTag:(GRMustacheTag *)tag context:(GRMustacheContext *)context HTMLSafe:(BOOL *)HTMLSafe error:(NSError *__autoreleasing *)error {
     NSString *result = @"";
     // Get the in-scope post ID.

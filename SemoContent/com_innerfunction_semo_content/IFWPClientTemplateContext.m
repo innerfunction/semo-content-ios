@@ -14,6 +14,8 @@
 
 @synthesize iocContainer = _container;
 
+#pragma mark - IFIOContainerAware protocol
+
 - (void)setIocContainer:(IFContainer *)iocContainer {
     _attachments = [[IFWPAttachmentsProxy alloc] init];
     _attachments.container = (IFWPContentContainer *)iocContainer;
@@ -26,6 +28,12 @@
     _posts.container = _attachments.container;
 }
 
+- (void)beforeIOCConfiguration:(IFConfiguration *)configuration {}
+
+- (void)afterIOCConfiguration:(IFConfiguration *)configuration {}
+
+#pragma mark - Instance methods
+
 - (id)templateContext {
     return @{
         @"attachment":  _attachments,
@@ -33,6 +41,7 @@
         @"ext":         _ext
     };
 }
+
 - (id)templateContextForPostData:(NSDictionary *)postData {
     // Create the template context by extending the basic post data with additional extensions.
     // Note that post values are available as top level names.

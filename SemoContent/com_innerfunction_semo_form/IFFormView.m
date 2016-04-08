@@ -305,4 +305,10 @@
     return [field.height floatValue];
 }
 
+#pragma mark - IFIOCContainerAware
+
+- (void)beforeIOCConfiguration:(IFConfiguration *)configuration {}
+
+- (void)afterIOCConfiguration:(IFConfiguration *)configuration {}
+
 @end
