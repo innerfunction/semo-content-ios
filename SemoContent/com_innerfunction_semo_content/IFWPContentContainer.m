@@ -9,6 +9,7 @@
 #import "IFWPContentContainer.h"
 #import "IFAppContainer.h"
 #import "IFSemoContent.h"
+#import "IFNamedScheme.h"
 #import "IFWPClientTemplateContext.h"
 #import "IFWPDataTableFormatter.h"
 #import "IFWPDataWebviewFormatter.h"
@@ -82,7 +83,7 @@ static IFLogger *Logger;
             },
             @"contentProtocol": @{
                 @"feedURL":                 @"$feedURL",
-                @"postDB":                  @"#postDB",
+                @"postDB":                  @"@named:postDB",
                 @"stagingPath":             @"$stagingPath",
                 @"packagedContentPath":     @"$packagedContentPath",
                 @"baseContentPath":         @"$baseContentPath",
@@ -396,14 +397,23 @@ static IFLogger *Logger;
         @"postFormats":         _postFormats
     };
     
-    // Generate the full container configuration.
-    IFConfiguration *componentConfig = [_configTemplate extendWithParameters:parameters];
     // TODO: There should be some standard method for doing the following, but need to consider what
     // the component configuration template pattern is exactly first.
-    componentConfig.uriHandler = configuration.uriHandler; // This necessary for relative URIs within the config to work.
-    componentConfig.root = self;
-    [self configureWith:componentConfig];
     
+    // Resolve a URI handler for the container's components, and add a modified named: scheme handler
+    // pointed at this container.
+    id<IFURIHandler> uriHandler = configuration.uriHandler;
+    IFNamedSchemeHandler *namedScheme = [[IFNamedSchemeHandler alloc] initWithContainer:self];
+    uriHandler = [uriHandler replaceURIScheme:@"named" withHandler:namedScheme];
+    
+    // Create the container's component configuration and setup to use the new URI handler
+    IFConfiguration *componentConfig = [_configTemplate extendWithParameters:parameters];
+    componentConfig.uriHandler = uriHandler; // This necessary for relative URIs within the config to work.
+    componentConfig.root = self;
+    
+    // Configure the container's components.
+    [self configureWith:componentConfig];
+
     // Configure the command scheduler.
     _commandScheduler.queueDBName = [NSString stringWithFormat:@"%@.scheduler", _postDBName];
     if (_contentProtocol) {
@@ -411,12 +421,6 @@ static IFLogger *Logger;
     }
     _commandScheduler.commands = @{ @"get": [[IFGetURLCommand alloc] initWithHTTPClient:_httpClient] };
 
-    
-    // Register the URI scheme handler.
-    if (_uriSchemeName && _uriScheme) {
-        // Need to use the config's URI handler for wp: schemes to work within the config.
-        [componentConfig.uriHandler addHandler:_uriScheme forScheme:_uriSchemeName];
-    }
 }
 
 #pragma mark - IFMessageReceiver

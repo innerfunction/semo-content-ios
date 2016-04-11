@@ -157,7 +157,7 @@
     // Iterate over items and update post database.
     [_postDB beginTransaction];
     for (NSDictionary *item in feedItems) {
-        [_postDB updateValues:item inTable:@"posts"];
+        [_postDB upsertValues:item intoTable:@"posts"];
     }
     // TODO: Option to delete trashed posts? e.g. delete all trashed posts over a certain age.
     [_postDB commitTransaction];

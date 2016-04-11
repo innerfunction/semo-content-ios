@@ -40,7 +40,7 @@
 @property (nonatomic, strong) NSString *baseContentPath;
 /** The location of downloaded post content once deployed. */
 @property (nonatomic, strong) NSString *contentPath;
-/** The scheme name the URI handler should be bound to; defaults to wp: */
+/** The scheme name the URI handler is bound to; defaults to wp: */
 @property (nonatomic, strong) NSString *uriSchemeName;
 /** The WP realm name. Used for authentication, defaults to 'semo'. */
 @property (nonatomic, strong) NSString *wpRealm;
