@@ -46,6 +46,9 @@
                     if ([@"children" isEqualToString:[pathComponents objectAtIndex:2]]) {
                         return [_contentContainer getPostChildren:postID withParams:params];
                     }
+                    if ([@"descendents" isEqualToString:[pathComponents objectAtIndex:2]]) {
+                        return [_contentContainer getPostDescendents:postID withParams:params];
+                    }
                     if ([@"filter" isEqualToString:[pathComponents objectAtIndex:1]]) {
                         return [_contentContainer queryPostsUsingFilter:[pathComponents objectAtIndex:2] params:params];
                     }

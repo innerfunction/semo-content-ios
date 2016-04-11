@@ -85,6 +85,8 @@
 - (NSString *)uriForPostWithID:(NSString *)postID;
 /** Return the child posts of a specified post. */
 - (id)getPostChildren:(NSString *)postID withParams:(NSDictionary *)params;
+/** Get all descendents of a post. Returns the posts children, grandchildren etc. */
+- (id)getPostDescendents:(NSString *)postID withParams:(NSDictionary *)params;
 /** Return data for a specified post. */
 - (id)getPost:(NSString *)postID withParams:(NSDictionary *)params;
 /** Query the post database using a predefined filter. */

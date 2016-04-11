@@ -259,6 +259,21 @@ static IFLogger *Logger;
     return result;
 }
 
+- (id)getPostDescendents:(NSString *)postID withParams:(NSDictionary *)params {
+    // NOTE This assumes that no closed loop exists in any extended parent-child hierarchy.
+    // In a normal WP setup this shouldn't happen, but if it does occur then it will cause
+    // a recursive loop in this code.
+    // TODO: Review what is happening here.
+    NSArray *result = @[];
+    NSArray *children = [self getPostChildren:postID withParams:params];
+    result = [result arrayByAddingObjectsFromArray:children];
+    for (NSDictionary *child in children) {
+        postID = child[@"id"];
+        result = [result arrayByAddingObjectsFromArray:[self getPostDescendents:postID withParams:params]];
+    }
+    return result;
+}
+
 - (id)getPost:(NSString *)postID withParams:(NSDictionary *)params {
     // Read the post data.
     NSDictionary *postData = [_postDB readRecordWithID:postID fromTable:@"posts"];
