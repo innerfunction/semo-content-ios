@@ -88,6 +88,7 @@
 		074CFC0C1C8873D30025F5A9 /* SSKeychainQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 074CFBDB1C8873D30025F5A9 /* SSKeychainQuery.m */; };
 		074CFC1D1C8875D90025F5A9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 074CFC1C1C8875D90025F5A9 /* Foundation.framework */; };
 		074CFC1F1C8875DF0025F5A9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 074CFC1E1C8875DF0025F5A9 /* UIKit.framework */; };
+		078BBBD51CBD13B500E4DE02 /* IFHTMLString.m in Sources */ = {isa = PBXBuildFile; fileRef = 078BBBD41CBD13B500E4DE02 /* IFHTMLString.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -321,6 +322,8 @@
 		074CFC221C8875F20025F5A9 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		0777BB2F1C88B94F008440BB /* Q.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Q.xcodeproj; path = "../../Q-ios/Q/Q.xcodeproj"; sourceTree = "<group>"; };
 		0777BB381C88B958008440BB /* SemoCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SemoCore.xcodeproj; path = "../../semo-core-ios/SemoCore/SemoCore.xcodeproj"; sourceTree = "<group>"; };
+		078BBBD31CBD13B500E4DE02 /* IFHTMLString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFHTMLString.h; sourceTree = "<group>"; };
+		078BBBD41CBD13B500E4DE02 /* IFHTMLString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFHTMLString.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -412,6 +415,8 @@
 				074CFB0D1C8873AE0025F5A9 /* IFWPSchemeHandler.h */,
 				074CFB0E1C8873AE0025F5A9 /* IFWPSchemeHandler.m */,
 				074CFB0F1C8873AE0025F5A9 /* SemoContent.h */,
+				078BBBD31CBD13B500E4DE02 /* IFHTMLString.h */,
+				078BBBD41CBD13B500E4DE02 /* IFHTMLString.m */,
 			);
 			path = com_innerfunction_semo_content;
 			sourceTree = "<group>";
@@ -911,6 +916,7 @@
 				074CFBFF1C8873D30025F5A9 /* GRMustacheError.m in Sources */,
 				074CFB3D1C8873AE0025F5A9 /* IFWPDataWebviewFormatter.m in Sources */,
 				074CFBEF1C8873D30025F5A9 /* GRMustacheContext.m in Sources */,
+				078BBBD51CBD13B500E4DE02 /* IFHTMLString.m in Sources */,
 				074CFBE61C8873D30025F5A9 /* GRMustacheTag.m in Sources */,
 				074CFBE81C8873D30025F5A9 /* GRMustacheTextNode.m in Sources */,
 				074CFBED1C8873D30025F5A9 /* GRMustacheTemplateParser.m in Sources */,

@@ -8,6 +8,7 @@
 
 #import "IFContentTableViewController.h"
 #import "IFStringTemplate.h"
+#import "IFHTMLString.h"
 #import "NSDictionary+IFValues.h"
 
 @interface IFContentTableViewController ()
@@ -130,7 +131,7 @@
     BOOL contentMode = [@"content" isEqualToString:reuseIdentifier];
     style = contentMode ? UITableViewCellStyleSubtitle : UITableViewCellStyleDefault;
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    self.imageView.hidden = contentMode;
+    //self.imageView.hidden = contentMode;
     self.detailTextLabel.numberOfLines = 0;
     return self;
 }
@@ -148,8 +149,10 @@
 }
 
 - (void)setContent:(NSString *)content {
-    NSAttributedString *asContent = [[NSAttributedString alloc] initWithString:content attributes:@{}];
-    self.detailTextLabel.attributedText = asContent;
+    IFHTMLString *html = [[IFHTMLString alloc] initWithString:content];
+    html.inlineParagraphs = YES;
+    [html parse];
+    self.detailTextLabel.attributedText = [html asAttributedString];
 }
 
 - (CGFloat)height {
