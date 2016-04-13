@@ -12,7 +12,7 @@
 #define Padding             (10.0f)
 #define AnimationDuration   (0.33f)
 #define InvalidWarningWidth (25.0f)
-#define HasValue            ([self.value length] > 0)
+#define HasValue            ([self.valueLabel length] > 0)
 
 @implementation IFFormTextField
 
@@ -90,20 +90,20 @@
         value = [value description];
     }
     super.value = value;
-    NSString *valueLabel = value;
+    self.valueLabel = value;
     // Mark value if field is a password input.
     if (_isPassword) {
         NSMutableString *password = [[NSMutableString alloc] initWithCapacity:[value length]];
         for (NSInteger i = 0; i < [value length]; i++) {
             [password appendString:@"\u25CF"];
         }
-        valueLabel = password;
+        self.valueLabel = password;
     }
     // Display the value.
     dispatch_async(dispatch_get_main_queue(), ^{
         _input.text = value;
         self.textLabel.textAlignment = HasValue ? NSTextAlignmentLeft : _defaultTitleAlignment;
-        self.detailTextLabel.text = valueLabel;
+        self.detailTextLabel.text = self.valueLabel;
         // Check whether sufficient room to display both detail and text labels, hide the text label if not.
         CGFloat textWidth = [self.textLabel.text sizeWithAttributes:@{ NSFontAttributeName: self.textLabel.font }].width;
         CGFloat labelWidth = [self.detailTextLabel.text sizeWithAttributes:@{ NSFontAttributeName: self.detailTextLabel.font }].width;

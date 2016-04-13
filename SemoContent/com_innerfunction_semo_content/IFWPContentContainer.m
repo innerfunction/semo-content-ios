@@ -63,6 +63,7 @@ static IFLogger *Logger;
                 @"version":                 @1,
                 @"resetDatabase":           @"$resetPostDB",
                 @"tables": @{
+                    // Table of wordpress posts.
                     @"posts": @{
                         @"columns": @{
                             @"id":          @{ @"type": @"INTEGER", @"tag": @"id" },    // Post ID
@@ -77,6 +78,14 @@ static IFLogger *Logger;
                             @"filename":    @{ @"type": @"TEXT" },      // Name of associated media file (i.e. for attachments)
                             @"parent":      @{ @"type": @"INTEGER" },   // ID of parent page/post.
                             @"menu_order":  @{ @"type": @"INTEGER" }    // Sort order; mapped to post.menu_order.
+                        }
+                    },
+                    // Table of parent/child post closures. Used to efficiently map descendent post relationships.
+                    @"closures": @{
+                        @"columns": @{
+                            @"parent":      @{ @"type": @"INTEGER" },
+                            @"child":       @{ @"type": @"INTEGER" },
+                            @"depth":       @{ @"type": @"INTEGER" }
                         }
                     }
                 }
@@ -112,7 +121,7 @@ static IFLogger *Logger;
         //       currently uses the same named database. (Perhaps this isn't a problem? just needs proper
         //       management).
         _commandScheduler = [[IFCommandScheduler alloc] init];
-        _commandScheduler.deleteExecutedQueueRecords = NO; // DEBUG setting.
+        //_commandScheduler.deleteExecutedQueueRecords = NO; // DEBUG setting.
         // Command scheduler is manually instantiated, so has to be manually added to the services list.
         // TODO: This is another aspect that needs to be considered when formalizing the configuration
         //       template pattern used by this container.
@@ -250,11 +259,15 @@ static IFLogger *Logger;
     filter.filters = [params extendWith:@{ @"parent": postID }];
     filter.orderBy = @"menu_order";
     // Query the database.
-    NSArray *childPosts = [filter applyTo:_postDB withParameters:@{}];
+    NSArray *result = [filter applyTo:_postDB withParameters:@{}];
     // Render content for each child post.
-    NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:[childPosts count]];
-    for (NSDictionary *post in childPosts) {
-        [result addObject:[self renderPostContent:post]];
+    BOOL renderContent = [@"true" isEqualToString:params[@"content"]];
+    if (renderContent) {
+        NSMutableArray *posts = [NSMutableArray new];
+        for (NSDictionary *row in result) {
+            [posts addObject:[self renderPostContent:row]];
+        }
+        result = posts;
     }
     return result;
 }
@@ -264,12 +277,27 @@ static IFLogger *Logger;
     // In a normal WP setup this shouldn't happen, but if it does occur then it will cause
     // a recursive loop in this code.
     // TODO: Review what is happening here.
+    /*
     NSArray *result = @[];
     NSArray *children = [self getPostChildren:postID withParams:params];
     result = [result arrayByAddingObjectsFromArray:children];
     for (NSDictionary *child in children) {
         postID = child[@"id"];
         result = [result arrayByAddingObjectsFromArray:[self getPostDescendents:postID withParams:params]];
+    }
+    */
+    NSArray *result = [_postDB performQuery:@"SELECT posts.* \
+                       FROM posts, closures \
+                       WHERE closures.parent=? AND closures.child=posts.id AND depth > 0 \
+                       ORDER BY depth, parent, menu_order"
+                                 withParams:@[ postID ]];
+    BOOL renderContent = [@"true" isEqualToString:params[@"content"]];
+    if (renderContent) {
+        NSMutableArray *posts = [NSMutableArray new];
+        for (NSDictionary *row in result) {
+            [posts addObject:[self renderPostContent:row]];
+        }
+        result = posts;
     }
     return result;
 }
@@ -316,8 +344,9 @@ static IFLogger *Logger;
     return postData;
 }
 
-- (id)searchPostsForText:(NSString *)text searchMode:(NSString *)searchMode postTypes:(NSArray *)postTypes {
+- (id)searchPostsForText:(NSString *)text searchMode:(NSString *)searchMode postTypes:(NSArray *)postTypes parentPost:(NSString *)parentID {
     id postData = nil;
+    NSString *tables = @"posts";
     NSString *where;
     NSMutableArray *params = [NSMutableArray new];
     text = [NSString stringWithFormat:@"%%%@%%", text];
@@ -351,7 +380,13 @@ static IFLogger *Logger;
             where = [NSString stringWithFormat:@"(%@) AND type IN ('%@')", where, [postTypes componentsJoinedByString:@"','"]];
         }
     }
-    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM posts WHERE %@ LIMIT %ld", where, _searchResultLimit];
+    if (parentID) {
+        // If a parent post ID is specified then add a join to, and filter on, the closures table.
+        tables = [tables stringByAppendingString:@", closures"];
+        where = [NSString stringWithFormat:@"%@ AND closures.parent=? AND closures.child=posts.id", where];
+        [params addObject:parentID];
+    }
+    NSString *sql = [NSString stringWithFormat:@"SELECT posts.* FROM %@ WHERE %@ LIMIT %ld", tables, where, _searchResultLimit];
     postData = [_postDB performQuery:sql withParams:params];
     // TODO: Filters?
     id<IFDataFormatter> formatter = [_listFormats objectForKey:@"search"];

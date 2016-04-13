@@ -91,8 +91,12 @@
 - (id)getPost:(NSString *)postID withParams:(NSDictionary *)params;
 /** Query the post database using a predefined filter. */
 - (id)queryPostsUsingFilter:(NSString *)filterName params:(NSDictionary *)params;
-/** Search the post database for the specified text in the specified post types. */
-- (id)searchPostsForText:(NSString *)text searchMode:(NSString *)searchMode postTypes:(NSArray *)postTypes;
+/**
+ * Search the post database for the specified text in the specified post types with an optional parent post.
+ * When the parent post ID is specified, the search will be confined to that post and any of its descendents
+ * (i.e. children, grand-children etc.).
+ */
+- (id)searchPostsForText:(NSString *)text searchMode:(NSString *)searchMode postTypes:(NSArray *)postTypes parentPost:(NSString *)parentID;
 /** Render a post's content by evaluating template reference's within the content field. */
 - (NSDictionary *)renderPostContent:(NSDictionary *)postData;
 /** Show the login form. */

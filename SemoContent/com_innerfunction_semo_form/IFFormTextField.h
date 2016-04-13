@@ -20,5 +20,6 @@
 @property (nonatomic, assign) BOOL isRequired;
 @property (nonatomic, strong) NSString *hasSameValueAs;
 @property (nonatomic, readonly) UITextField *input;
+@property (nonatomic, strong) NSString *valueLabel;
 
 @end

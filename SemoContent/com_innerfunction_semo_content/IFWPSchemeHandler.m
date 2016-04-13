@@ -64,7 +64,11 @@
             if (types) {
                 postTypes = [types componentsSeparatedByString:@","];
             }
-            return [_contentContainer searchPostsForText:text searchMode:mode postTypes:postTypes];
+            NSString *parent = [params objectForKey:@"parent"];
+            return [_contentContainer searchPostsForText:text
+                                              searchMode:mode
+                                               postTypes:postTypes
+                                              parentPost:parent];
         }
     }
     return nil;

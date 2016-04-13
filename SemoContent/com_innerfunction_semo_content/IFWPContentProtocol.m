@@ -147,6 +147,7 @@
     // Parse arguments. Allow the feed file path to be optionally specified as a command argument.
     NSDictionary *_args = [self parseArgArray:args argOrder:@[] defaults:@{ @"feedFile": _feedFile }];
     NSString *feedFile = _args[@"feedFile"];
+    NSDate *startTime = [NSDate date];
     // List of generated commands.
     NSMutableArray *commands = [NSMutableArray new];
     // Read result of previous get.
@@ -158,6 +159,7 @@
     [_postDB beginTransaction];
     for (NSDictionary *item in feedItems) {
         [_postDB upsertValues:item intoTable:@"posts"];
+        updateClosureTableForPost(_postDB, item);
     }
     // TODO: Option to delete trashed posts? e.g. delete all trashed posts over a certain age.
     [_postDB commitTransaction];
@@ -170,6 +172,8 @@
         @"name":  @"rm",
         @"args":  @[ feedFile ]
     }];
+    NSDate *endTime = [NSDate date];
+    NSLog(@"Content deploy took %f s", [endTime timeIntervalSinceNow] - [startTime timeIntervalSinceNow]);
     // Check whether this is a multi-page feed response, and whether a follow up refresh request needs to
     // be scheduled.
     NSInteger pageCount = [[feedData getValueAsNumber:@"page.pageCount"] integerValue];
@@ -197,6 +201,7 @@
         packagedContentPath = _packagedContentPath;
     }
     if (packagedContentPath) {
+        NSDate *startTime = [NSDate date];
         NSString *feedFile = [packagedContentPath stringByAppendingPathComponent:@"feed.json"];
         NSString *baseContentFile = [packagedContentPath stringByAppendingPathComponent:@"base-content.zip"];
         // Read initial posts data from packaged feed file.
@@ -205,8 +210,11 @@
             // Iterate over items and update post database.
             [_postDB beginTransaction];
             [_postDB upsertValueList:feedItems intoTable:@"posts"];
+            rebuildClosureTable(_postDB, feedItems);
             [_postDB commitTransaction];
         }
+        NSDate *endTime = [NSDate date];
+        NSLog(@"Content unpack took %f s", [endTime timeIntervalSinceNow] - [startTime timeIntervalSinceNow]);
         // Schedule command to unzip base content if the base content zip exists.
         if ([[NSFileManager defaultManager] fileExistsAtPath:baseContentFile]) {
             NSDictionary *unzipCommand = @{
@@ -217,6 +225,33 @@
         }
     }
     return [Q resolve:commands];
+}
+
+void updateClosureTableForPost(IFDB *postDB, NSDictionary *post) {
+    [postDB performUpdate:@"DELETE FROM closures WHERE child=?"
+               withParams:@[ post[@"id"] ] ];
+    insertClosureEntriesForPost(postDB, post);
+}
+
+void insertClosureEntriesForPost(IFDB *postDB, NSDictionary *post) {
+    id parent = post[@"parent"];
+    id postid = post[@"id"];
+    [postDB insertValues:@{ @"parent": postid, @"child": postid, @"depth": @0 }
+               intoTable:@"closures"];
+    if (parent && ![@0 isEqual:parent]) {
+        [postDB performUpdate:@"INSERT INTO closures (parent, child, depth) \
+         SELECT p.parent, c.child, p.depth + c.depth + 1 \
+         FROM closures p, closures c \
+         WHERE p.child=? AND c.parent=?"
+                   withParams:@[ parent, postid ]];
+    }
+}
+
+void rebuildClosureTable(IFDB *postDB, NSArray *posts) {
+    [postDB deleteFromTable:@"closures" where:@"1 = 1"];
+    for (NSDictionary *post in posts) {
+        insertClosureEntriesForPost(postDB, post);
+    }
 }
 
 @end

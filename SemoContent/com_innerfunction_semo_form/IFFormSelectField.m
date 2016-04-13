@@ -46,7 +46,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSDictionary *item = [self.tableData rowDataForIndexPath:indexPath];
-    _parentField.value = item[@"value"];
+    _parentField.selectedItem = item;
     [_parentField releaseFieldFocus];
 }
 
@@ -106,6 +106,31 @@
         }
     }
     _items = mitems;
+    // Reset the null item to add it to the start of the new items array.
+    self.nullItem = _nullItem;
+    
+}
+
+- (void)setNullItem:(id)nullItem {
+    if ([nullItem isKindOfClass:[NSString class]]) {
+        _nullItem = @{ @"title": nullItem };
+    }
+    else if ([nullItem isKindOfClass:[NSDictionary class]]) {
+        _nullItem = nullItem;
+    }
+    if (_items && _nullItem) {
+        // Prepend the null item to the start of the items array.
+        _items = [@[ nullItem ] arrayByAddingObjectsFromArray:_items];
+    }
+}
+
+- (void)setSelectedItem:(NSDictionary *)selectedItem {
+    _selectedItem = selectedItem;
+    super.value = selectedItem[@"value"];
+}
+
+- (id)valueLabel {
+    return _selectedItem ? _selectedItem[@"title"] : @"";
 }
 
 - (BOOL)isSelectable {
@@ -115,7 +140,10 @@
 - (BOOL)takeFieldFocus {
     // Try to find index of selected list item.
     NSInteger selectedIndex = -1;
-    for (NSInteger i = 0; i < [_items count]; i++) {
+    if (self.value == nil && self.nullItem) {
+        selectedIndex = 0;
+    }
+    else for (NSInteger i = 0; i < [_items count]; i++) {
         id item = [_items objectAtIndex:i];
         if ([item[@"value"] isEqual:self.value]) {
             selectedIndex = i;
@@ -133,7 +161,9 @@
     _itemsListContainer = [[UINavigationController alloc] initWithRootViewController:_itemsList];
     _itemsListContainer.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     _itemsListContainer.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    
     [self.form.viewController presentViewController:_itemsListContainer animated:YES completion:^{}];
+    
     return YES;
 }
 
@@ -145,17 +175,21 @@
     }
 }
 
+- (BOOL)validate {
+    return YES;
+}
+
 #pragma mark - IFIOCContainerAware
 
 - (void)beforeIOCConfiguration:(IFConfiguration *)configuration {}
 
 - (void)afterIOCConfiguration:(IFConfiguration *)configuration {
+    self.selectedItem = self.nullItem;
     // Check for default/initial value, set the field title accordingly.
     if (self.value == nil) {
         for (NSDictionary *item in _items) {
             if (item[@"defaultValue"]) {
-                self.title = item[@"title"];
-                self.value = item[@"value"];
+                self.selectedItem = item;
                 break;
             }
         }
@@ -163,7 +197,7 @@
     else {
         for (NSDictionary *item in _items) {
             if ([item[@"value"] isEqualToString:self.value]) {
-                self.title = item[@"title"];
+                self.selectedItem = item;
                 break;
             }
         }

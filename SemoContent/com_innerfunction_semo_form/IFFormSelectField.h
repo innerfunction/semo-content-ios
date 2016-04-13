@@ -29,5 +29,7 @@
 }
 
 @property (nonatomic, strong) NSArray *items;
+@property (nonatomic, strong) id nullItem;
+@property (nonatomic, assign) NSDictionary *selectedItem;
 
 @end
