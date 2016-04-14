@@ -30,7 +30,7 @@
     NSString *postID = [context valueForMustacheKey:@"id"];
     if (postID) {
         // Read the list of child posts.
-        NSArray *childPosts = [_contentContainer getPostChildren:postID withParams:@{}];
+        NSArray *childPosts = [_contentContainer getPostChildren:postID withParams:@{} renderContent:YES];
         // Iterate and render each child post.
         for (id childPost in childPosts) {
             GRMustacheContext *childContext = [context contextByAddingObject:childPost];

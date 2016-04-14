@@ -102,7 +102,6 @@
 
 @implementation IFWPPostsProxy
 
-//- (id)valueForKey:(NSString *)key {
 - (id)objectForKeyedSubscript:(NSString *)key {
     NSDictionary *post = [_postDB readRecordWithID:key fromTable:@"posts"];
     NSString *location = post[@"location"];

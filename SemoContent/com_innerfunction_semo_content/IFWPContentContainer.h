@@ -83,8 +83,10 @@
 - (void)getContentFromURL:(NSString *)url writeToFilename:(NSString *)filename;
 /** Generate a URI to reference the post with the specified ID. */
 - (NSString *)uriForPostWithID:(NSString *)postID;
-/** Return the child posts of a specified post. */
+/** Return the child posts of a specified post. Doesn't render the post content. */
 - (id)getPostChildren:(NSString *)postID withParams:(NSDictionary *)params;
+/** Return the child posts of a specified post. Optionally renders the post content. */
+- (id)getPostChildren:(NSString *)postID withParams:(NSDictionary *)params renderContent:(BOOL)renderContent;
 /** Get all descendents of a post. Returns the posts children, grandchildren etc. */
 - (id)getPostDescendents:(NSString *)postID withParams:(NSDictionary *)params;
 /** Return data for a specified post. */

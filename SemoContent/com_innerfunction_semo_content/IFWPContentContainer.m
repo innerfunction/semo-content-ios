@@ -254,6 +254,10 @@ static IFLogger *Logger;
 }
 
 - (id)getPostChildren:(NSString *)postID withParams:(NSDictionary *)params {
+    return [self getPostChildren:postID withParams:params renderContent:NO];
+}
+
+- (id)getPostChildren:(NSString *)postID withParams:(NSDictionary *)params renderContent:(BOOL)renderContent {
     IFDBFilter *filter = [[IFDBFilter alloc] init];
     filter.table = @"posts";
     filter.filters = [params extendWith:@{ @"parent": postID }];
@@ -261,7 +265,6 @@ static IFLogger *Logger;
     // Query the database.
     NSArray *result = [filter applyTo:_postDB withParameters:@{}];
     // Render content for each child post.
-    BOOL renderContent = [@"true" isEqualToString:params[@"content"]];
     if (renderContent) {
         NSMutableArray *posts = [NSMutableArray new];
         for (NSDictionary *row in result) {
@@ -273,19 +276,6 @@ static IFLogger *Logger;
 }
 
 - (id)getPostDescendents:(NSString *)postID withParams:(NSDictionary *)params {
-    // NOTE This assumes that no closed loop exists in any extended parent-child hierarchy.
-    // In a normal WP setup this shouldn't happen, but if it does occur then it will cause
-    // a recursive loop in this code.
-    // TODO: Review what is happening here.
-    /*
-    NSArray *result = @[];
-    NSArray *children = [self getPostChildren:postID withParams:params];
-    result = [result arrayByAddingObjectsFromArray:children];
-    for (NSDictionary *child in children) {
-        postID = child[@"id"];
-        result = [result arrayByAddingObjectsFromArray:[self getPostDescendents:postID withParams:params]];
-    }
-    */
     NSArray *result = [_postDB performQuery:@"SELECT posts.* \
                        FROM posts, closures \
                        WHERE closures.parent=? AND closures.child=posts.id AND depth > 0 \
