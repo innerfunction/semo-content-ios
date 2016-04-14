@@ -8,6 +8,7 @@
 
 #import "IFFormTextField.h"
 #import "IFTableViewController.h"
+#import "IFIOCTypeInspectable.h"
 
 @class IFFormSelectField;
 
@@ -22,7 +23,7 @@
 
 @end
 
-@interface IFFormSelectField : IFFormTextField <IFIOCContainerAware> {
+@interface IFFormSelectField : IFFormTextField <IFIOCContainerAware, IFIOCTypeInspectable> {
     IFConfiguration *_itemsListConfig;
     IFFormSelectItemsViewController *_itemsList;
     UINavigationController *_itemsListContainer;

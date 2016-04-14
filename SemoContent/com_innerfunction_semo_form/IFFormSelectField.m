@@ -118,9 +118,14 @@
     else if ([nullItem isKindOfClass:[NSDictionary class]]) {
         _nullItem = nullItem;
     }
-    if (_items && _nullItem) {
-        // Prepend the null item to the start of the items array.
-        _items = [@[ nullItem ] arrayByAddingObjectsFromArray:_items];
+    if (_nullItem) {
+        if (_items) {
+            // Prepend the null item to the start of the items array.
+            _items = [@[ _nullItem ] arrayByAddingObjectsFromArray:_items];
+        }
+        else {
+            _items = @[ _nullItem ];
+        }
     }
 }
 
@@ -202,6 +207,19 @@
             }
         }
     }
+}
+
+#pragma mark - IFIOCTypeInspectable
+
+- (BOOL)isDataCollection:(NSString *)propertyName {
+    if ([@"items" isEqualToString:propertyName]) {
+        return YES;
+    }
+    return NO;
+}
+
+- (Class)memberClassForCollection:(NSString *)propertyName {
+    return nil;
 }
 
 @end

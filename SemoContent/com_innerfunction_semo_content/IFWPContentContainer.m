@@ -380,7 +380,7 @@ static IFLogger *Logger;
             where = [NSString stringWithFormat:@"(%@) AND type IN ('%@')", where, [postTypes componentsJoinedByString:@"','"]];
         }
     }
-    if (parentID) {
+    if ([parentID length] > 0) {
         // If a parent post ID is specified then add a join to, and filter on, the closures table.
         tables = [tables stringByAppendingString:@", closures"];
         where = [NSString stringWithFormat:@"%@ AND closures.parent=? AND closures.child=posts.id", where];
