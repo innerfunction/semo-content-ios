@@ -6,11 +6,11 @@
 //  Copyright © 2015 InnerFunction. All rights reserved.
 //
 
-#import "IFProtocol.h"
+#import "IFCommandProtocol.h"
 #import "NSDictionary+IF.h"
 #import "NSString+IF.h"
 
-@implementation IFProtocol
+@implementation IFCommandProtocol
 
 - (id)init {
     self = [super init];
@@ -24,7 +24,7 @@
     return [_commands allKeys];
 }
 
-- (void)addCommand:(NSString *)name withBlock:(IFProtocolCommandBlock)block {
+- (void)addCommand:(NSString *)name withBlock:(IFCommandProtocolBlock)block {
     _commands = [_commands dictionaryWithAddedObject:block forKey:name];
 }
 
@@ -79,7 +79,7 @@
     _commandPrefix = [nameParts objectAtIndex:0];
     NSString *commandName = [nameParts objectAtIndex:1];
     // Find a handler block for the named command.
-    IFProtocolCommandBlock block = [_commands objectForKey:commandName];
+    IFCommandProtocolBlock block = [_commands objectForKey:commandName];
     if (block) {
         return block( args );
     }

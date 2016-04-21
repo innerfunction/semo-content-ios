@@ -81,6 +81,7 @@ static IFLogger *Logger;
                         }
                     },
                     // Table of parent/child post closures. Used to efficiently map descendent post relationships.
+                    // See http://dirtsimple.org/2010/11/simplest-way-to-do-tree-based-queries.html for a simple description.
                     @"closures": @{
                         @"columns": @{
                             @"parent":      @{ @"type": @"INTEGER" },

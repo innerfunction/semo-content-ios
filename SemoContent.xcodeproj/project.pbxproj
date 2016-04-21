@@ -10,7 +10,7 @@
 		074C3DCA1C945F79009BBEEF /* IFWPLicenceBehaviour.m in Sources */ = {isa = PBXBuildFile; fileRef = 074C3DC91C945F79009BBEEF /* IFWPLicenceBehaviour.m */; };
 		074CFB2F1C8873AE0025F5A9 /* IFCommandScheduler.m in Sources */ = {isa = PBXBuildFile; fileRef = 074CFAED1C8873AE0025F5A9 /* IFCommandScheduler.m */; };
 		074CFB301C8873AE0025F5A9 /* IFMvFileCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 074CFAEF1C8873AE0025F5A9 /* IFMvFileCommand.m */; };
-		074CFB311C8873AE0025F5A9 /* IFProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 074CFAF11C8873AE0025F5A9 /* IFProtocol.m */; };
+		074CFB311C8873AE0025F5A9 /* IFCommandProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 074CFAF11C8873AE0025F5A9 /* IFCommandProtocol.m */; };
 		074CFB321C8873AE0025F5A9 /* IFRmFileCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 074CFAF31C8873AE0025F5A9 /* IFRmFileCommand.m */; };
 		074CFB331C8873AE0025F5A9 /* IFUnzipCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 074CFAF51C8873AE0025F5A9 /* IFUnzipCommand.m */; };
 		074CFB341C8873AE0025F5A9 /* IFGetURLCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 074CFAF91C8873AE0025F5A9 /* IFGetURLCommand.m */; };
@@ -20,7 +20,7 @@
 		074CFB381C8873AE0025F5A9 /* IFWPClientTemplateContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 074CFB021C8873AE0025F5A9 /* IFWPClientTemplateContext.m */; };
 		074CFB391C8873AE0025F5A9 /* IFWPContentContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 074CFB041C8873AE0025F5A9 /* IFWPContentContainer.m */; };
 		074CFB3A1C8873AE0025F5A9 /* IFWPContentContainerFormFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 074CFB061C8873AE0025F5A9 /* IFWPContentContainerFormFactory.m */; };
-		074CFB3B1C8873AE0025F5A9 /* IFWPContentProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 074CFB081C8873AE0025F5A9 /* IFWPContentProtocol.m */; };
+		074CFB3B1C8873AE0025F5A9 /* IFWPContentCommandProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 074CFB081C8873AE0025F5A9 /* IFWPContentCommandProtocol.m */; };
 		074CFB3C1C8873AE0025F5A9 /* IFWPDataTableFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 074CFB0A1C8873AE0025F5A9 /* IFWPDataTableFormatter.m */; };
 		074CFB3D1C8873AE0025F5A9 /* IFWPDataWebviewFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 074CFB0C1C8873AE0025F5A9 /* IFWPDataWebviewFormatter.m */; };
 		074CFB3E1C8873AE0025F5A9 /* IFWPSchemeHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 074CFB0E1C8873AE0025F5A9 /* IFWPSchemeHandler.m */; };
@@ -136,8 +136,8 @@
 		074CFAED1C8873AE0025F5A9 /* IFCommandScheduler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFCommandScheduler.m; sourceTree = "<group>"; };
 		074CFAEE1C8873AE0025F5A9 /* IFMvFileCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFMvFileCommand.h; sourceTree = "<group>"; };
 		074CFAEF1C8873AE0025F5A9 /* IFMvFileCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFMvFileCommand.m; sourceTree = "<group>"; };
-		074CFAF01C8873AE0025F5A9 /* IFProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFProtocol.h; sourceTree = "<group>"; };
-		074CFAF11C8873AE0025F5A9 /* IFProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFProtocol.m; sourceTree = "<group>"; };
+		074CFAF01C8873AE0025F5A9 /* IFCommandProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFCommandProtocol.h; sourceTree = "<group>"; };
+		074CFAF11C8873AE0025F5A9 /* IFCommandProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFCommandProtocol.m; sourceTree = "<group>"; };
 		074CFAF21C8873AE0025F5A9 /* IFRmFileCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFRmFileCommand.h; sourceTree = "<group>"; };
 		074CFAF31C8873AE0025F5A9 /* IFRmFileCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFRmFileCommand.m; sourceTree = "<group>"; };
 		074CFAF41C8873AE0025F5A9 /* IFUnzipCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFUnzipCommand.h; sourceTree = "<group>"; };
@@ -158,8 +158,8 @@
 		074CFB041C8873AE0025F5A9 /* IFWPContentContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFWPContentContainer.m; sourceTree = "<group>"; };
 		074CFB051C8873AE0025F5A9 /* IFWPContentContainerFormFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFWPContentContainerFormFactory.h; sourceTree = "<group>"; };
 		074CFB061C8873AE0025F5A9 /* IFWPContentContainerFormFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFWPContentContainerFormFactory.m; sourceTree = "<group>"; };
-		074CFB071C8873AE0025F5A9 /* IFWPContentProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFWPContentProtocol.h; sourceTree = "<group>"; };
-		074CFB081C8873AE0025F5A9 /* IFWPContentProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFWPContentProtocol.m; sourceTree = "<group>"; };
+		074CFB071C8873AE0025F5A9 /* IFWPContentCommandProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFWPContentCommandProtocol.h; sourceTree = "<group>"; };
+		074CFB081C8873AE0025F5A9 /* IFWPContentCommandProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFWPContentCommandProtocol.m; sourceTree = "<group>"; };
 		074CFB091C8873AE0025F5A9 /* IFWPDataTableFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFWPDataTableFormatter.h; sourceTree = "<group>"; };
 		074CFB0A1C8873AE0025F5A9 /* IFWPDataTableFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFWPDataTableFormatter.m; sourceTree = "<group>"; };
 		074CFB0B1C8873AE0025F5A9 /* IFWPDataWebviewFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFWPDataWebviewFormatter.h; sourceTree = "<group>"; };
@@ -377,8 +377,8 @@
 				074CFAED1C8873AE0025F5A9 /* IFCommandScheduler.m */,
 				074CFAEE1C8873AE0025F5A9 /* IFMvFileCommand.h */,
 				074CFAEF1C8873AE0025F5A9 /* IFMvFileCommand.m */,
-				074CFAF01C8873AE0025F5A9 /* IFProtocol.h */,
-				074CFAF11C8873AE0025F5A9 /* IFProtocol.m */,
+				074CFAF01C8873AE0025F5A9 /* IFCommandProtocol.h */,
+				074CFAF11C8873AE0025F5A9 /* IFCommandProtocol.m */,
 				074CFAF21C8873AE0025F5A9 /* IFRmFileCommand.h */,
 				074CFAF31C8873AE0025F5A9 /* IFRmFileCommand.m */,
 				074CFAF41C8873AE0025F5A9 /* IFUnzipCommand.h */,
@@ -406,8 +406,8 @@
 				074CFB041C8873AE0025F5A9 /* IFWPContentContainer.m */,
 				074CFB051C8873AE0025F5A9 /* IFWPContentContainerFormFactory.h */,
 				074CFB061C8873AE0025F5A9 /* IFWPContentContainerFormFactory.m */,
-				074CFB071C8873AE0025F5A9 /* IFWPContentProtocol.h */,
-				074CFB081C8873AE0025F5A9 /* IFWPContentProtocol.m */,
+				074CFB071C8873AE0025F5A9 /* IFWPContentCommandProtocol.h */,
+				074CFB081C8873AE0025F5A9 /* IFWPContentCommandProtocol.m */,
 				074CFB091C8873AE0025F5A9 /* IFWPDataTableFormatter.h */,
 				074CFB0A1C8873AE0025F5A9 /* IFWPDataTableFormatter.m */,
 				074CFB0B1C8873AE0025F5A9 /* IFWPDataWebviewFormatter.h */,
@@ -872,7 +872,7 @@
 				074CFC0B1C8873D30025F5A9 /* SSKeychain.m in Sources */,
 				074CFB3C1C8873AE0025F5A9 /* IFWPDataTableFormatter.m in Sources */,
 				074CFB411C8873AE0025F5A9 /* IFDBFilter.m in Sources */,
-				074CFB3B1C8873AE0025F5A9 /* IFWPContentProtocol.m in Sources */,
+				074CFB3B1C8873AE0025F5A9 /* IFWPContentCommandProtocol.m in Sources */,
 				074CFB381C8873AE0025F5A9 /* IFWPClientTemplateContext.m in Sources */,
 				074CFBE31C8873D30025F5A9 /* GRMustacheInheritableSectionNode.m in Sources */,
 				074CFB2F1C8873AE0025F5A9 /* IFCommandScheduler.m in Sources */,
@@ -922,7 +922,7 @@
 				074CFBED1C8873D30025F5A9 /* GRMustacheTemplateParser.m in Sources */,
 				074CFBE91C8873D30025F5A9 /* GRMustacheVariableTag.m in Sources */,
 				074CFB371C8873AE0025F5A9 /* IFWPChildPostRendering.m in Sources */,
-				074CFB311C8873AE0025F5A9 /* IFProtocol.m in Sources */,
+				074CFB311C8873AE0025F5A9 /* IFCommandProtocol.m in Sources */,
 				074CFBFC1C8873D30025F5A9 /* GRMustacheLocalizer.m in Sources */,
 				074CFC021C8873D30025F5A9 /* GRMustacheTemplateRepository.m in Sources */,
 				074CFBEC1C8873D30025F5A9 /* GRMustacheExpressionParser.m in Sources */,

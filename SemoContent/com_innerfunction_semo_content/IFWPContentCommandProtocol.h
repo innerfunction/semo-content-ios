@@ -7,16 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "IFProtocol.h"
+#import "IFCommandProtocol.h"
 #import "IFDB.h"
 
-@interface IFWPContentProtocol : IFProtocol {
+@interface IFWPContentCommandProtocol : IFCommandProtocol {
+    // The file manager.
+    NSFileManager *_fileManager;
     // Path to file used to store downloaded feed result.
     NSString *_feedFile;
     // Path to file used to store downloaded base content zip.
     NSString *_baseContentFile;
     // Path to store downloaded content prior to deployment.
     NSString *_stagedContentPath;
+    // A flag indicating that a refresh is in progress.
+    BOOL _refreshInProgress;
 }
 
 /** The WP feed URL. Note that query parameters will be appened to the URL. */

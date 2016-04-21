@@ -9,14 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "IFCommand.h"
 
-typedef QPromise *(^IFProtocolCommandBlock) (NSArray *args);
+typedef QPromise *(^IFCommandProtocolBlock) (NSArray *args);
 
 /**
  * A command protocol.
  * A command implementation that supports multiple different named commands, useful for
  * defining protocols composed of a number of related commands.
  */
-@interface IFProtocol : NSObject <IFCommand> {
+@interface IFCommandProtocol : NSObject <IFCommand> {
     NSDictionary *_commands;
     NSString *_commandPrefix;
 }
@@ -24,7 +24,7 @@ typedef QPromise *(^IFProtocolCommandBlock) (NSArray *args);
 /** Return a list of command names supported by this protocol. */
 - (NSArray *)supportedCommands;
 /** Register a protocol command. */
-- (void)addCommand:(NSString *)name withBlock:(IFProtocolCommandBlock)block;
+- (void)addCommand:(NSString *)name withBlock:(IFCommandProtocolBlock)block;
 /** Qualify a protocol command name with the current command prefix. */
 - (NSString *)qualifiedCommandName:(NSString *)name;
 /**

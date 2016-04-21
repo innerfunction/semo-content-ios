@@ -8,7 +8,7 @@
 
 #import "IFCommandScheduler.h"
 #import "IFCommand.h"
-#import "IFProtocol.h"
+#import "IFCommandProtocol.h"
 #import "IFSemoContent.h"
 #import "IFRmFileCommand.h"
 #import "IFMvFileCommand.h"
@@ -118,8 +118,8 @@ static void *execQueueKey = "IFCommandScheduler.execQueue";
     // Iterate over the set of commands being added, to check for any command protocols.
     for (NSString *name in [commands allKeys]) {
         id<IFCommand> command = [commands objectForKey:name];
-        if ([command isKindOfClass:[IFProtocol class]]) {
-            IFProtocol *protocol = (IFProtocol *)command;
+        if ([command isKindOfClass:[IFCommandProtocol class]]) {
+            IFCommandProtocol *protocol = (IFCommandProtocol *)command;
             // Iterate over the protocol's supported commands and add to the command
             // namespace under a fully qualified name.
             for (NSString *subname in [protocol supportedCommands]) {
@@ -239,7 +239,9 @@ static void *execQueueKey = "IFCommandScheduler.execQueue";
         })
         .fail(^(id error) {
             [Logger error:@"Error executing command %@ %@: %@", name, args, error];
-            [self purgeQueue];
+            // TODO: Review whether queue should be purged or not. Removed for now - commands
+            // should detect errors caused by previous command failures and deal with accordingly.
+            // [self purgeQueue];
         });
     });
 }

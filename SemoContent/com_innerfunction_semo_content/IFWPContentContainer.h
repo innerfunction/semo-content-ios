@@ -8,7 +8,7 @@
 
 #import "IFContainer.h"
 #import "IFDB.h"
-#import "IFWPContentProtocol.h"
+#import "IFWPContentCommandProtocol.h"
 #import "IFWPSchemeHandler.h"
 #import "IFCommandScheduler.h"
 #import "IFIOCContainerAware.h"
@@ -53,7 +53,7 @@
 /** Interval in minutes between checks for content updates. */
 @property (nonatomic, assign) NSInteger updateCheckInterval;
 /** The content protocol instance; manages feed downloads. */
-@property (nonatomic, strong) IFWPContentProtocol *contentProtocol;
+@property (nonatomic, strong) IFWPContentCommandProtocol *contentProtocol;
 /** The wp: URI scheme. */
 @property (nonatomic, strong) IFWPSchemeHandler *uriScheme;
 /** Post list data formats. */
