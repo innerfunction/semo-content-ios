@@ -290,6 +290,31 @@ static IFLogger *Logger;
         }
         result = posts;
     }
+    /* TODO Add option to group posts by parent - sample code below, but grouping by direct parent may not make much
+       sense for deeply nested descendents.
+        NSMutableArray *groups = [NSMutableArray new];
+        NSMutableArray *group = nil;
+        id parent = nil;
+        NSMutableDictionary *titles = [NSMutableDictionary new];
+        for (NSDictionary *row in result) {
+            id parent = row[@"parent"];
+            if (parent) {
+                titles[parent] = row[@"title"];
+            }
+        }
+        for (NSDictionary *row in result) {
+            id rowParent = row[@"parent"];
+            if (![rowParent isEqual:parent]) {
+                id groupTitle = titles[rowParent];
+                group = [NSMutableArray new];
+                [groups addObject:@{ @"sectionTitle": groupTitle, @"sectionData": group }];
+                parent = rowParent;
+            }
+            [group addObject:row];
+        }
+        result = groups;
+    }
+    */
     return result;
 }
 

@@ -311,8 +311,13 @@
 
 void updateClosureTableForPost(IFDB *postDB, NSDictionary *post) {
     id postid = post[@"id"];
-    [postDB performUpdate:@"DELETE FROM closures WHERE child=?"
-               withParams:@[ postid ] ];
+    [postDB performUpdate:@"DELETE FROM closures WHERE ROWID IN (\
+            SELECT link.ROWID FROM closures p, closures link, closures c, closures to_delete \
+            WHERE p.parent = link.parent      AND c.child = link.child \
+            AND p.child    = to_delete.parent AND c.parent= to_delete.child \
+            AND (to_delete.parent = ? OR to_delete.child = ?) \
+            AND to_delete.depth < 2"
+               withParams:@[ postid, postid ] ];
     insertClosureEntriesForPost(postDB, post);
 }
 
@@ -320,14 +325,25 @@ void insertClosureEntriesForPost(IFDB *postDB, NSDictionary *post) {
     id parent = post[@"parent"];
     id postid = post[@"id"];
 
+    // NOTE that all of following updates assume that the closures table contains no
+    // mappings for the post before the updates performed, otherwise duplicate mappings
+    // will be created.
+
+    // Insert entry mapping post to itself with depth of 0.
     [postDB insertValues:@{ @"parent": postid, @"child": postid, @"depth": @0 }
                intoTable:@"closures"];
     
+    // Insert entries for all direct children of the current post.
+    [postDB performUpdate:@"INSERT INTO closures (parent, child, depth) \
+            SELECT parent, id, 1 FROM posts WHERE parent = ?"
+               withParams:@[ postid ]];
+
+    // Insert entries for all parents/ancestors.
     if (parent && ![@0 isEqual:parent]) {
         [postDB performUpdate:@"INSERT INTO closures (parent, child, depth) \
          SELECT p.parent, c.child, p.depth + c.depth + 1 \
          FROM closures p, closures c \
-         WHERE p.child=? AND c.parent=?"
+         WHERE p.child = ? AND c.parent = ?"
                    withParams:@[ parent, postid ]];
     }
 }

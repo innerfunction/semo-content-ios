@@ -50,6 +50,8 @@ static dispatch_queue_t execQueue;
 
 /** Execute the next command on the exec queue. */
 - (void)executeNextCommand;
+/** Continue queue processing after execution a command. */
+- (void)continueQueueProcessingAfterCommand:(NSString *)rowID;
 /**
  * Parse a command item into a command descriptor.
  * The command item can be either:
@@ -220,20 +222,7 @@ static void *execQueueKey = "IFCommandScheduler.execQueue";
                     };
                     [_db insertValues:values intoTable:@"queue"];
                 }
-                // Delete the command record from the queue.
-                if (_deleteExecutedQueueRecords) {
-                    [_db deleteIDs:@[ rowid ] fromTable:@"queue"];
-                }
-                else {
-                    NSDictionary *values = @{
-                        @"id":      rowid,
-                        @"status":  @"X"
-                    };
-                    [_db updateValues:values inTable:@"queue"];
-                }
-                [_db commitTransaction];
-                // Continue to next queued command.
-                [self executeNextCommand];
+                [self continueQueueProcessingAfterCommand:rowid];
             });
             return nil;
         })
@@ -242,8 +231,26 @@ static void *execQueueKey = "IFCommandScheduler.execQueue";
             // TODO: Review whether queue should be purged or not. Removed for now - commands
             // should detect errors caused by previous command failures and deal with accordingly.
             // [self purgeQueue];
+            [self continueQueueProcessingAfterCommand:rowid];
         });
     });
+}
+
+- (void)continueQueueProcessingAfterCommand:(NSString *)rowID {
+    // Delete the command record from the queue.
+    if (_deleteExecutedQueueRecords) {
+        [_db deleteIDs:@[ rowID ] fromTable:@"queue"];
+    }
+    else {
+        NSDictionary *values = @{
+            @"id":      rowID,
+            @"status":  @"X"
+        };
+        [_db updateValues:values inTable:@"queue"];
+    }
+    [_db commitTransaction];
+    // Continue to next queued command.
+    [self executeNextCommand];
 }
 
 - (IFCommandItem *)parseCommandItem:(id)item {
