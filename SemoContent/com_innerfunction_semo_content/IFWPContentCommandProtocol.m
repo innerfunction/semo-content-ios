@@ -316,8 +316,14 @@ void updateClosureTableForPost(IFDB *postDB, NSDictionary *post) {
             WHERE p.parent = link.parent      AND c.child = link.child \
             AND p.child    = to_delete.parent AND c.parent= to_delete.child \
             AND (to_delete.parent = ? OR to_delete.child = ?) \
-            AND to_delete.depth < 2"
+            AND to_delete.depth < 2)"
                withParams:@[ postid, postid ] ];
+    
+    // Re-insert entries for all direct children of the current post.
+    [postDB performUpdate:@"INSERT INTO closures (parent, child, depth) \
+     SELECT parent, id, 1 FROM posts WHERE parent = ?"
+               withParams:@[ postid ]];
+
     insertClosureEntriesForPost(postDB, post);
 }
 
@@ -333,11 +339,21 @@ void insertClosureEntriesForPost(IFDB *postDB, NSDictionary *post) {
     [postDB insertValues:@{ @"parent": postid, @"child": postid, @"depth": @0 }
                intoTable:@"closures"];
     
+/*  NOTE This moved to the updateClosureTableForPost function beause otherwise duplicate
+    closure entries are created; this presumably happens because when this function is
+    called from the rebuildClosureTable() function, the necessary child post entries are
+    eventually added (i.e. re-added) later in the loop.
+ 
+    TODO This whole insert/update procedure for the closure table needs to be reviewed,
+    as it's not fully understood and it's not clear that it produces the required
+    results in all circumstances
+ 
     // Insert entries for all direct children of the current post.
     [postDB performUpdate:@"INSERT INTO closures (parent, child, depth) \
             SELECT parent, id, 1 FROM posts WHERE parent = ?"
                withParams:@[ postid ]];
-
+*/
+    
     // Insert entries for all parents/ancestors.
     if (parent && ![@0 isEqual:parent]) {
         [postDB performUpdate:@"INSERT INTO closures (parent, child, depth) \
