@@ -346,8 +346,8 @@ static IFLogger *Logger;
     NSString *contentURL = [NSString stringWithFormat:@"file://%@%@%@-%@.html", _baseContentPath, separator, postType, postID ];
     // Add the post content and URL to the post data.
     postData = [postData extendWith:@{
-      @"content":     postHTML,
-      @"contentURL":  contentURL
+        @"content":     postHTML,
+        @"contentURL":  contentURL
     }];
     /* TODO: Review the need for this.
      NSString *format = [params getValueAsString:@"_format" defaultValue:@"webview"];
@@ -402,7 +402,7 @@ static IFLogger *Logger;
         where = [NSString stringWithFormat:@"%@ AND closures.parent=? AND closures.child=posts.id", where];
         [params addObject:parentID];
     }
-    NSString *sql = [NSString stringWithFormat:@"SELECT posts.* FROM %@ WHERE %@ LIMIT %ld", tables, where, _searchResultLimit];
+    NSString *sql = [NSString stringWithFormat:@"SELECT posts.* FROM %@ WHERE %@ LIMIT %ld", tables, where, (long)_searchResultLimit];
     postData = [_postDB performQuery:sql withParams:params];
     // TODO: Filters?
     id<IFDataFormatter> formatter = [_listFormats objectForKey:@"search"];
@@ -485,7 +485,10 @@ static IFLogger *Logger;
     if (_contentProtocol) {
         _commandScheduler.commands = @{ @"content": _contentProtocol };
     }
-    _commandScheduler.commands = @{ @"get": [[IFGetURLCommand alloc] initWithHTTPClient:_httpClient] };
+    
+    IFGetURLCommand *getCmd = [[IFGetURLCommand alloc] initWithHTTPClient:_httpClient];
+    getCmd.maxRequestsPerMinute = 30.0f;
+    _commandScheduler.commands = @{ @"get": getCmd };
 
 }
 

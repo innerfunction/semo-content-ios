@@ -24,10 +24,12 @@
     NSString *_commandName;
     NSString *_url;
     NSString *_filename;
+    NSMutableArray *_requestWindow;
 }
 
 - (id)initWithHTTPClient:(IFHTTPClient *)httpClient;
 
 @property (nonatomic, assign) NSInteger maxRetries;
+@property (nonatomic, assign) float maxRequestsPerMinute;
 
 @end

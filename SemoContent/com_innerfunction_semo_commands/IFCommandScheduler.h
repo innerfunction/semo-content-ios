@@ -50,4 +50,7 @@
 /** Purge the current command batch. */
 - (void)purgeCurrentBatch;
 
+/** Get the command execution queue. */
++ (dispatch_queue_t)getCommandExecutionQueue;
+
 @end
