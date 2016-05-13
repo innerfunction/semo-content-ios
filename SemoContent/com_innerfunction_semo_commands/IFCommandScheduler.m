@@ -75,6 +75,10 @@ static void *execQueueKey = "IFCommandScheduler.execQueue";
     dispatch_queue_set_specific(execQueue, execQueueKey, execQueueKey, NULL);
 }
 
++ (dispatch_queue_t)getCommandExecutionQueue {
+    return execQueue;
+}
+
 - (id)init {
     self = [super init];
     if (self) {
@@ -352,7 +356,7 @@ static void *execQueueKey = "IFCommandScheduler.execQueue";
     _execIdx = 0;
     void (^purge)() = ^() {
         if (_deleteExecutedQueueRecords) {
-            [_db deleteFromTable:@"queue" where:[NSString stringWithFormat:@"batch=%ld", _currentBatch]];
+            [_db deleteFromTable:@"queue" where:[NSString stringWithFormat:@"batch=%ld", (long)_currentBatch]];
         }
         else {
             NSNumber *batch = [NSNumber numberWithInteger:_currentBatch];

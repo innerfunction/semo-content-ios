@@ -141,13 +141,10 @@
     // Command to delete the current page file.
     id rmPageFileCommand = @{ @"name": @"rm", @"args": @[ pageFile ] };
     
-    BOOL ok = YES;
+    BOOL ok = NO;
     NSDictionary *pageData = nil;
     // Check that previous page download succeeded.
-    if (![_fileManager fileExistsAtPath:pageFile]) {
-        ok = NO;
-    }
-    else {
+    if ([_fileManager fileExistsAtPath:pageFile]) {
         // Read result of previous get.
         // Data format: { since:,  page: { size:, number:, count: }, items }
         pageData = [IFFileIO readJSONFromFileAtPath:pageFile];
@@ -160,8 +157,10 @@
         else {
             items = pageItems;
         }
-        // Write items to feed file.
-        ok = [IFFileIO writeJSON:items toFileAtPath:_feedFile];
+        if (items) {
+            // Write items to feed file.
+            ok = [IFFileIO writeJSON:items toFileAtPath:_feedFile];
+        }
     }
     
     if (ok) {
@@ -172,7 +171,7 @@
             NSInteger page = pageNumber + 1;
             NSString *since = [pageData getValueAsString:@"parameters.since"];
             since = [since stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
-            NSString *downloadURL = [NSString stringWithFormat:@"%@?page=%ld&since=%@", refreshURL, page, since];
+            NSString *downloadURL = [NSString stringWithFormat:@"%@?page=%ld&since=%@", refreshURL, (long)page, since];
             // Construct get command with url and file name to write result to, with 3 retries.
             id getCommand = @{
                 @"name": @"get",
@@ -256,6 +255,11 @@
                     NSString *filename = item[@"filename"];
                     // NOTE that file is downloaded directly to the content path.
                     NSString *filepath = [_contentPath stringByAppendingPathComponent:filename];
+                    // Delete any previously downloaded copy of the file.
+                    [commands addObject:@{
+                        @"name": @"rm",
+                        @"args": @[ filepath ]
+                    }];
                     [commands addObject:@{
                         @"name": @"get",
                         @"args": @[ item[@"url"], filepath, @2 ]
