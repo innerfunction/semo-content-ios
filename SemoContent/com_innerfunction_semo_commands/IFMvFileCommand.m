@@ -40,8 +40,7 @@
                 [_fileManager createDirectoryAtPath:toPath withIntermediateDirectories:YES attributes:nil error:&error];
             }
             if (!error) {
-                // If from location is a directory then list its contents and move each one to the
-                // target location.
+                // List directory contents and move each one to the target location.
                 NSArray *files = [_fileManager contentsOfDirectoryAtPath:fromPath error:&error];
                 for (NSInteger idx = 0; idx < [files count] && !error; idx++) {
                     NSString *filename = files[idx];
@@ -65,6 +64,7 @@
 
 - (NSError *)moveFileAtPath:(NSString *)fromPath toPath:(NSString *)toPath {
     NSError *error = nil;
+    // If there is already a file at the target path then remove it first.
     if ([_fileManager fileExistsAtPath:toPath]) {
         [_fileManager removeItemAtPath:toPath error:&error];
     }
