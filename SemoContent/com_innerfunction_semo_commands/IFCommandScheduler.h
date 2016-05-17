@@ -27,9 +27,9 @@
 @property (nonatomic, strong) NSString *queueDBName;
 /**
  * A map of command instances, keyed by name.
- * Commands which are protocol instances (i.e. IFProtocol subclasses) have each of their
- * protocol commands mapped into the command namespace with the protocol command name as
- * a prefix, so e.g. { name => protocol } --> name.command1, name.command2 etc.
+ * Commands which are command protocol instances (i.e. IFCommandProtocol subclasses) have each
+ * of their protocol commands mapped into the command namespace with the protocol command name
+ * as a prefix, so e.g. { name => protocol } --> name.command1, name.command2 etc.
  */
 @property (nonatomic, strong) NSDictionary *commands;
 /**
