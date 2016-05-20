@@ -25,7 +25,13 @@
     dispatch_async(dispatch_get_main_queue(), ^{
          self.accessoryType = _optionSelected ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     });
-    
+}
+
+- (void)setOptionValue:(NSString *)optionValue {
+    _optionValue = optionValue;
+    if (_optionSelected) {
+        self.value = optionValue;
+    }
 }
 
 - (BOOL)isSelectable {

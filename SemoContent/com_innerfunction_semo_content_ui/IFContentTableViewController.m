@@ -131,9 +131,7 @@
     BOOL contentMode = [@"content" isEqualToString:reuseIdentifier];
     style = contentMode ? UITableViewCellStyleSubtitle : UITableViewCellStyleDefault;
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    // TODO: Fix detail view to 3 lines - this is a temp measure because of problems calculating row height.
-    //self.imageView.hidden = contentMode;
-    self.detailTextLabel.numberOfLines = 3;
+    self.detailTextLabel.numberOfLines = 0;
     return self;
 }
 
@@ -160,12 +158,15 @@
     [self layoutIfNeeded];
     CGFloat height;
     if (self.detailTextLabel) {
-        CGRect detailFrame = self.detailTextLabel.frame;
-        // NOTE height is calculated here as the vertical offset of the detail label + its height + a small
-        // vertical padding constant.
-//        height = detailFrame.origin.y + detailFrame.size.height + 10.0f;
         CGRect textFrame = self.textLabel.frame;
-        height = 5.0f + textFrame.size.height + 5.0f + detailFrame.size.height + 5.0f;
+        CGFloat layoutWidth = self.contentView.bounds.size.width;
+        CGSize contentSize = [self.detailTextLabel sizeThatFits:CGSizeMake(layoutWidth, CGFLOAT_MAX)];
+        // sizeThatFits: doesn't seem to make allowance for line spacing, so the additional following
+        // calculation estimates the number of lines and uses the text label's font's leading value to
+        // calculate a line spacing amount.
+        CGFloat numberOfLines = floorf(contentSize.height / self.detailTextLabel.font.lineHeight);
+        CGFloat lineSpacing = (numberOfLines + 1) * self.detailTextLabel.font.leading;
+        height = 5.0f + textFrame.size.height + 5.0f + contentSize.height + lineSpacing + 5.0f;
     }
     else {
         height = self.textLabel.bounds.size.height;
@@ -178,10 +179,6 @@
 - (void)layoutSubviews {
     CGFloat layoutWidth = self.contentView.bounds.size.width;
     CGSize contentSize = [self.detailTextLabel sizeThatFits:CGSizeMake(layoutWidth, CGFLOAT_MAX)];
-//    self.detailTextLabel.bounds = CGRectMake(0.0f, 0.0f, self.detailTextLabel.bounds.size.width, contentSize.height);
-//    CGRect titleFrame = self.textLabel.frame;
-//    CGFloat y = titleFrame.origin.y + titleFrame.size.height + 10.0f;
-//    self.detailTextLabel.frame = CGRectMake(0.0f, y, contentSize.width, contentSize.height);
     self.detailTextLabel.bounds = CGRectMake(0.0f, 0.0f, contentSize.width, contentSize.height);
     [super layoutSubviews];
 }
