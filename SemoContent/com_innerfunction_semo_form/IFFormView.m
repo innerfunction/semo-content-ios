@@ -60,7 +60,7 @@
         if (field.name) {
             id value = inputValues[field.name];
             if (value != nil) {
-                field.value = value == [NSNull null] ? nil : value;
+                field.value = (value == [NSNull null] ? nil : value);
             }
         }
     }
@@ -113,27 +113,25 @@
 - (void)reset {
     for (IFFormField *field in _fields) {
         if (field.name) {
-            field.value = [_defaultValues objectForKey:field.name];
+            id value = [_defaultValues objectForKey:field.name];
+            field.value = (value == [NSNull null] ? nil : value);
         }
     }
 }
 
 - (BOOL)validate {
     BOOL ok = YES;
-    NSInteger row = 0;
-    for (IFFormField *field in _fields) {
+    for (NSInteger idx = 0; idx < [_fields count]; idx++) {
+        IFFormField *field = (IFFormField *)_fields[idx];
         if (![field validate]) {
-            if (ok) {
-                // Scroll to the first invalid field.
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
-                    [self selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-                });
-                ok = NO;
-                break;
-            }
+            // Scroll to the first invalid field.
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:idx inSection:0];
+                [self selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+            });
+            ok = NO;
+            break;
         }
-        row++;
     }
     return ok;
 }
