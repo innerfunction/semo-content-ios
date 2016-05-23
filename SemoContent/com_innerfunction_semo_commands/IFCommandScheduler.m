@@ -241,20 +241,22 @@ static void *execQueueKey = "IFCommandScheduler.execQueue";
 }
 
 - (void)continueQueueProcessingAfterCommand:(NSString *)rowID {
-    // Delete the command record from the queue.
-    if (_deleteExecutedQueueRecords) {
-        [_db deleteIDs:@[ rowID ] fromTable:@"queue"];
-    }
-    else {
-        NSDictionary *values = @{
-            @"id":      rowID,
-            @"status":  @"X"
-        };
-        [_db updateValues:values inTable:@"queue"];
-    }
-    [_db commitTransaction];
-    // Continue to next queued command.
-    [self executeNextCommand];
+    dispatch_async(execQueue, ^{
+        // Delete the command record from the queue.
+        if (_deleteExecutedQueueRecords) {
+            [_db deleteIDs:@[ rowID ] fromTable:@"queue"];
+        }
+        else {
+            NSDictionary *values = @{
+                @"id":      rowID,
+                @"status":  @"X"
+            };
+            [_db updateValues:values inTable:@"queue"];
+        }
+        [_db commitTransaction];
+        // Continue to next queued command.
+        [self executeNextCommand];
+    });
 }
 
 - (IFCommandItem *)parseCommandItem:(id)item {

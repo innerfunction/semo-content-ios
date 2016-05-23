@@ -51,21 +51,29 @@
                     [terms addObject:_predicateOp];
                 }
                 [terms addObject:filterName];
-                NSString *filterValue = [_filters valueForKey:filterName];
-                if (![filterValue isKindOfClass:[NSString class]]) {
-                    filterValue = [filterValue description];
-                }
-                if ([predicatePattern matches:filterValue]) {
-                    [terms addObject:filterValue];
-                }
-                else if ([filterValue hasPrefix:@"?"]) {
-                    // ? prefix indicates a parameterized value; don't quote in the SQL.
-                    [terms addObject:[NSString stringWithFormat:@"= %@", filterValue]];
+                id filterValue = [_filters valueForKey:filterName];
+                if ([filterValue isKindOfClass:[NSArray class]]) {
+                    // Use a WHERE ... IN (...) to query for an array of values.
+                    filterValue = [(NSArray *)filterValue componentsJoinedByString:@","];
+                    [terms addObject:[NSString stringWithFormat:@"IN (%@)", filterValue]];
                 }
                 else {
-                    // Escape single quotes in the value.
-                    filterValue = [filterValue replaceAllOccurrences:@"'" with:@"\\'"];
-                    [terms addObject:[NSString stringWithFormat:@"= '%@'", filterValue]];
+                    // Convert a non-string filter value to a string.
+                    if (![filterValue isKindOfClass:[NSString class]]) {
+                        filterValue = [filterValue description];
+                    }
+                    if ([predicatePattern matches:filterValue]) {
+                        [terms addObject:filterValue];
+                    }
+                    else if ([filterValue hasPrefix:@"?"]) {
+                        // ? prefix indicates a parameterized value; don't quote in the SQL.
+                        [terms addObject:[NSString stringWithFormat:@"= %@", filterValue]];
+                    }
+                    else {
+                        // Escape single quotes in the value.
+                        filterValue = [filterValue replaceAllOccurrences:@"'" with:@"\\'"];
+                        [terms addObject:[NSString stringWithFormat:@"= '%@'", filterValue]];
+                    }
                 }
                 insertPredicateOp = YES;
             }

@@ -12,6 +12,7 @@
 #import "IFWPSchemeHandler.h"
 #import "IFCommandScheduler.h"
 #import "IFIOCContainerAware.h"
+#import "IFIOCTypeInspectable.h"
 #import "IFWPContentContainerFormFactory.h"
 #import "IFWPAuthManager.h"
 #import "IFMessageReceiver.h"
@@ -19,7 +20,7 @@
 
 @class IFWPClientTemplateContext;
 
-@interface IFWPContentContainer : IFContainer <IFIOCContainerAware, IFMessageReceiver> {
+@interface IFWPContentContainer : IFContainer <IFIOCContainerAware, IFMessageReceiver, IFIOCTypeInspectable> {
     // Container configuration template.
     IFConfiguration *_configTemplate;
     // Command scheduler for unpack and refresh operations.
@@ -74,6 +75,15 @@
 @property (nonatomic, strong) IFHTTPClient *httpClient;
 /** The maximum number of rows to return for wp:search results. */
 @property (nonatomic, assign) NSInteger searchResultLimit;
+/**
+ * A map describing legal post-type relationships.
+ * Allows legal child post types for a post type to be listed. Each map key is a parent post type,
+ * and is mapped to either a child post type name (as a string), or a list of child post type names.
+ * If a post type has no legal child post types then the type name should be mapped to an empty list.
+ * Any post type not described in this property will allow any child post type.
+ * Used by the getPostChildren: methods.
+ */
+@property (nonatomic, strong) NSDictionary *postTypeRelations;
 
 /** Unpack packaged content. */
 - (void)unpackPackagedContent;

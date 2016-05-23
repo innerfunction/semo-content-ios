@@ -259,6 +259,15 @@ static IFLogger *Logger;
 }
 
 - (id)getPostChildren:(NSString *)postID withParams:(NSDictionary *)params renderContent:(BOOL)renderContent {
+    // Check the post type.
+    NSDictionary *postData = [_postDB readRecordWithID:postID fromTable:@"posts"];
+    NSString *postType = postData[@"type"];
+    // Check for child type relations for this post type.
+    id childTypes = _postTypeRelations[postType];
+    if (childTypes) {
+        params = [params extendWith:@{ @"type": childTypes }];
+    }
+    // Create the query.
     IFDBFilter *filter = [[IFDBFilter alloc] init];
     filter.table = @"posts";
     filter.filters = [params extendWith:@{ @"parent": postID }];
@@ -534,5 +543,16 @@ static IFLogger *Logger;
 - (BOOL)dispatchURI:(NSString *)uri {
     return YES;
 }
+
+#pragma mark - IFIOCTypeInspectable
+
+- (BOOL)isDataCollection:(NSString *)propertyName {
+    return [@"postTypeRelations" isEqualToString:propertyName];
+}
+
+- (__unsafe_unretained Class)memberClassForCollection:(NSString *)propertyName {
+    return nil;
+}
+
 
 @end
