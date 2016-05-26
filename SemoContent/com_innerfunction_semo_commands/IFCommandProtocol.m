@@ -76,6 +76,8 @@
 - (QPromise *)execute:(NSString *)name withArgs:(NSArray *)args {
     // Split the protocol prefix from the name to get the actual command name.
     NSArray *nameParts = [name split:@"\\."];
+    // TODO: This instead should be set by the command scheduler when the protocol is
+    // registered with the scheduler, see IFCommandScheduler.m:129
     _commandPrefix = [nameParts objectAtIndex:0];
     NSString *commandName = [nameParts objectAtIndex:1];
     // Find a handler block for the named command.

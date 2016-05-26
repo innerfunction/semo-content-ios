@@ -21,7 +21,7 @@
 
 - (void)setOptionSelected:(BOOL)optionSelected {
     _optionSelected = optionSelected;
-    self.value = self.optionValue;
+    self.value = optionSelected ? self.optionValue : nil;
     dispatch_async(dispatch_get_main_queue(), ^{
          self.accessoryType = _optionSelected ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     });
