@@ -305,9 +305,17 @@
         if ([[NSFileManager defaultManager] fileExistsAtPath:baseContentFile]) {
             NSDictionary *unzipCommand = @{
                 @"name":  @"unzip",
-                @"args":  @[ baseContentFile, _baseContentPath ]
+                @"args":  @[ baseContentFile, _contentPath ]
             };
             [commands addObject:unzipCommand];
+        }
+        // Schedule command to bulk download initial image content, if an image pack URL is given.
+        if (_imagePackURL) {
+            NSDictionary *downloadCommand = @{
+                @"name": @"dlzip",
+                @"args": @[ _imagePackURL, _contentPath ]
+            };
+            [commands addObject:downloadCommand];
         }
     }
     return [Q resolve:commands];

@@ -35,6 +35,11 @@
 @property (nonatomic, strong) NSString *postDBName;
 /** The URL of the WP posts feed. */
 @property (nonatomic, strong) NSString *feedURL;
+/**
+ * The URL of the content image pack.
+ * Used when the app is first installed, to bulk download initial image content.
+ */
+@property (nonatomic, strong) NSString *imagePackURL;
 /** The location of pre-packaged post content, relative to the installed app. */
 @property (nonatomic, strong) NSString *packagedContentPath;
 /** The location of base content. */
