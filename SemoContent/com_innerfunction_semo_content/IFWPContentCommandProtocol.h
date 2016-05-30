@@ -25,6 +25,8 @@
 
 /** The WP feed URL. Note that query parameters will be appened to the URL. */
 @property (nonatomic, strong) NSString *feedURL;
+/** A URL for doing a bulk-download of initial image content. */
+@property (nonatomic, strong) NSString *imagePackURL;
 /** The local database used to store post and content data. */
 @property (nonatomic, strong) IFDB *postDB;
 /** Path to directory holding staged content. */

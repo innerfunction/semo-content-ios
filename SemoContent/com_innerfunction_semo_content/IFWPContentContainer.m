@@ -14,6 +14,7 @@
 #import "IFWPDataTableFormatter.h"
 #import "IFWPDataWebviewFormatter.h"
 #import "IFGetURLCommand.h"
+#import "IFDownloadZipCommand.h"
 #import "IFStringTemplate.h"
 #import "IFDBFilter.h"
 #import "IFDataFormatter.h"
@@ -93,6 +94,7 @@ static IFLogger *Logger;
             },
             @"contentProtocol": @{
                 @"feedURL":                 @"$feedURL",
+                @"imagePackURL":            @"$imagePackURL",
                 @"postDB":                  @"@named:postDB",
                 @"stagingPath":             @"$stagingPath",
                 @"packagedContentPath":     @"$packagedContentPath",
@@ -476,6 +478,7 @@ static IFLogger *Logger;
         @"postDBName":          _postDBName,
         @"resetPostDB":         [NSNumber numberWithBool:_resetPostDB],
         @"feedURL":             _feedURL,
+        @"imagePackURL":        _imagePackURL,
         @"stagingPath":         _stagingPath,
         @"packagedContentPath": packagedContentPath,
         @"baseContentPath":     _baseContentPath,
@@ -509,7 +512,11 @@ static IFLogger *Logger;
     
     IFGetURLCommand *getCmd = [[IFGetURLCommand alloc] initWithHTTPClient:_httpClient];
     getCmd.maxRequestsPerMinute = 30.0f;
-    _commandScheduler.commands = @{ @"get": getCmd };
+    IFDownloadZipCommand *dlzipCmd = [[IFDownloadZipCommand alloc] initWithHTTPClient:_httpClient commandScheduler:_commandScheduler];
+    _commandScheduler.commands = @{
+        @"get": getCmd,
+        @"dlzip": dlzipCmd
+    };
 
 }
 

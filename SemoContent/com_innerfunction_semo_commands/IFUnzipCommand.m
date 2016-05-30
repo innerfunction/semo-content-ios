@@ -17,7 +17,11 @@
     }
     NSString *zipPath = [args objectAtIndex:0];
     NSString *toPath = [args objectAtIndex:1];
-    if ([IFFileIO unzipFileAtPath:zipPath toPath:toPath]) {
+    BOOL overwrite = YES;
+    if ([args count] > 2) {
+        overwrite = [@"yes" isEqualToString:[args objectAtIndex:2]];
+    }
+    if ([IFFileIO unzipFileAtPath:zipPath toPath:toPath overwrite:overwrite]) {
         return [Q resolve:@[]];
     }
     return [Q reject:@"Failed to unzip file"];

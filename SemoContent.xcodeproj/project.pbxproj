@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0738A35B1CF477780063C00C /* IFDownloadZipCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 0738A35A1CF477780063C00C /* IFDownloadZipCommand.m */; };
 		074C3DCA1C945F79009BBEEF /* IFWPLicenceBehaviour.m in Sources */ = {isa = PBXBuildFile; fileRef = 074C3DC91C945F79009BBEEF /* IFWPLicenceBehaviour.m */; };
 		074CFB2F1C8873AE0025F5A9 /* IFCommandScheduler.m in Sources */ = {isa = PBXBuildFile; fileRef = 074CFAED1C8873AE0025F5A9 /* IFCommandScheduler.m */; };
 		074CFB301C8873AE0025F5A9 /* IFMvFileCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 074CFAEF1C8873AE0025F5A9 /* IFMvFileCommand.m */; };
@@ -129,6 +130,8 @@
 
 /* Begin PBXFileReference section */
 		07071AEF1C88734000DAF32D /* libSemoContent.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSemoContent.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		0738A3591CF477780063C00C /* IFDownloadZipCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFDownloadZipCommand.h; sourceTree = "<group>"; };
+		0738A35A1CF477780063C00C /* IFDownloadZipCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFDownloadZipCommand.m; sourceTree = "<group>"; };
 		074C3DC81C945F79009BBEEF /* IFWPLicenceBehaviour.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFWPLicenceBehaviour.h; path = SemoContent/com_innerfunction_semo_content_ui/IFWPLicenceBehaviour.h; sourceTree = SOURCE_ROOT; };
 		074C3DC91C945F79009BBEEF /* IFWPLicenceBehaviour.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IFWPLicenceBehaviour.m; path = SemoContent/com_innerfunction_semo_content_ui/IFWPLicenceBehaviour.m; sourceTree = SOURCE_ROOT; };
 		074CFAEB1C8873AE0025F5A9 /* IFCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFCommand.h; sourceTree = "<group>"; };
@@ -393,6 +396,8 @@
 				074CFAF71C8873AE0025F5A9 /* IFDataFormatter.h */,
 				074CFAF81C8873AE0025F5A9 /* IFGetURLCommand.h */,
 				074CFAF91C8873AE0025F5A9 /* IFGetURLCommand.m */,
+				0738A3591CF477780063C00C /* IFDownloadZipCommand.h */,
+				0738A35A1CF477780063C00C /* IFDownloadZipCommand.m */,
 				074CFAFA1C8873AE0025F5A9 /* IFHTTPClient.h */,
 				074CFAFB1C8873AE0025F5A9 /* IFHTTPClient.m */,
 				074CFAFC1C8873AE0025F5A9 /* IFSemoContent.h */,
@@ -878,6 +883,7 @@
 				074CFB2F1C8873AE0025F5A9 /* IFCommandScheduler.m in Sources */,
 				074CFBE01C8873D30025F5A9 /* GRMustacheScopedExpression.m in Sources */,
 				074CFB461C8873AE0025F5A9 /* IFFormOptionField.m in Sources */,
+				0738A35B1CF477780063C00C /* IFDownloadZipCommand.m in Sources */,
 				074CFC001C8873D30025F5A9 /* GRMustacheTranslateCharacters.m in Sources */,
 				074CFBE11C8873D30025F5A9 /* GRMustacheCompiler.m in Sources */,
 				074CFC031C8873D30025F5A9 /* JRSwizzle.m in Sources */,
