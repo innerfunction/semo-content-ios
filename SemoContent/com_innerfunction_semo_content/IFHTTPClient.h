@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "Q.h"
 
+// TODO: Should this be in pttn.utils?
+
 @class IFHTTPClient;
 
 @interface IFHTTPClientResponse : NSObject

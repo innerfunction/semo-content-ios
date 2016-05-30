@@ -68,7 +68,7 @@
 @property (nonatomic, strong) NSDictionary *postFormats;
 /** Template for generating post URIs. See uriForPostWithID: */
 @property (nonatomic, strong) NSString *postURITemplate;
-/** Factory for producing login and account managment forms. */
+/** Factory for producing login and account management forms. */
 @property (nonatomic, strong, readonly) IFWPContentContainerFormFactory *formFactory;
 /** Map of pre-defined post filters, keyed by name. */
 @property (nonatomic, strong) NSDictionary *filters;
@@ -102,15 +102,15 @@
 - (id)getPostChildren:(NSString *)postID withParams:(NSDictionary *)params;
 /** Return the child posts of a specified post. Optionally renders the post content. */
 - (id)getPostChildren:(NSString *)postID withParams:(NSDictionary *)params renderContent:(BOOL)renderContent;
-/** Get all descendents of a post. Returns the posts children, grandchildren etc. */
-- (id)getPostDescendents:(NSString *)postID withParams:(NSDictionary *)params;
+/** Get all descendants of a post. Returns the posts children, grandchildren etc. */
+- (id)getPostDescendants:(NSString *)postID withParams:(NSDictionary *)params;
 /** Return data for a specified post. */
 - (id)getPost:(NSString *)postID withParams:(NSDictionary *)params;
 /** Query the post database using a predefined filter. */
 - (id)queryPostsUsingFilter:(NSString *)filterName params:(NSDictionary *)params;
 /**
  * Search the post database for the specified text in the specified post types with an optional parent post.
- * When the parent post ID is specified, the search will be confined to that post and any of its descendents
+ * When the parent post ID is specified, the search will be confined to that post and any of its descendants
  * (i.e. children, grand-children etc.).
  */
 - (id)searchPostsForText:(NSString *)text searchMode:(NSString *)searchMode postTypes:(NSArray *)postTypes parentPost:(NSString *)parentID;

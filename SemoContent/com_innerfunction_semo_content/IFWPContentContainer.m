@@ -81,7 +81,7 @@ static IFLogger *Logger;
                             @"menu_order":  @{ @"type": @"INTEGER" }    // Sort order; mapped to post.menu_order.
                         }
                     },
-                    // Table of parent/child post closures. Used to efficiently map descendent post relationships.
+                    // Table of parent/child post closures. Used to efficiently map descendant post relationships.
                     // See http://dirtsimple.org/2010/11/simplest-way-to-do-tree-based-queries.html for a simple description.
                     @"closures": @{
                         @"columns": @{
@@ -128,6 +128,8 @@ static IFLogger *Logger;
         // Command scheduler is manually instantiated, so has to be manually added to the services list.
         // TODO: This is another aspect that needs to be considered when formalizing the configuration
         //       template pattern used by this container.
+        //       (Could just add @"commandScheduler": @{ @"*ios-class": @"IFCommandScheduler" } to the
+        //       above).
         [self->_services addObject:_commandScheduler];
         
         // NOTES on staging and content paths:
@@ -202,7 +204,7 @@ static IFLogger *Logger;
 - (id)queryPostsUsingFilter:(NSString *)filterName params:(NSDictionary *)params {
     id postData = nil;
     if (filterName) {
-        IFDBFilter *filter = [_filters objectForKey:filterName];
+        IFDBFilter *filter = _filters[filterName];
         if (filter) {
             postData = [filter applyTo:_postDB withParameters:params];
         }
@@ -241,7 +243,7 @@ static IFLogger *Logger;
                     paramValue = [NSString stringWithFormat:@"NOT %@", paramValue];
                 }
             }
-            [filterParams setObject:paramValue forKey:fieldName];
+            filterParams[fieldName] = paramValue;
         }
         // Remove any parameters not corresponding to a column on the posts table.
         filter.filters = [_postDB filterValues:filterParams forTable:@"posts"];
@@ -249,7 +251,7 @@ static IFLogger *Logger;
         postData = [filter applyTo:_postDB withParameters:@{}];
     }
     NSString *format = [params getValueAsString:@"_format" defaultValue:@"table"];
-    id<IFDataFormatter> formatter = [_listFormats objectForKey:format];
+    id<IFDataFormatter> formatter = _listFormats[format];
     if (formatter) {
         postData = [formatter formatData:postData];
     }
@@ -287,7 +289,7 @@ static IFLogger *Logger;
     return result;
 }
 
-- (id)getPostDescendents:(NSString *)postID withParams:(NSDictionary *)params {
+- (id)getPostDescendants:(NSString *)postID withParams:(NSDictionary *)params {
     NSArray *result = [_postDB performQuery:@"SELECT posts.* \
                        FROM posts, closures \
                        WHERE closures.parent=? AND closures.child=posts.id AND depth > 0 \
@@ -335,13 +337,13 @@ static IFLogger *Logger;
     // Render the post content.
     postData = [self renderPostContent:postData];
     // Load the client template for the post type.
-    NSString *postType = [postData objectForKey:@"type"];
+    NSString *postType = postData[@"type"];
     NSString *templateName = [NSString stringWithFormat:@"template-%@.html", postType];
     NSString *templatePath = [_baseContentPath stringByAppendingPathComponent:templateName];
     if (![_fileManager fileExistsAtPath:templatePath isDirectory:nil]) {
         templatePath = [_baseContentPath stringByAppendingString:@"template-single.html"];
         if (![_fileManager fileExistsAtPath:templatePath isDirectory:nil]) {
-            [Logger warn:@"Client template for post type '%@' not found at %@", postType, _contentPath];
+            [Logger warn:@"Client template for post type '%@' not found at %@", postType, baseContentPath];
             return nil;
         }
     }
@@ -374,7 +376,7 @@ static IFLogger *Logger;
 - (id)searchPostsForText:(NSString *)text searchMode:(NSString *)searchMode postTypes:(NSArray *)postTypes parentPost:(NSString *)parentID {
     id postData = nil;
     NSString *tables = @"posts";
-    NSString *where;
+    NSString *where = nil;
     NSMutableArray *params = [NSMutableArray new];
     text = [NSString stringWithFormat:@"%%%@%%", text];
     if ([@"exact" isEqualToString:searchMode]) {
@@ -399,26 +401,36 @@ static IFLogger *Logger;
             where = [terms componentsJoinedByString:@" AND "];
         }
     }
-    if (postTypes) {
+    if (postTypes && [postTypes count] > 0) {
+        NSString *typeClause;
         if ([postTypes count] == 1) {
-            where = [NSString stringWithFormat:@"(%@) AND type='%@'", where, [postTypes firstObject]];
+            typeClause = [NSString stringWithFormat:@"type='%@'", [postTypes firstObject]];
         }
         else {
-            where = [NSString stringWithFormat:@"(%@) AND type IN ('%@')", where, [postTypes componentsJoinedByString:@"','"]];
+            typeClause = [NSString stringWithFormat:@"type IN ('%@')", [postTypes componentsJoinedByString:@"','"]];
         }
+        if (where) {
+            where = [NSString stringWithFormat:@"(%@) AND %@", where, typeClause];
+        }
+        else {
+            where = typeClause;
+        }
+    }
+    if( !where ) {
+        where = @"1=1";
     }
     if ([parentID length] > 0) {
         // If a parent post ID is specified then add a join to, and filter on, the closures table.
         tables = [tables stringByAppendingString:@", closures"];
-        where = [NSString stringWithFormat:@"%@ AND closures.parent=? AND closures.child=posts.id", where];
+        where = [where stringByAppendingString:@" AND closures.parent=? AND closures.child=posts.id"];
         [params addObject:parentID];
     }
     NSString *sql = [NSString stringWithFormat:@"SELECT posts.* FROM %@ WHERE %@ LIMIT %ld", tables, where, (long)_searchResultLimit];
     postData = [_postDB performQuery:sql withParams:params];
     // TODO: Filters?
-    id<IFDataFormatter> formatter = [_listFormats objectForKey:@"search"];
+    id<IFDataFormatter> formatter = _listFormats[@"search"];
     if (!formatter) {
-        formatter = [_listFormats objectForKey:@"table"];
+        formatter = _listFormats[@"table"];
     }
     if (formatter) {
         postData = [formatter formatData:postData];
@@ -428,7 +440,7 @@ static IFLogger *Logger;
 
 - (NSDictionary *)renderPostContent:(NSDictionary *)postData {
     id context = [_clientTemplateContext templateContext];
-    NSString *contentHTML = [self renderTemplate:[postData objectForKey:@"content"] withData:context];
+    NSString *contentHTML = [self renderTemplate:postData[@"content"] withData:context];
     return [postData dictionaryWithAddedObject:contentHTML forKey:@"content"];
 }
 
@@ -544,13 +556,13 @@ static IFLogger *Logger;
     // Start command queue execution.
     [_commandScheduler executeQueue];
 }
-
+/*
 #pragma mark - IFTargetContainer
 
 - (BOOL)dispatchURI:(NSString *)uri {
     return YES;
 }
-
+*/
 #pragma mark - IFIOCTypeInspectable
 
 - (BOOL)isDataCollection:(NSString *)propertyName {
