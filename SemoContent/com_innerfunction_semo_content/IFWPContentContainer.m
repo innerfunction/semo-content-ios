@@ -343,7 +343,7 @@ static IFLogger *Logger;
     if (![_fileManager fileExistsAtPath:templatePath isDirectory:nil]) {
         templatePath = [_baseContentPath stringByAppendingString:@"template-single.html"];
         if (![_fileManager fileExistsAtPath:templatePath isDirectory:nil]) {
-            [Logger warn:@"Client template for post type '%@' not found at %@", postType, baseContentPath];
+            [Logger warn:@"Client template for post type '%@' not found at %@", postType, _baseContentPath];
             return nil;
         }
     }
