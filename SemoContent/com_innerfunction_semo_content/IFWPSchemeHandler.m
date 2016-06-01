@@ -46,7 +46,11 @@
                     if ([@"children" isEqualToString:[pathComponents objectAtIndex:2]]) {
                         return [_contentContainer getPostChildren:postID withParams:params];
                     }
+                    // TODO: Deprecate this - mispelling.
                     if ([@"descendents" isEqualToString:[pathComponents objectAtIndex:2]]) {
+                        return [_contentContainer getPostDescendants:postID withParams:params];
+                    }
+                    if ([@"descendants" isEqualToString:[pathComponents objectAtIndex:2]]) {
                         return [_contentContainer getPostDescendants:postID withParams:params];
                     }
                     if ([@"filter" isEqualToString:[pathComponents objectAtIndex:1]]) {
@@ -57,14 +61,14 @@
             }
         }
         else if ([@"search" isEqualToString:firstComponent]) {
-            NSString *text = [params objectForKey:@"text"];
-            NSString *mode = [params objectForKey:@"mode"];
+            NSString *text = params[@"text"];
+            NSString *mode = params[@"mode"];
             NSArray *postTypes = nil;
-            NSString *types = [params objectForKey:@"types"];
+            NSString *types = params[@"types"];
             if (types) {
                 postTypes = [types componentsSeparatedByString:@","];
             }
-            NSString *parent = [params objectForKey:@"parent"];
+            NSString *parent = params[@"parent"];
             return [_contentContainer searchPostsForText:text
                                               searchMode:mode
                                                postTypes:postTypes
