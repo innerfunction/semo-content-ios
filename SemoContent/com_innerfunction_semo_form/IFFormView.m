@@ -159,12 +159,15 @@
         }
         else if (_submitURI) {
             [self submitting:YES];
-            // The submit URI is an internal URI which the form will post as a message.
-            // The URI property is treated as a template into which the form's values can be inserted.
-            NSDictionary *values = [self inputValues];
-            NSString *message = [IFStringTemplate render:_submitURI context:values uriEncode:YES];
-            [IFAppContainer postMessage:message sender:self];
-            [self submitting:NO];
+            // Dispatch to queue to give UI chance to redraw.
+            dispatch_async(dispatch_get_main_queue(), ^{
+                // The submit URI is an internal URI which the form will post as a message.
+                // The URI property is treated as a template into which the form's values can be inserted.
+                NSDictionary *values = [self inputValues];
+                NSString *message = [IFStringTemplate render:_submitURI context:values uriEncode:YES];
+                [IFAppContainer postMessage:message sender:self];
+                [self submitting:NO];
+            });
         }
     }
     return ok;

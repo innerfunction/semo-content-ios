@@ -228,6 +228,7 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
             [self reauthenticate]
             .then((id)^(id response) {
                 [promise resolve:action()];
+                return nil;
             })
             .fail(^(id error) {
                 [promise reject:error];
@@ -236,6 +237,7 @@ didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
         else {
             [promise resolve:response];
         }
+        return nil;
     })
     .fail(^(id error) {
         [promise reject:error];
