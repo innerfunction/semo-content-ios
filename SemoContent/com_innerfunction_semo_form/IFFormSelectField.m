@@ -108,7 +108,8 @@
     _items = mitems;
     // Reset the null item to add it to the start of the new items array.
     self.nullItem = _nullItem;
-    
+    // Reset the value to ensure the selected item is set.
+    self.value = super.value;
 }
 
 - (void)setNullItem:(id)nullItem {
@@ -132,6 +133,19 @@
 - (void)setSelectedItem:(NSDictionary *)selectedItem {
     _selectedItem = selectedItem;
     super.value = selectedItem[@"value"];
+}
+
+- (void)setValue:(id)value {
+    super.value = value;
+    _selectedItem = nil;
+    if (value != nil) {
+        for (NSDictionary *item in _items) {
+            if ([value isEqual:item[@"value"]]) {
+                _selectedItem = item;
+                break;
+            }
+        }
+    }
 }
 
 - (id)valueLabel {

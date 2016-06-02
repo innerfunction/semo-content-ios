@@ -63,6 +63,7 @@
                 // Copy downloaded file to target location.
                 [fileManager moveItemAtURL:response.downloadLocation toURL:fileURL error:nil];
                 [_promise resolve:@[]];
+                return nil;
             })
             .fail(^(id error) {
                 // Check for retries.

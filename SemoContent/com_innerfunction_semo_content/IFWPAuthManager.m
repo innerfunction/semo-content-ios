@@ -145,6 +145,7 @@
             // Open the URL in the device browser.
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:reminderURL]];
         }
+        return nil;
     });
 }
 
