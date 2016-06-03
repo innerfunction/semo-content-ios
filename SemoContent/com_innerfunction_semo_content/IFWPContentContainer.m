@@ -217,6 +217,8 @@ static IFLogger *Logger;
         // Construct a set of filter parameters from the URI parameters.
         IFRegExp *re = [[IFRegExp alloc] initWithPattern:@"^(\\w+)\\.(.*)"];
         NSMutableDictionary *filterParams = [[NSMutableDictionary alloc] init];
+        // Ensure that only published posts are queried by default.
+        filterParams[@"status"] = @"publish";
         for (NSString *paramName in [params allKeys]) {
             // The 'orderBy' parameter is a special name used to specify sort order.
             if ([@"_orderBy" isEqualToString:paramName]) {
