@@ -62,6 +62,7 @@
         return YES;
     }
     if ([message hasName:@"licence/reject"]) {
+        [_authManager logout];
         [self.viewController dismissViewControllerAnimated:_licenceView completion:^{
             [IFAppContainer postMessage:_rejectAction sender:self.viewController];
         }];
