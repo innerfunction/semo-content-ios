@@ -156,7 +156,10 @@
     // TODO: Following need to be filled in properly
     if ([@"login" isEqualToString:formType]) {
         submitURL = _container.authManager.loginURL;
-        viewBehaviour = [[IFWPContentLoginBehaviour alloc] initWithContainer:_container loginAction:loginAction];
+        BOOL checkForLogin = [configuration getValueAsBoolean:@"checkForLogin" defaultValue:YES];
+        if (checkForLogin) {
+            viewBehaviour = [[IFWPContentLoginBehaviour alloc] initWithContainer:_container loginAction:loginAction];
+        }
         //isEnabled = NO;
         onSubmitOk = ^(IFFormView *form, NSDictionary *data) {
             // Store user credentials & user info

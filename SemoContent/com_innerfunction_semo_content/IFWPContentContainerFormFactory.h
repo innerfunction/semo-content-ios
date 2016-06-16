@@ -23,11 +23,11 @@
 
 @end
 
-@interface IFWPContentLoginBehaviour : IFViewBehaviourObject {
-    __weak IFWPContentContainer *_container;
-    NSString *_loginAction;
-}
+@interface IFWPContentLoginBehaviour : IFViewBehaviourObject
 
 - (id)initWithContainer:(IFWPContentContainer *)container loginAction:(NSString *)loginAction;
+
+@property (nonatomic, weak) IFWPContentContainer *container;
+@property (nonatomic, strong) NSString *loginAction;
 
 @end
