@@ -52,7 +52,7 @@ static IFLogger *Logger;
     self = [super init];
     if (self) {
         self.name = @"semo";
-        self.version = @0;
+        self.version = @1;
         self.tables = @{};
         self.resetDatabase = NO;
         _initialData = [NSMutableDictionary new];
