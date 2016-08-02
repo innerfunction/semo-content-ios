@@ -509,8 +509,9 @@ static IFLogger *Logger;
 }
 
 - (void)addInitialDataForTable:(NSString *)tableName schema:(NSDictionary *)tableSchema {
-    if ([tableSchema getValueType:@"data"] == IFValueTypeList) {
-        [_initialData setObject:[tableSchema objectForKey:@"data"] forKey:tableName];
+    id data = tableSchema[@"data"];
+    if ([data isKindOfClass:[NSArray class]]) {
+        [_initialData setObject:data forKey:tableName];
     }
 }
 
