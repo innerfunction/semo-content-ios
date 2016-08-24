@@ -558,13 +558,7 @@ static IFLogger *Logger;
     // Start command queue execution.
     [_commandScheduler executeQueue];
 }
-/*
-#pragma mark - IFTargetContainer
 
-- (BOOL)dispatchURI:(NSString *)uri {
-    return YES;
-}
-*/
 #pragma mark - IFIOCTypeInspectable
 
 - (BOOL)isDataCollection:(NSString *)propertyName {
