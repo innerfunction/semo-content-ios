@@ -21,6 +21,7 @@
 #import "IFRegExp.h"
 #import "NSDictionary+IF.h"
 #import "NSDictionary+IFValues.h"
+#import "NSString+IF.h"
 #import "GRMustache.h"
 
 static IFLogger *Logger;
@@ -375,20 +376,24 @@ static IFLogger *Logger;
     return postData;
 }
 
-- (id)searchPostsForText:(NSString *)text searchMode:(NSString *)searchMode postTypes:(NSArray *)postTypes parentPost:(NSString *)parentID {
-    id postData = nil;
+- (id)searchPostsForText:(NSString *)text
+              searchMode:(NSString *)searchMode
+               postTypes:(NSArray *)postTypes
+             parentPost:(NSString *)parentID {
+         
+    NSArray *result = nil;
     NSString *tables = @"posts";
     NSString *where = nil;
     NSMutableArray *params = [NSMutableArray new];
-    text = [NSString stringWithFormat:@"%%%@%%", text];
+    NSString *term = [NSString stringWithFormat:@"%%%@%%", text];
     if ([@"exact" isEqualToString:searchMode]) {
         where = @"title LIKE ? OR content LIKE ?";
-        [params addObject:text];
-        [params addObject:text];
+        [params addObject:term];
+        [params addObject:term];
     }
     else {
         NSMutableArray *terms = [NSMutableArray new];
-        NSArray *tokens = [text componentsSeparatedByString:@" "];
+        NSArray *tokens = [term componentsSeparatedByString:@" "];
         for (NSString *token in tokens) {
             // TODO: Trim the token, check for empty tokens.
             NSString *param = [NSString stringWithFormat:@"%%%@%%", token];
@@ -428,16 +433,26 @@ static IFLogger *Logger;
         [params addObject:parentID];
     }
     NSString *sql = [NSString stringWithFormat:@"SELECT posts.* FROM %@ WHERE %@ LIMIT %ld", tables, where, (long)_searchResultLimit];
-    postData = [_postDB performQuery:sql withParams:params];
+    result = [_postDB performQuery:sql withParams:params];
+    // Add search information to each result item.
+    NSMutableArray *mresult = [NSMutableArray new];
+    NSDictionary *searchInfo = @{
+        @"searchText":  text,
+        @"searchMode":  searchMode
+    };
+    for (NSDictionary *item in result) {
+        [mresult addObject:[item extendWith:searchInfo]];
+    }
+    result = mresult;
     // TODO: Filters?
     id<IFDataFormatter> formatter = _listFormats[@"search"];
     if (!formatter) {
         formatter = _listFormats[@"table"];
     }
     if (formatter) {
-        postData = [formatter formatData:postData];
+        result = [formatter formatData:result];
     }
-    return postData;
+    return result;
 }
 
 - (NSDictionary *)renderPostContent:(NSDictionary *)postData {

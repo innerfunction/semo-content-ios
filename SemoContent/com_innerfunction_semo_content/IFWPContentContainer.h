@@ -113,7 +113,10 @@
  * When the parent post ID is specified, the search will be confined to that post and any of its descendants
  * (i.e. children, grand-children etc.).
  */
-- (id)searchPostsForText:(NSString *)text searchMode:(NSString *)searchMode postTypes:(NSArray *)postTypes parentPost:(NSString *)parentID;
+- (id)searchPostsForText:(NSString *)text
+              searchMode:(NSString *)searchMode
+               postTypes:(NSArray *)postTypes
+              parentPost:(NSString *)parentID;
 /** Render a post's content by evaluating template reference's within the content field. */
 - (NSDictionary *)renderPostContent:(NSDictionary *)postData;
 /** Show the login form. */
