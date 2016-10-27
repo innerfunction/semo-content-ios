@@ -46,7 +46,15 @@
     if (_dataFormatter) {
         content = [_dataFormatter formatData:content];
     }
-    [super setContent:content];
+    super.content = content;
+}
+
+- (void)setDataFormatter:(id<IFDataFormatter>)dataFormatter {
+    _dataFormatter = dataFormatter;
+    if (self.content) {
+        id content = [_dataFormatter formatData:self.content];
+        super.content = content;
+    }
 }
 
 #pragma mark - private methods
